@@ -6,6 +6,8 @@ general_setup = {
     image = "ubuntu-16.04"
     server_type = "cx41"
     net_base_range = "10.0.0"
+
+    dns_base = "henkel.media"
 }
 
 packs = [
