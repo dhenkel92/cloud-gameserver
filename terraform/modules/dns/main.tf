@@ -1,27 +1,23 @@
-locals {
-  ips   = values(var.pack_ip_map)
-  packs = keys(var.pack_ip_map)
-}
-
 data "aws_route53_zone" "base" {
   name         = var.dns_base
   private_zone = false
 }
 
 resource "random_pet" "prefix" {
-  count  = length(local.ips)
+  for_each = var.pack_ip_map
+
   length = 1
   keepers = {
-    pack_name = local.packs[count.index]
+    pack_name = each.key
   }
 }
 
 resource "aws_route53_record" "domain" {
-  count = length(local.ips)
+  for_each = var.pack_ip_map
 
   zone_id = data.aws_route53_zone.base.zone_id
-  name    = "${random_pet.prefix[count.index].id}.mc.${var.dns_base}"
+  name    = "${random_pet.prefix[each.key].id}.mc.${var.dns_base}"
   type    = "A"
   ttl     = "60"
-  records = [local.ips[count.index]]
+  records = [each.value]
 }

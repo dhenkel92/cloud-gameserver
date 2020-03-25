@@ -3,19 +3,17 @@ ssh_keys = {
   "WW Yubi"     = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6kOTAjfKJRoVTg5Y0TWLPiBzHglBmdvCa3B7L7bxN1Im5dW3KBqJoU6ib5l46ZI+0dJGv4ilvy8ykEnH4POuCBKbO/S9fCwQoo/fRKfEFwvQ245LP5m1MOjTV0w6SMus68voFLnShL1hBw8r6l7hl7DWh4YC/beTri/Lks5wpbgmBpoWwe2XhwRMvrvFNcnoRd3H1jZaevSopbQG1esaGvZleTTEBo75bE97RiA12q4KFGt5y7VItidQNxbBfy/BG/QvXkuJjlOd/KjM/PRd9xrzq0ukvP+GNRq9eMh8T0nfxz1wudpkbmuySagI9+EejjvTSjhcTaOlRuRdhqBYD cardno:000609500928",
 }
 general_setup = {
-    image = "ubuntu-16.04"
-    net_base_range = "10.0.0"
+  image          = "ubuntu-16.04"
+  net_base_range = "10.0.0"
 
-    dns_base = "henkel.media"
+  dns_base = "henkel.media"
 }
 
-packs = [
-    {
-        pack_name = "the-pack"
-        server_type = "cx41"
-    },
-    # {
-    #     pack_name = "empty"
-    #     server_type = "cx41"
-    # }
-]
+packs = {
+  the-pack = {
+    server_type = "cx41"
+  },
+  empty = {
+    server_type = "cx21"
+  },
+}
