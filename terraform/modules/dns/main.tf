@@ -1,6 +1,6 @@
 locals {
-    ips = values(var.pack_ip_map)
-    packs = keys(var.pack_ip_map)
+  ips   = values(var.pack_ip_map)
+  packs = keys(var.pack_ip_map)
 }
 
 data "aws_route53_zone" "base" {
@@ -9,7 +9,11 @@ data "aws_route53_zone" "base" {
 }
 
 resource "random_pet" "prefix" {
-    count = length(local.ips)
+  count  = length(local.ips)
+  length = 1
+  keepers = {
+    pack_name = local.packs[count.index]
+  }
 }
 
 resource "aws_route53_record" "domain" {

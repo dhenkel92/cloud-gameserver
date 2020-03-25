@@ -28,7 +28,6 @@ module "server" {
   source      = "./modules/server"
   name        = "minecraft"
   image       = var.general_setup.image
-  server_type = var.general_setup.server_type
   ssh_keys    = module.common.ssh_keys
   network_id  = module.network.network_id
   ip          = var.general_setup.net_base_range

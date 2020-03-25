@@ -4,7 +4,6 @@ ssh_keys = {
 }
 general_setup = {
     image = "ubuntu-16.04"
-    server_type = "cx41"
     net_base_range = "10.0.0"
 
     dns_base = "henkel.media"
@@ -13,8 +12,10 @@ general_setup = {
 packs = [
     {
         pack_name = "the-pack"
+        server_type = "cx41"
     },
-    {
-        pack_name = "empty"
-    }
+    # {
+    #     pack_name = "empty"
+    #     server_type = "cx41"
+    # }
 ]

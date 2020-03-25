@@ -24,7 +24,7 @@ resource "hcloud_server" "server" {
 
   name        = "${var.name}-${var.packs[count.index].pack_name}"
   image       = var.image
-  server_type = var.server_type
+  server_type = var.packs[count.index].server_type
   location    = "nbg1"
   ssh_keys    = var.ssh_keys
   user_data   = data.template_file.init[count.index].rendered
