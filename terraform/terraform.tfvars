@@ -8,4 +8,11 @@ general_setup = {
     net_base_range = "10.0.0"
 }
 
-pack_name = "the-pack"
+packs = [
+    {
+        pack_name = "the-pack"
+    },
+    {
+        pack_name = "empty"
+    }
+]

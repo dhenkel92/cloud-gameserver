@@ -1,27 +1,33 @@
 data "template_file" "stop" {
+  count = length(var.packs)
+
   template = "${file("${path.module}/files/stop.sh")}"
   vars = {
-    pack_name = var.pack_name
+    pack_name = var.packs[count.index].pack_name
   }
 }
 
 data "template_file" "init" {
+  count = length(var.packs)
+
   template = "${file("${path.module}/files/start.sh")}"
   vars = {
     aws_access_key = var.aws_access_key
     aws_secret_access_key_id = var.aws_secret_access_key_id
-    stop_file = data.template_file.stop.rendered
-    pack_name = var.pack_name
+    stop_file = data.template_file.stop[count.index].rendered
+    pack_name = var.packs[count.index].pack_name
   }
 }
 
 resource "hcloud_server" "server" {
-  name        = var.name
+  count = length(var.packs)
+
+  name        = "${var.name}-${var.packs[count.index].pack_name}"
   image       = var.image
   server_type = var.server_type
   location    = "nbg1"
   ssh_keys    = var.ssh_keys
-  user_data   = data.template_file.init.rendered
+  user_data   = data.template_file.init[count.index].rendered
 
   provisioner "remote-exec" {
     when   = destroy
@@ -36,7 +42,9 @@ resource "hcloud_server" "server" {
 }
 
 resource "hcloud_server_network" "srvnetwork" {
-  server_id  = hcloud_server.server.id
+  count = length(var.packs)
+
+  server_id  = hcloud_server.server[count.index].id
   network_id = var.network_id
-  ip         = var.ip
+  ip         = "${var.ip}.1${count.index}"
 }
