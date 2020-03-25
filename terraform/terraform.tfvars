@@ -10,10 +10,13 @@ general_setup = {
 }
 
 packs = {
-  the-pack = {
-    server_type = "cx41"
-  },
-  empty = {
-    server_type = "cx21"
-  },
+#   the-pack = {
+#     server_type = "cx41"
+#   },
+#   "vanilla-1.15" = {
+#     server_type = "cx31"
+#   },
+#   empty = {
+#     server_type = "cx21"
+#   },
 }
