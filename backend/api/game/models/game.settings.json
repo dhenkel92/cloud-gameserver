@@ -1,9 +1,9 @@
 {
   "kind": "collectionType",
   "connection": "default",
-  "collectionName": "servers",
+  "collectionName": "games",
   "info": {
-    "name": "Server"
+    "name": "Game"
   },
   "options": {
     "increments": true,
@@ -12,8 +12,11 @@
   "attributes": {
     "name": {
       "type": "string",
-      "required": true,
-      "unique": true
+      "maxLength": 45
+    },
+    "game_configs": {
+      "via": "game",
+      "collection": "game-config"
     }
   }
 }

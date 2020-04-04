@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Lifecycle callbacks for the `server` model.
+ * Lifecycle callbacks for the `game-config` model.
  */
 
 module.exports = {

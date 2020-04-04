@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "connection": "default",
+  "collectionName": "game_configs",
+  "info": {
+    "name": "GameConfig"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "game": {
+      "model": "game",
+      "via": "game_configs"
+    },
+    "config_deployments": {
+      "collection": "config-deployment",
+      "via": "game_config"
+    },
+    "creator": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "game_configs"
+    },
+    "users": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "game_configs",
+      "dominant": true
+    },
+    "provider": {
+      "type": "enumeration",
+      "enum": [
+        "hetzner"
+      ],
+      "required": true
+    },
+    "s3_base_path": {
+      "type": "string",
+      "maxLength": 150,
+      "required": true,
+      "unique": true
+    }
+  }
+}
