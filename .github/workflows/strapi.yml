@@ -1,0 +1,65 @@
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/strapi.yml'
+      - '.github/scripts/auth.sh'
+      - 'backend/*'
+      - 'backend/*/*'
+      - 'backend/*/*/*'
+      - 'backend/*/*/*/*'
+      - 'backend/*/*/*/*/*'
+
+name: Minecraft Backend Strapi
+
+jobs:
+  build-backend:
+    name: Build Strapi API
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: 220002198733.dkr.ecr.eu-central-1.amazonaws.com/minecraft/backend
+    steps:
+      - uses: actions/checkout@master
+      - name: Authenticate
+        # if: github.ref == 'refs/heads/master'
+        run: ./.github/scripts/auth.sh
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: eu-central-1
+          ECR_ACCOUNT: 220002198733.dkr.ecr.eu-central-1.amazonaws.com
+      - name: Build Docker Container
+        run: |
+          cd backend
+          docker build -t $IMAGE:$GITHUB_RUN_ID -f Dockerfile-prod-be .
+      - name: Push Container
+        run: |
+          docker tag $IMAGE:$GITHUB_RUN_ID $DOCKER_IMAGE:latest
+          docker push $IMAGE:$GITHUB_RUN_ID
+          docker push $IMAGE:latest
+
+  build-frontend:
+    name: Build Strapi Frontend
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: 220002198733.dkr.ecr.eu-central-1.amazonaws.com/minecraft/frontend
+    steps:
+      - uses: actions/checkout@master
+      - name: Authenticate
+        # if: github.ref == 'refs/heads/master'
+        run: ./.github/scripts/auth.sh
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: eu-central-1
+          ECR_ACCOUNT: 220002198733.dkr.ecr.eu-central-1.amazonaws.com
+      - name: Build Docker Container
+        run: |
+          cd backend
+          docker build -t $IMAGE:$GITHUB_RUN_ID -f Dockerfile-prod-fe .
+      - name: Push Container
+        run: |
+          docker tag $IMAGE:$GITHUB_RUN_ID $DOCKER_IMAGE:latest
+          docker push $IMAGE:$GITHUB_RUN_ID
+          docker push $IMAGE:latest
