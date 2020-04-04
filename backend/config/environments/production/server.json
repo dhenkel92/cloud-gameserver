@@ -10,10 +10,10 @@
   },
   "admin": {
     "path": "/",
-    "host": "mc.henkel.tech",
+    "host": "cloud-game.henkel.tech",
     "serverAdminPanel": false,
     "build": {
-      "backend": "https://backend.mc.henkel.tech"
+      "backend": "https://api.cloud-game.henkel.tech"
     }
   }
 }

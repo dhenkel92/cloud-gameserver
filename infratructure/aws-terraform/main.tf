@@ -20,3 +20,9 @@ module "storage" {
   source = "./modules/storge"
   tags   = var.tags
 }
+
+module "dns" {
+  source    = "./modules/dns"
+  ips       = var.ips
+  zone_name = var.route53_zone_name
+}
