@@ -64,6 +64,7 @@ jobs:
           docker tag $IMAGE:$GITHUB_RUN_ID $IMAGE:latest
           docker push $IMAGE:$GITHUB_RUN_ID
           docker push $IMAGE:latest
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
