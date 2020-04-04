@@ -13,4 +13,5 @@ terraform {
 
 module "docker-registry" {
   source = "./modules/docker-registry"
+  tags   = var.tags
 }
