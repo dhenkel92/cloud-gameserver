@@ -18,11 +18,6 @@
       "collection": "config-deployment",
       "via": "game_config"
     },
-    "creator": {
-      "plugin": "users-permissions",
-      "model": "user",
-      "via": "game_configs"
-    },
     "users": {
       "plugin": "users-permissions",
       "collection": "user",
