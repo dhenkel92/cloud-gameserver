@@ -12,14 +12,14 @@ on:
       - 'backend/*/*/*/*'
       - 'backend/*/*/*/*/*'
 
-name: Minecraft Backend Strapi
+name: Cloud Game Backend Strapi
 
 jobs:
   build-backend:
     name: Build Strapi API
     runs-on: ubuntu-latest
     env:
-      IMAGE: 220002198733.dkr.ecr.eu-central-1.amazonaws.com/minecraft/backend
+      IMAGE: 220002198733.dkr.ecr.eu-central-1.amazonaws.com/cloud-game/strapi/backend
     steps:
       - uses: actions/checkout@master
       - name: Authenticate
@@ -44,7 +44,7 @@ jobs:
     name: Build Strapi Frontend
     runs-on: ubuntu-latest
     env:
-      IMAGE: 220002198733.dkr.ecr.eu-central-1.amazonaws.com/minecraft/frontend
+      IMAGE: 220002198733.dkr.ecr.eu-central-1.amazonaws.com/cloud-game/strapi/frontend
     steps:
       - uses: actions/checkout@master
       - name: Authenticate
