@@ -5,6 +5,7 @@ on:
     paths:
       - '.github/workflows/strapi.yml'
       - '.github/scripts/auth.sh'
+      - '.github/scripts/deploy.sh'
       - 'backend/*'
       - 'backend/*/*'
       - 'backend/*/*/*'
