@@ -35,7 +35,7 @@ jobs:
           docker build -t $IMAGE:$GITHUB_RUN_ID -f Dockerfile-prod-be .
       - name: Push Container
         run: |
-          docker tag $IMAGE:$GITHUB_RUN_ID $DOCKER_IMAGE:latest
+          docker tag $IMAGE:$GITHUB_RUN_ID $IMAGE:latest
           docker push $IMAGE:$GITHUB_RUN_ID
           docker push $IMAGE:latest
 
@@ -60,6 +60,18 @@ jobs:
           docker build -t $IMAGE:$GITHUB_RUN_ID -f Dockerfile-prod-fe .
       - name: Push Container
         run: |
-          docker tag $IMAGE:$GITHUB_RUN_ID $DOCKER_IMAGE:latest
+          docker tag $IMAGE:$GITHUB_RUN_ID $IMAGE:latest
           docker push $IMAGE:$GITHUB_RUN_ID
           docker push $IMAGE:latest
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs:
+      - build-backend
+      - build-frontend
+    steps:
+      - uses: actions/checkout@master
+      - name: Push Container
+        env:
+          DEPLOY_SSH_PRIV_KEY: ${{ secrets.DEPLOY_SSH_PRIV_KEY }}
+        run: ./.github/scripts/deploy.sh
