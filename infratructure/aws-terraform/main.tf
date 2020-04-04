@@ -5,7 +5,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "gameserver-cloud-tf"
+    bucket = "cloud-game-tf"
     key    = "terraform-state/production"
     region = "eu-central-1"
   }
