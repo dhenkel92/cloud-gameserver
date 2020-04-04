@@ -15,3 +15,8 @@ module "docker-registry" {
   source = "./modules/docker-registry"
   tags   = var.tags
 }
+
+module "storage" {
+  source = "./modules/storge"
+  tags   = var.tags
+}
