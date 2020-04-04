@@ -71,7 +71,7 @@ jobs:
       - build-frontend
     steps:
       - uses: actions/checkout@master
-      - name: Push Container
+      - name: Deploy to Server
         env:
           DEPLOY_SSH_PRIV_KEY: ${{ secrets.DEPLOY_SSH_PRIV_KEY }}
         run: ./.github/scripts/deploy.sh
