@@ -1,0 +1,18 @@
+module.exports = {
+  definition: `
+    type Isso {
+      juhu: Int!
+    }
+  `,
+  query: `
+    deploy(id: ID): Isso!
+  `,
+  type: {},
+  resolver: {
+    Query: {
+      deploy: {
+        resolver: 'application::game-config.game-config.deploy'
+      }
+    },
+  },
+};

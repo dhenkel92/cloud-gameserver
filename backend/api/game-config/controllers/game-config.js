@@ -5,4 +5,10 @@
  * to customize this controller
  */
 
-module.exports = {};
+module.exports = {
+  async deploy(ctx) {
+    return {
+      juhu: 12,
+    };
+  }
+};

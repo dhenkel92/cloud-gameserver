@@ -25,6 +25,14 @@
       }
     },
     {
+      "method": "GET",
+      "path": "/game-configs/:id/deploy",
+      "handler": "game-config.deploy",
+      "config": {
+        "policies": []
+      }
+    },
+    {
       "method": "POST",
       "path": "/game-configs",
       "handler": "game-config.create",
