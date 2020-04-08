@@ -1,0 +1,39 @@
+.home {
+    display: flex;
+    flex-grow: 1;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.navigation {
+    flex-shrink: 0;
+    width: 200px;
+}
+
+.homeRight {
+    flex-grow: 1;
+}
+
+.homeTopBar {
+    height: 30px;
+    line-height: 20px;
+    background-color: #90caf9;
+    padding: 10px;
+    display: flex;
+    flex-shrink: 0;
+}
+
+.homeTopBar > span {
+    font-size: 23px;
+    display: inline-block;
+    vertical-align: middle;
+    color: black;
+}
+
+.homeContent {
+    flex-grow: 1;
+    overflow: auto;
+}

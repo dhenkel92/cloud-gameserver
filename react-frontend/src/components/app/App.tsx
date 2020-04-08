@@ -13,16 +13,14 @@ export class App extends React.Component<{}, {}> {
         return (
             <Router>
                 <div className="container">
-                    <div className="content">
-                        <Switch>
-                            <Route path="/home">
-                                <Home />
-                            </Route>
-                            <Route path="/">
-                                <Login/>
-                            </Route>
-                        </Switch>
-                    </div>
+                    <Switch>
+                        <Route path="/home">
+                            <Home/>
+                        </Route>
+                        <Route path="/">
+                            <Login/>
+                        </Route>
+                    </Switch>
                 </div>
             </Router>
         );

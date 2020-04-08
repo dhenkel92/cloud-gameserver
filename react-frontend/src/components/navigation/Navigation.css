@@ -1,0 +1,20 @@
+.navigationBar {
+    background-color: #424242;
+    flex-grow: 1;
+}
+
+.navigationBarTop {
+    height: 49px;
+    line-height: 49px;
+    border-bottom: 1px solid grey;
+}
+
+.navigationBarTop > span {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+}
+
+.navigationBarContent {
+    flex-grow: 1;
+}
