@@ -6,11 +6,11 @@ on:
       - '.github/workflows/react-frontend.yml'
       - '.github/scripts/auth.sh'
       - '.github/scripts/deploy.sh'
-      - 'backend/*'
-      - 'backend/*/*'
-      - 'backend/*/*/*'
-      - 'backend/*/*/*/*'
-      - 'backend/*/*/*/*/*'
+      - 'react-frontend/*'
+      - 'react-frontend/*/*'
+      - 'react-frontend/*/*/*'
+      - 'react-frontend/*/*/*/*'
+      - 'react-frontend/*/*/*/*/*'
 
 name: Cloud Game React Frontend
 
