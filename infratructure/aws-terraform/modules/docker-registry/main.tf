@@ -13,3 +13,11 @@ module "strapi-backend-react" {
 
   tags = var.tags
 }
+
+module "react_frontend" {
+  source     = "./ecr"
+  name       = "cloud-game/react/frontend"
+  keep_count = 3
+
+  tags = var.tags
+}
