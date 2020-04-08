@@ -1,7 +1,8 @@
 import React from "react";
 import './Navigation.css'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGamepad} from '@fortawesome/free-solid-svg-icons';
+import {faGamepad, faHome, faSignOutAlt, faUser} from '@fortawesome/free-solid-svg-icons';
+import {Link} from "react-router-dom";
 
 export class Navigation extends React.Component<{}, {}> {
     render() {
@@ -12,8 +13,37 @@ export class Navigation extends React.Component<{}, {}> {
                         <FontAwesomeIcon icon={faGamepad} size="2x"/>
                     </span>
                 </div>
+                <div className="listHeading">
+                    General
+                </div>
                 <div className="navigationBarContent">
-                    <p>Content</p>
+                    <ul>
+                        <li>
+                            <Link to="/home">
+                                <FontAwesomeIcon icon={faHome}/> Home
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/games">
+                                <FontAwesomeIcon icon={faGamepad}/> Games
+                            </Link>
+                        </li>
+                    </ul>
+                    <div className="listHeading">
+                        User
+                    </div>
+                    <ul>
+                        <li>
+                            <Link to="/profile">
+                                <FontAwesomeIcon icon={faUser}/> Profile
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/logout">
+                                <FontAwesomeIcon icon={faSignOutAlt}/> Logout
+                            </Link>
+                        </li>
+                    </ul>
                 </div>
             </div>
         );
