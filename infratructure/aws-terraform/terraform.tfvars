@@ -1,6 +1,7 @@
 ips = {
   strapi_backend  = "5.252.225.147"
   strapi_frontend = "5.252.225.147"
+  react_frontend = "5.252.225.147"
 }
 route53_zone_name = "henkel.tech"
 tags = {

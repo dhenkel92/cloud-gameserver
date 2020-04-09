@@ -1,0 +1,15 @@
+.login {
+    width: 400px;
+    margin: 150px auto 0 auto;
+    text-align: center;
+}
+
+.form {
+    width: 100%;
+}
+
+.form > input, .form > .loginButton {
+    display: block;
+    margin: 10px auto 10px auto;
+    width: 80%;
+}

@@ -1,0 +1,50 @@
+.background {
+    background-color: #121212;
+    color: #FFFFFF;
+}
+
+.surface {
+    border: 1px solid #1d1d1d;
+    background-color: #1d1d1d;
+    color: #FFFFFF;
+}
+
+.surface01 {
+    border: 1px solid #2d2d2d;
+    background-color: #2d2d2d;
+    color: #FFFFFF;
+}
+
+.surface02 {
+    border: 1px solid #3d3d3d;
+    background-color: #3d3d3d;
+    color: #FFFFFF;
+}
+
+.primary {
+    background-color: #BB86FC;
+    color: #000000;
+}
+
+.primaryColor {
+    color: #BB86FC;
+}
+
+.primaryHover:hover {
+    border: 1px solid #BB86FC;
+}
+
+.primaryVariant {
+    background-color: #3700B3;
+}
+
+.secondary {
+    background-color: #03DAC6;
+    color: #000000;
+}
+
+.error {
+    border: 1px solid #CF6679;
+    background-color: #CF6679;
+    color: black;
+}

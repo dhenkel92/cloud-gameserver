@@ -1,0 +1,52 @@
+on:
+  push:
+    # branches:
+      # - master
+    paths:
+      - '.github/workflows/react-frontend.yml'
+      - '.github/scripts/auth.sh'
+      - '.github/scripts/deploy.sh'
+      - 'react-frontend/*'
+      - 'react-frontend/*/*'
+      - 'react-frontend/*/*/*'
+      - 'react-frontend/*/*/*/*'
+      - 'react-frontend/*/*/*/*/*'
+
+name: Cloud Game React Frontend
+
+jobs:
+  build-frontend:
+    name: Build React Frontend
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: 220002198733.dkr.ecr.eu-central-1.amazonaws.com/cloud-game/react/frontend
+    steps:
+      - uses: actions/checkout@master
+      - name: Authenticate
+        run: ./.github/scripts/auth.sh
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: eu-central-1
+          ECR_ACCOUNT: 220002198733.dkr.ecr.eu-central-1.amazonaws.com
+      - name: Build Docker Container
+        run: |
+          cd react-frontend
+          docker build -t $IMAGE:$GITHUB_RUN_ID -f Dockerfile .
+      - name: Push Container
+        run: |
+          docker tag $IMAGE:$GITHUB_RUN_ID $IMAGE:latest
+          docker push $IMAGE:$GITHUB_RUN_ID
+          docker push $IMAGE:latest
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs:
+      - build-frontend
+    steps:
+      - uses: actions/checkout@master
+      - name: Deploy to Server
+        env:
+          DEPLOY_SSH_PRIV_KEY: ${{ secrets.DEPLOY_SSH_PRIV_KEY }}
+        run: ./.github/scripts/deploy.sh
