@@ -3,7 +3,6 @@ import './login.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faUnlockAlt} from '@fortawesome/free-solid-svg-icons';
 import {Input} from "../general/input/Input";
-import {Button} from "../general/button/Button";
 import {Link} from "react-router-dom";
 import colors from '../general/colors/Colors.module.css';
 import buttonStyle from '../general/button/Button.module.css';
