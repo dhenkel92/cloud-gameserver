@@ -7,6 +7,7 @@ import {
 import './App.css';
 import {Login} from "../login/login";
 import {Home} from "../home/Home";
+import {PrivateRoute} from "../general/PrivateRoute/PrivateRoute";
 
 export class App extends React.Component<{}, {}> {
     render() {
@@ -14,12 +15,12 @@ export class App extends React.Component<{}, {}> {
             <Router>
                 <div className="container">
                     <Switch>
-                        <Route path="/home">
-                            <Home/>
-                        </Route>
-                        <Route path="/">
+                        <Route path="/login">
                             <Login/>
                         </Route>
+                        <PrivateRoute path="/">
+                            <Home/>
+                        </PrivateRoute>
                     </Switch>
                 </div>
             </Router>

@@ -3,8 +3,8 @@ import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCircle} from '@fortawesome/free-solid-svg-icons';
 import {Link} from "react-router-dom";
-import btnStyle from '../../general/button/Button.module.css';
-import colors from '../../general/colors/Colors.module.css';
+import btnStyle from '../../../general/button/Button.module.css';
+import colors from '../../../general/colors/Colors.module.css';
 
 export class GameConfigEntry extends React.Component<{}, {}> {
     render() {

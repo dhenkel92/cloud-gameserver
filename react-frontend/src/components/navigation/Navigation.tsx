@@ -40,7 +40,7 @@ export class Navigation extends React.Component<{}, {}> {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/logout">
+                            <Link to="/login">
                                 <FontAwesomeIcon icon={faSignOutAlt}/> Logout
                             </Link>
                         </li>

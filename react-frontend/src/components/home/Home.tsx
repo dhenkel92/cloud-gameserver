@@ -1,7 +1,7 @@
 import React from "react";
 import './Home.css';
 import {Navigation} from "../navigation/Navigation";
-import {GameConfigList} from "../GameConfigList/GameConfigList";
+import {GameConfigList} from "./GameConfigList/GameConfigList";
 import colors from '../general/colors/Colors.module.css';
 
 export class Home extends React.Component<{}, {}> {
