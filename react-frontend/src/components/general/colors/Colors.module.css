@@ -1,0 +1,46 @@
+.background {
+    background-color: #121212;
+    color: #FFFFFF;
+}
+
+.surface {
+    background-color: #1d1d1d;
+    color: #FFFFFF;
+}
+
+.surface01 {
+    background-color: #2d2d2d;
+    color: #FFFFFF;
+}
+
+.surface02 {
+    background-color: #3d3d3d;
+    color: #FFFFFF;
+}
+
+.primary {
+    background-color: #BB86FC;
+    color: #000000;
+}
+
+.primaryColor {
+    color: #BB86FC;
+}
+
+.primaryHover:hover {
+    border: 1px solid #BB86FC;
+}
+
+.primaryVariant {
+    background-color: #3700B3;
+}
+
+.secondary {
+    background-color: #03DAC6;
+    color: #000000;
+}
+
+.error {
+    background-color: #CF6679;
+    color: black;
+}

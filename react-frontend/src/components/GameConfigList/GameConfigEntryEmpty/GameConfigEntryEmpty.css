@@ -1,0 +1,14 @@
+.configEntryWrapper > a {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.createNewGameConfig {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.createNewGameConfig > svg {
+    margin: auto;
+}

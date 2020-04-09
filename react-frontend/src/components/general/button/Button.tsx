@@ -1,5 +1,6 @@
 import React, {CSSProperties} from "react";
-import './Button.css';
+import styles from './Button.module.css';
+import colors from '../colors/Colors.module.css';
 
 interface ButtonProps {
     name: string;
@@ -9,7 +10,7 @@ interface ButtonProps {
 export class Button extends React.Component<ButtonProps, {}> {
     render() {
         return (
-            <button style={this.props.style} className="myButton">{this.props.name}</button>
+            <button style={this.props.style} className={`${styles.myButton} ${colors.primary}`}>{this.props.name}</button>
         )
     }
 }

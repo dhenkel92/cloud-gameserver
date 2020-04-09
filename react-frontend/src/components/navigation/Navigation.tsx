@@ -3,14 +3,15 @@ import './Navigation.css'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGamepad, faHome, faSignOutAlt, faUser} from '@fortawesome/free-solid-svg-icons';
 import {Link} from "react-router-dom";
+import styles from '../general/colors/Colors.module.css';
 
 export class Navigation extends React.Component<{}, {}> {
     render() {
         return (
-            <div className="navigationBar">
+            <div className={`navigationBar ${styles.surface}`}>
                 <div className="navigationBarTop">
                     <span>
-                        <FontAwesomeIcon icon={faGamepad} size="2x"/>
+                        <Link to="/"><FontAwesomeIcon icon={faGamepad} size="2x"/></Link>
                     </span>
                 </div>
                 <div className="listHeading">

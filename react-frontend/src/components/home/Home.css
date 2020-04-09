@@ -20,7 +20,6 @@
 .homeTopBar {
     height: 30px;
     line-height: 20px;
-    background-color: #90caf9;
     padding: 10px;
     display: flex;
     flex-shrink: 0;
@@ -30,7 +29,6 @@
     font-size: 23px;
     display: inline-block;
     vertical-align: middle;
-    color: black;
 }
 
 .homeContent {
