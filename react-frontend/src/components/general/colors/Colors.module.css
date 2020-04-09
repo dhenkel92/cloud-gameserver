@@ -34,8 +34,8 @@
     border: 1px solid #BB86FC;
 }
 
-.primaryVariant {
-    background-color: #3700B3;
+.primaryFocus:focus {
+    border: 1px solid #BB86FC;
 }
 
 .secondary {

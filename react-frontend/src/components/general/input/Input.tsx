@@ -1,5 +1,6 @@
 import React, {CSSProperties} from "react";
 import './Input.css';
+import colors from '../colors/Colors.module.css';
 
 interface InputProps {
     placeholder: string;
@@ -15,7 +16,7 @@ export class Input extends React.Component<InputProps, {}> {
     render() {
         return (
             <input
-                className="myInput"
+                className={`myInput ${colors.background} ${colors.primaryFocus}`}
                 placeholder={this.props.placeholder}
                 type={this.props.type}
             />

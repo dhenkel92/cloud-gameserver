@@ -1,11 +1,4 @@
 .myInput {
-    background-color: #121212;
-    color: white;
     padding: 10px;
     border-radius: 5px;
-    border-color: gray;
-}
-
-.myInput:focus {
-    border-color: #90caf9;
 }
