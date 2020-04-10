@@ -14,7 +14,7 @@ export class GameConfigEntry extends React.Component<{}, {}> {
                     Minecraft
                 </div>
                 <div className="configEntryImage">
-                    <Link to="/">
+                    <Link to="/config">
                         <img
                             alt="Minecraft"
                             src={"https://i.computer-bild.de/imgs/1/1/5/2/9/5/0/5/Minecraft-1024x576-8b2043ae37807fa0.jpg"}/>
@@ -27,7 +27,7 @@ export class GameConfigEntry extends React.Component<{}, {}> {
                     <FontAwesomeIcon icon={faCircle} color="red"/> Offline
                 </div>
                 <div className="configEntryButton">
-                    <Link to="/" className={`${btnStyle.myButton} ${colors.primary}`}>Configure</Link>
+                    <Link to="/config/12" className={`${btnStyle.myButton} ${colors.primary}`}>Configure</Link>
                 </div>
             </div>
         );

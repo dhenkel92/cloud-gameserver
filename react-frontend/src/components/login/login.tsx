@@ -16,7 +16,7 @@ export class Login extends React.Component<{}, {}> {
                 <div className="form">
                     <Input placeholder="Username"/>
                     <Input placeholder="Password" type="password"/>
-                    <Link to="/home" className={`loginButton ${buttonStyle.myButton} ${colors.primary}`}>Login</Link>
+                    <Link to="/" className={`loginButton ${buttonStyle.myButton} ${colors.primary}`}>Login</Link>
                 </div>
             </div>
         );

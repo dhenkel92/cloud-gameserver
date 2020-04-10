@@ -8,22 +8,14 @@ export class PrivateRoute extends React.Component<PrivateRouteProps, {}> {
         const isAuthenticated = true;
         const {children, ...rest} = this.props;
 
-        return (
-            <Route
-                {...rest}
-                render={({location}) =>
-                    isAuthenticated ? (
-                        this.props.children
-                    ) : (
-                        <Redirect
-                            to={{
-                                pathname: "/login",
-                                state: {from: location}
-                            }}
-                        />
-                    )
-                }
-            />
-        );
+        if (!isAuthenticated) {
+            return (
+                <Route {...rest}><Redirect to={{
+                    pathname: "/login",
+                }}/></Route>
+            )
+        }
+
+        return (<Route {...this.props}/>)
     }
 }

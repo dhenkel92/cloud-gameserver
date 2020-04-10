@@ -20,7 +20,7 @@ export class Navigation extends React.Component<{}, {}> {
                 <div className="navigationBarContent">
                     <ul>
                         <li>
-                            <Link to="/home">
+                            <Link to="/">
                                 <FontAwesomeIcon icon={faHome}/> Home
                             </Link>
                         </li>
