@@ -4,7 +4,7 @@ set -ex
 
 # General setup
 apt-get update
-apt-get install -y openjdk-8-jre-headless unzip wget
+apt-get install -y openjdk-8-jre-headless unzip wget screen
 
 # Install AWS cli 
 cd /root

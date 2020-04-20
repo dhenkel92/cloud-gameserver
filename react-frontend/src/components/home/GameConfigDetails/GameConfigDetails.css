@@ -1,0 +1,44 @@
+.configDetailsWrapper {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    margin: 20px;
+    padding: 20px;
+}
+
+.configButtonsWrapper {
+    margin-top: 40px;
+}
+
+.configDetailsContentWrapper {
+    display: flex;
+    flex-grow: 1;
+    margin-top: 20px;
+}
+
+.configDetails {
+    width: 400px;
+    flex-shrink: 0;
+}
+
+.test1 {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.test1 > img {
+    width: 100%;
+}
+
+.configDetailsLog {
+    flex-grow: 1;
+    border-radius: 5px;
+    margin-left: 20px;
+}
+
+.test2 {
+    padding: 10px;
+    border-radius: 5px;
+    overflow: auto;
+}
+
