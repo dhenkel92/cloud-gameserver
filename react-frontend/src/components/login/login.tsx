@@ -11,8 +11,8 @@ import {Redirect, RouteComponentProps} from "react-router-dom";
 import {StorageAdapter} from "../../StorageAdapter";
 
 const LOGIN_MUTATION = gql`
-mutation login($email: String!, $password: String!) {
-  login(input: {identifier: $email, password: $password}) {
+mutation login($username: String!, $password: String!) {
+  login(input: {identifier: $username, password: $password}) {
     jwt
   }
 }
@@ -28,7 +28,7 @@ type LoginProps = {} & RouteComponentProps;
 
 export class Login extends React.Component<LoginProps, {}> {
     public state = {
-        email: '',
+        username: '',
         password: '',
     }
     private storageAdapter = StorageAdapter.getInstance();
@@ -44,7 +44,7 @@ export class Login extends React.Component<LoginProps, {}> {
             return <Redirect to="/"/>;
         }
 
-        const {email, password} = this.state;
+        const {username, password} = this.state;
 
         return (
             <Mutation
@@ -57,8 +57,8 @@ export class Login extends React.Component<LoginProps, {}> {
                         <FontAwesomeIcon icon={faUnlockAlt} size="2x" className={colors.primaryColor}/>
                         <h2>Login</h2>
                         <div className="form">
-                            <Input placeholder="Username" value={email}
-                                   onChange={e => this.setState({email: e.target.value})}/>
+                            <Input placeholder="Username" value={username}
+                                   onChange={e => this.setState({username: e.target.value})}/>
                             <Input placeholder="Password" type="password" value={password}
                                    onChange={e => this.setState({password: e.target.value})}/>
                             <Button name="Login" className="loginButton" onClick={mutation}/>
