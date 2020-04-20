@@ -1,18 +1,17 @@
-import React, {CSSProperties} from "react";
+import React from "react";
 import styles from './Button.module.css';
 import colors from '../colors/Colors.module.css';
 
-interface ButtonProps {
-    name: string;
-    style?: CSSProperties;
-    className?: string;
-}
+type ButtonProps = {
+    name: string,
+} & React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 
 export class Button extends React.Component<ButtonProps, {}> {
     render() {
-        const classes = this.props.className ?? '';
         return (
-            <button style={this.props.style} className={`${styles.myButton} ${colors.primary} ${classes}`}>{this.props.name}</button>
+            <button {...this.props} className={`${styles.myButton} ${colors.primary} ${this.props.className}`}>
+                {this.props.name}
+            </button>
         )
     }
 }

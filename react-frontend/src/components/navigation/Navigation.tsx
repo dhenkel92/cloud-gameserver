@@ -4,8 +4,20 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faGamepad, faHome, faSignOutAlt, faUser} from '@fortawesome/free-solid-svg-icons';
 import {Link} from "react-router-dom";
 import styles from '../general/colors/Colors.module.css';
+import {StorageAdapter} from "../../StorageAdapter";
 
-export class Navigation extends React.Component<{}, {}> {
+type NavigationProps = {
+    redirectCallback: (path: string) => void,
+};
+
+export class Navigation extends React.Component<NavigationProps, {}> {
+    private storageAdapter = StorageAdapter.getInstance();
+
+    private logout() {
+        this.storageAdapter.clearAuthToken();
+        this.props.redirectCallback('/');
+    }
+
     render() {
         return (
             <div className={`navigationBar ${styles.surface}`}>
@@ -40,9 +52,9 @@ export class Navigation extends React.Component<{}, {}> {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/login">
+                            <span onClick={this.logout.bind(this)}>
                                 <FontAwesomeIcon icon={faSignOutAlt}/> Logout
-                            </Link>
+                            </span>
                         </li>
                     </ul>
                 </div>

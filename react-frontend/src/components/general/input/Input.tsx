@@ -1,24 +1,15 @@
-import React, {CSSProperties} from "react";
-import './Input.css';
+import React, {DetailedHTMLProps, InputHTMLAttributes} from "react";
 import colors from '../colors/Colors.module.css';
+import inputStyle from './Input.module.css';
 
-interface InputProps {
-    placeholder: string;
-    type: string;
-    style?: CSSProperties;
-}
+type InputProps = {} & DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
 export class Input extends React.Component<InputProps, {}> {
-    public static defaultProps = {
-        type: "text",
-    };
-
     render() {
         return (
             <input
-                className={`myInput ${colors.background} ${colors.primaryFocus}`}
-                placeholder={this.props.placeholder}
-                type={this.props.type}
+                {...this.props}
+                className={`${inputStyle.myInput} ${colors.background} ${colors.primaryFocus} ${this.props.className}`}
             />
         );
     }

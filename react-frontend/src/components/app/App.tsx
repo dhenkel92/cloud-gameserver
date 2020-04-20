@@ -15,12 +15,8 @@ export class App extends React.Component<{}, {}> {
             <Router>
                 <div className="container">
                     <Switch>
-                        <Route path="/login">
-                            <Login/>
-                        </Route>
-                        <PrivateRoute path="/">
-                            <Home/>
-                        </PrivateRoute>
+                        <Route path="/login" component={Login} />
+                        <PrivateRoute path="/" component={Home} />
                     </Switch>
                 </div>
             </Router>
