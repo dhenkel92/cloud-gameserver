@@ -36,6 +36,12 @@
       "maxLength": 150,
       "required": true,
       "unique": true
+    },
+    "name": {
+      "type": "string",
+      "required": false,
+      "unique": true,
+      "maxLength": 50
     }
   }
 }

@@ -6,6 +6,45 @@
  */
 
 module.exports = {
+  async find(ctx) {
+    const user = ctx.state.user;
+    if (!user) {
+      return ctx.badRequest(null, [{ messages: [{ id: 'User is not authenticated' }] }]);
+    }
+
+    const query = {
+      ...ctx.query,
+      users: user.id,
+    }
+    let data;
+    if (ctx.query._q) {
+      data = await strapi.services['game-config'].search(query);
+    } else {
+      data = await strapi.services['game-config'].find(query);
+    }
+
+    ctx.send(data ? data : []);
+  },
+  async findOne(ctx) {
+    const user = ctx.state.user;
+    if (!user) {
+      return ctx.badRequest(null, [{ messages: [{ id: 'User is not authenticated' }] }]);
+    }
+
+    const query = {
+      ...ctx.query,
+      users: user.id,
+    }
+
+    let data;
+    if (ctx.query._q) {
+      data = await strapi.services['game-config'].search(query);
+    } else {
+      data = await strapi.services['game-config'].findOne(query);
+    }
+
+    ctx.send(data);
+  },
   async deploy(ctx) {
     return {
       juhu: 12,
