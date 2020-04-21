@@ -39,8 +39,8 @@
     },
     "name": {
       "type": "string",
-      "required": false,
-      "unique": true,
+      "required": true,
+      "unique": false,
       "maxLength": 50
     }
   }
