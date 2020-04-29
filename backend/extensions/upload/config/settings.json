@@ -1,9 +1,0 @@
-{
-  "provider": "aws-s3",
-  "providerOptions": {
-    "region": "aws-region",
-    "params": {
-      "Bucket": "cloud-game-public"
-    }
-  }
-}
