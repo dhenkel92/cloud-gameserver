@@ -26,3 +26,11 @@ module "dns" {
   ips       = var.ips
   zone_name = var.route53_zone_name
 }
+
+module "identity" {
+  source            = "./modules/identity"
+  public_bucket_arn = module.storage.public_bucket_arn
+  tags              = var.tags
+  pgp_key           = var.pgp_key
+}
+
