@@ -3,7 +3,10 @@
   "port": "${process.env.PORT || 1337}",
   "production": true,
   "proxy": {
-    "enabled": true
+    "enabled": true,
+    "ssl": true,
+    "host": "api.cloud-game.henkel.tech",
+    "port": 443
   },
   "cron": {
     "enabled": false
