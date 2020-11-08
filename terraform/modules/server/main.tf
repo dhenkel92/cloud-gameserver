@@ -11,7 +11,7 @@ resource "random_integer" "ip" {
 data "template_file" "stop" {
   for_each = var.packs
 
-  template = "${file("${path.module}/files/stop.sh")}"
+  template = file("${path.module}/files/stop.sh")
   vars = {
     pack_name = each.key
   }
