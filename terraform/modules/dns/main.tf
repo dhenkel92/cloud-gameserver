@@ -1,23 +1,33 @@
-data "aws_route53_zone" "base" {
-  name         = var.dns_base
+locals {
+  entries = flatten([
+    for hz, domains in var.dns : [
+      for domain, attr in domains : {
+        (domain) = {
+          hz      = hz
+          domain  = domain
+          ttl     = attr["ttl"]
+          type    = attr["type"]
+          records = attr["records"]
+        }
+      }
+    ]
+  ])
+  domains = merge(local.entries...)
+}
+
+data "aws_route53_zone" "zone" {
+  for_each = local.domains
+
+  name         = "${each.value["hz"]}."
   private_zone = false
 }
 
-resource "random_pet" "prefix" {
-  for_each = var.pack_ip_map
+resource "aws_route53_record" "record" {
+  for_each = local.domains
 
-  length = 1
-  keepers = {
-    pack_name = each.key
-  }
-}
-
-resource "aws_route53_record" "domain" {
-  for_each = var.pack_ip_map
-
-  zone_id = data.aws_route53_zone.base.zone_id
-  name    = "${random_pet.prefix[each.key].id}.mc.${var.dns_base}"
-  type    = "A"
-  ttl     = "60"
-  records = [each.value]
+  zone_id = data.aws_route53_zone.zone[each.key].zone_id
+  name    = each.key
+  type    = each.value.type
+  ttl     = each.value.ttl
+  records = each.value.records
 }

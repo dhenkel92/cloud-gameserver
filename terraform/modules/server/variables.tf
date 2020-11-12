@@ -1,15 +1,56 @@
-variable "name" {}
+variable "name" {
+  type = string
+}
 
-variable "image" {}
+variable "image" {
+  type = string
+}
 
-variable "ssh_keys" {}
+variable "server_type" {
+  type = string
+}
 
-variable "network_id" {}
+variable "location" {
+  type = string
+}
 
-variable "ip" {}
+variable "ssh_keys" {
+  type = list(string)
+}
 
-variable "aws_access_key" {}
+variable "tags" {
+  type = map(string)
+}
 
-variable "aws_secret_access_key_id" {}
+variable "volume" {
+  type = object({
+    create = bool
+    size   = number
+  })
+  default = {
+    create = false
+    size   = 5
+  }
+}
 
-variable "packs" {}
+variable "network" {
+  type = object({
+    attach = bool
+    net_id = number
+  })
+  default = {
+    attach = false
+    net_id = -1
+  }
+}
+
+variable "user_data" {
+  type = object({
+    path = string
+    vars = map(string)
+  })
+  default = {
+    path = ""
+    vars = {}
+  }
+}

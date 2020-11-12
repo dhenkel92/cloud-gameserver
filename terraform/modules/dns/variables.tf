@@ -1,2 +1,7 @@
-variable "pack_ip_map" {}
-variable "dns_base" {}
+variable "dns" {
+  type = map(map(object({
+    type    = string
+    ttl     = string
+    records = list(string)
+  })))
+}

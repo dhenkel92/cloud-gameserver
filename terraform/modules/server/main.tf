@@ -1,60 +1,41 @@
-resource "random_integer" "ip" {
-  for_each = var.packs
-
-  min = 3
-  max = 250
-  keepers = {
-    pack_name = each.key
-  }
+locals {
+  user_data_vars = merge(var.user_data.vars, {
+    linux_device = join("", hcloud_volume.master[0].*.linux_device)
+  })
 }
 
-data "template_file" "stop" {
-  for_each = var.packs
-
-  template = file("${path.module}/files/stop.sh")
-  vars = {
-    pack_name = each.key
-  }
-}
-
-data "template_file" "init" {
-  for_each = var.packs
-
-  template = "${file("${path.module}/files/start.sh")}"
-  vars = {
-    aws_access_key           = var.aws_access_key
-    aws_secret_access_key_id = var.aws_secret_access_key_id
-    stop_file                = data.template_file.stop[each.key].rendered
-    pack_name                = each.key
-  }
-}
-
-resource "hcloud_server" "server" {
-  for_each = var.packs
-
-  name        = "${var.name}-${each.key}"
+resource "hcloud_server" "node" {
+  name        = var.name
   image       = var.image
-  server_type = each.value.server_type
-  location    = "nbg1"
-  ssh_keys    = var.ssh_keys
-  user_data   = data.template_file.init[each.key].rendered
+  server_type = var.server_type
+  location    = var.location
+  user_data   = templatefile(var.user_data.path, local.user_data_vars)
 
-  provisioner "remote-exec" {
-    when   = destroy
-    inline = ["/usr/local/bin/stop-server"]
+  ssh_keys = var.ssh_keys
 
-    connection {
-      type     = "ssh"
-      user     = "root"
-      host     = self.ipv4_address
-    }
-  }
+  labels = var.tags
 }
 
-resource "hcloud_server_network" "srvnetwork" {
-  for_each = var.packs
+resource "hcloud_volume" "master" {
+  count = var.volume.create ? 1 : 0
 
-  server_id  = hcloud_server.server[each.key].id
-  network_id = var.network_id
-  ip         = "${var.ip}.${random_integer.ip[each.key].result}"
+  name     = "${var.name}-vol"
+  location = var.location
+  size     = var.volume.size
+  format   = "ext4"
+}
+
+resource "hcloud_volume_attachment" "attach" {
+  count = var.volume.create ? 1 : 0
+
+  volume_id = hcloud_volume.master[count.index].id
+  server_id = hcloud_server.node.id
+  automount = false
+}
+
+resource "hcloud_server_network" "network_attach" {
+  count = var.network.attach ? 0 : 1
+
+  server_id  = hcloud_server.node.id
+  network_id = var.network.net_id
 }

@@ -1,3 +1,3 @@
-output "ips" {
-    value = zipmap(values(hcloud_server.server).*.name, values(hcloud_server.server).*.ipv4_address)
+output "public_ip" {
+  value = hcloud_server.node.ipv4_address
 }
