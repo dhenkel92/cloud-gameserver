@@ -1,7 +1,7 @@
 output "ips" {
-    value = module.server.ips
+  value = module.server.ips
 }
 
 output "domains" {
-    value = module.dns.domains
+  value = module.dns.domains
 }

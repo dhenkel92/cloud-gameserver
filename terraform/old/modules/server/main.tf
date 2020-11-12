@@ -44,9 +44,9 @@ resource "hcloud_server" "server" {
     inline = ["/usr/local/bin/stop-server"]
 
     connection {
-      type     = "ssh"
-      user     = "root"
-      host     = self.ipv4_address
+      type = "ssh"
+      user = "root"
+      host = self.ipv4_address
     }
   }
 }

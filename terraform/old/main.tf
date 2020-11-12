@@ -25,12 +25,12 @@ module "common" {
 }
 
 module "server" {
-  source      = "./modules/server"
-  name        = "minecraft"
-  image       = var.general_setup.image
-  ssh_keys    = module.common.ssh_keys
-  network_id  = module.network.network_id
-  ip          = var.general_setup.net_base_range
+  source     = "./modules/server"
+  name       = "minecraft"
+  image      = var.general_setup.image
+  ssh_keys   = module.common.ssh_keys
+  network_id = module.network.network_id
+  ip         = var.general_setup.net_base_range
 
   aws_access_key           = var.aws_access_key
   aws_secret_access_key_id = var.aws_secret_access_key_id
