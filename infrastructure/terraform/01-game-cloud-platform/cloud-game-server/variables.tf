@@ -33,13 +33,13 @@ variable "container_images" {
   type = object({
     strapi_fe = string
     strapi_be = string
-    react_fe = string
+    react_fe  = string
   })
 }
 
 variable "ecr_readonly_creds" {
   type = object({
-    access_key_id = string
+    access_key_id     = string
     secret_access_key = string
   })
 }

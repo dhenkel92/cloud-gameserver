@@ -23,7 +23,7 @@ module "public_game_bucket" {
 module "identity" {
   source = "./identity"
 
-  pgp_key = var.pgp_key
+  pgp_key               = var.pgp_key
   game_state_bucket_arn = module.game_state_bucket.bucket_arn
 
   tags = var.tags

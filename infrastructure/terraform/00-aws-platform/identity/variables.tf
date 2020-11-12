@@ -1,11 +1,11 @@
 variable "tags" {
-    type = map(string)
+  type = map(string)
 }
 
 variable "pgp_key" {
-    type = string
+  type = string
 }
 
 variable "game_state_bucket_arn" {
-    type = string
+  type = string
 }

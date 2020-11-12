@@ -32,3 +32,13 @@ module "cloud_game" {
 
   tags = var.tags
 }
+
+module "proxy" {
+  source = "../../modules/ecr"
+
+  name             = "${local.prefix}/proxy"
+  lifecycle_policy = local.policy
+  tag_mutability   = "MUTABLE"
+
+  tags = var.tags
+}

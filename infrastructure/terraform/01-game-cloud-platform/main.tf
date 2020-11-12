@@ -40,13 +40,13 @@ module "network" {
 module "cloud_game_server" {
   source = "./cloud-game-server"
 
-  name              = var.name
-  network_id        = module.network.net_id
-  location          = var.location
-  ssh_keys          = module.ssh_keys.ids
-  cloud_game_server = var.cloud_game_server
-  container_images = data.terraform_remote_state.aws_platform.outputs.images
-ecr_readonly_creds = data.terraform_remote_state.aws_platform.outputs.access_keys["ecr_readonly.cloud-game"]
+  name               = var.name
+  network_id         = module.network.net_id
+  location           = var.location
+  ssh_keys           = module.ssh_keys.ids
+  cloud_game_server  = var.cloud_game_server
+  container_images   = data.terraform_remote_state.aws_platform.outputs.images
+  ecr_readonly_creds = data.terraform_remote_state.aws_platform.outputs.access_keys["ecr_readonly.cloud-game"]
 
   tags = local.tags
 }
