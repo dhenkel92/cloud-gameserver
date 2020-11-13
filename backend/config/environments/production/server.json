@@ -5,7 +5,7 @@
   "proxy": {
     "enabled": true,
     "ssl": true,
-    "host": "api.cloud-game.henkel.tech",
+    "host": "api.cloud-game.app",
     "port": 443
   },
   "cron": {
@@ -13,10 +13,10 @@
   },
   "admin": {
     "path": "/",
-    "host": "cloud-game.henkel.tech",
+    "host": "cloud-game.app",
     "serverAdminPanel": false,
     "build": {
-      "backend": "https://api.cloud-game.henkel.tech"
+      "backend": "https://api.cloud-game.app"
     }
   }
 }

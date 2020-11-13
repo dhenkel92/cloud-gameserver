@@ -19,7 +19,7 @@ const authLink = setContext((_, {headers}) => {
 });
 
 const httpLink = new HttpLink({
-    uri: 'https://api.cloud-game.henkel.tech/graphql',
+    uri: 'https://api.cloud-game.app/graphql',
 });
 
 const client = new ApolloClient({
