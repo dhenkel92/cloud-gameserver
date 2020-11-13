@@ -26,12 +26,16 @@ module "cloud_game_server" {
       mysql_root_pw = random_string.mysql_root_pw.result
       mysql_pw      = random_string.mysql_pw.result
 
+      proxy_image = var.container_images.proxy
       strapi_fe_image = var.container_images.strapi_fe
       strapi_be_image = var.container_images.strapi_be
       react_fe_image  = var.container_images.react_fe
 
       ecr_access_key_id     = var.ecr_readonly_creds.access_key_id
       ecr_secret_access_key = var.ecr_readonly_creds.secret_access_key
+
+      certbot_access_key_id     = var.certbot_creds.access_key_id
+      certbot_secret_access_key = var.certbot_creds.secret_access_key
     }
   }
 

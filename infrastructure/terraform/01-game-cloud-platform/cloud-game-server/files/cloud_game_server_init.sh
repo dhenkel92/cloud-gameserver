@@ -16,6 +16,8 @@ apt-get install -y vim telnet unzip
 # Install firewall
 apt-get install -y ufw
 ufw allow proto tcp from any to any port 22
+ufw allow proto tcp from any to any port 443
+ufw allow proto tcp from any to any port 80
 yes | ufw enable
 
 # Install Docker
@@ -54,6 +56,20 @@ cat <<EOF > /root/.aws/credentials
 aws_access_key_id = ${ecr_access_key_id}
 aws_secret_access_key = ${ecr_secret_access_key}
 EOF
+
+# Install certbot
+cat <<EOF > /usr/local/bin/certbot
+#! /bin/bash
+
+set -e
+
+docker run -i --rm --name certbot \\
+  -e AWS_ACCESS_KEY_ID=${certbot_access_key_id} \\
+  -e AWS_SECRET_ACCESS_KEY=${certbot_secret_access_key} \\
+  -v /etc/letsencrypt:/etc/letsencrypt \\
+  certbot/dns-route53:latest \$@
+EOF
+chmod +x /usr/local/bin/certbot
 
 # Install deploy script
 cat <<EOF > /usr/local/bin/deploy
@@ -105,6 +121,13 @@ cat <<EOF > /root/docker-compose.yaml
 version: '3'
 
 services:
+  proxy:
+    image: ${proxy_image}:latest
+    container_name: proxy
+    network_mode: host
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+
   react-fe:
     image: ${react_fe_image}:latest
     container_name: react-fe

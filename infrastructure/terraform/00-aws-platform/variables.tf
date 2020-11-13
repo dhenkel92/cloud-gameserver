@@ -10,3 +10,7 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+
+variable "main_hosted_zone" {
+  type = string
+}

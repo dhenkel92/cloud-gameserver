@@ -3,3 +3,5 @@ pgp_key = "mQINBF6oYkQBEADMvxohpKlJkdsgDQ0SkZZ+eNsC2pAqg1ZXng6v+CrY2d0o5W0k10Uu3
 bucket_name = "cloud-game"
 
 tags = {}
+
+main_hosted_zone = "cloud-game.app"

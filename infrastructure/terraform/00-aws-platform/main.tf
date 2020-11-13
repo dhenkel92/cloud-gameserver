@@ -2,6 +2,11 @@ locals {
   tags = merge(var.tags, {})
 }
 
+data "aws_route53_zone" "main" {
+  name         = "${var.main_hosted_zone}."
+  private_zone = false
+}
+
 module "game_state_bucket" {
   source = "../modules/s3"
 
@@ -25,6 +30,7 @@ module "identity" {
 
   pgp_key               = var.pgp_key
   game_state_bucket_arn = module.game_state_bucket.bucket_arn
+  main_hz_id            = data.aws_route53_zone.main.zone_id
 
   tags = var.tags
 }

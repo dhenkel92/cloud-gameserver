@@ -9,3 +9,7 @@ variable "pgp_key" {
 variable "game_state_bucket_arn" {
   type = string
 }
+
+variable "main_hz_id" {
+  type = string
+}

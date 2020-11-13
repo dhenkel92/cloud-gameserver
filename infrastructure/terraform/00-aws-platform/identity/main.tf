@@ -34,3 +34,16 @@ module "ecr_readonly" {
 
   policy = templatefile("${path.module}/files/ecr_readonly.json", {})
 }
+
+module "certbot" {
+  source = "../../modules/iam_user"
+
+  name = "certbot"
+  tags = var.tags
+
+  create_key = true
+
+  policy = templatefile("${path.module}/files/certbot.json", {
+    hz_id = var.main_hz_id
+  })
+}

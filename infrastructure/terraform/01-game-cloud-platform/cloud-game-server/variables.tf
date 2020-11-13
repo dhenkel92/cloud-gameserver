@@ -43,3 +43,10 @@ variable "ecr_readonly_creds" {
     secret_access_key = string
   })
 }
+
+variable "certbot_creds" {
+  type = object({
+    access_key_id     = string
+    secret_access_key = string
+  })
+}

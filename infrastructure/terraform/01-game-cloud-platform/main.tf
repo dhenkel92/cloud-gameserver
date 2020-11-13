@@ -47,6 +47,7 @@ module "cloud_game_server" {
   cloud_game_server  = var.cloud_game_server
   container_images   = data.terraform_remote_state.aws_platform.outputs.images
   ecr_readonly_creds = data.terraform_remote_state.aws_platform.outputs.access_keys["ecr_readonly.cloud-game"]
+  certbot_creds      = data.terraform_remote_state.aws_platform.outputs.access_keys["certbot.cloud-game"]
 
   tags = local.tags
 }
