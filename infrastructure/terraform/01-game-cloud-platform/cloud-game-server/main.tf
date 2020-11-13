@@ -26,7 +26,7 @@ module "cloud_game_server" {
       mysql_root_pw = random_string.mysql_root_pw.result
       mysql_pw      = random_string.mysql_pw.result
 
-      proxy_image = var.container_images.proxy
+      proxy_image     = var.container_images.proxy
       strapi_fe_image = var.container_images.strapi_fe
       strapi_be_image = var.container_images.strapi_be
       react_fe_image  = var.container_images.react_fe
