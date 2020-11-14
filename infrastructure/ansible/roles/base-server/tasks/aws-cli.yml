@@ -1,0 +1,22 @@
+---
+- name: Install required packages
+  apt:
+    pkg:
+    - unzip
+    state: present
+    update_cache: true
+
+- name: Download archive
+  command: curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/root/awscliv2.zip"
+  args:
+    creates: /root/awscliv2.zip
+
+- name: Unzip archive
+  command: unzip /root/awscliv2.zip -d /root
+  args:
+    creates: /root/aws/install
+
+- name: Install cli
+  command: /root/aws/install
+  args:
+    creates: /usr/local/bin/aws

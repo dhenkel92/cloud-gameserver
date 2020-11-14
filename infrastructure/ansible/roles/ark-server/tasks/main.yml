@@ -3,11 +3,9 @@
   apt:
     pkg:
     - lib32gcc1
+    - software-properties-common
     state: present
     update_cache: true
-
-- name: Install AWS CLI
-  include: aws-cli.yml
 
 - name: Install SteamCMD
   include: steamcmd.yml

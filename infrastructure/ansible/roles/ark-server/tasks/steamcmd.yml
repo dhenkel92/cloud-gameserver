@@ -3,6 +3,9 @@
   user:
     name: steam
 
+- name: Add i386 arch
+  command: dpkg --add-architecture i386
+
 - name: Install SteamCMD
   apt:
     pkg: steamcmd
