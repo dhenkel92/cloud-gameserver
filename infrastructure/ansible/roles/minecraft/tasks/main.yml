@@ -1,0 +1,30 @@
+---
+- name: Install required packages
+  apt:
+    pkg:
+    - apt-transport-https
+    - ca-certificates
+    - wget
+    - dirmngr
+    - gnupg
+    - software-properties-common
+    state: present
+    update_cache: true
+
+- name: Add Java GPG apt Key
+  apt_key:
+    url: https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public
+    state: present
+
+- name: Add Java Repository
+  apt_repository:
+    repo: deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main
+    state: present
+    filename: java
+
+- name: Install required packages
+  apt:
+    pkg:
+    - adoptopenjdk-8-hotspot
+    state: present
+    update_cache: true
