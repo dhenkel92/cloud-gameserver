@@ -1,0 +1,30 @@
+{
+    "builders": [
+        {
+            "type": "hcloud",
+            "image": "{{user `base_image`}}",
+            "ssh_username": "root",
+            "location": "{{user `location`}}",
+            "server_type": "{{user `server_type`}}",
+            "snapshot_name": "basic-gameserver-{{timestamp}}",
+            "snapshot_labels": {
+                "application": "basic-gameserver"
+            }
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "file",
+            "source": "../ansible",
+            "destination": "/tmp/ansible"
+        },
+        {
+            "type": "shell",
+            "execute_command": "echo 'root' | sudo -S env {{ .Vars }} {{ .Path }}",
+            "environment_vars": [],
+            "scripts": [
+                "provisioners/common/install-ansible.sh"
+            ]
+        }
+    ]
+}
