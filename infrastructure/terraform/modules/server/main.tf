@@ -1,6 +1,6 @@
 locals {
   user_data_vars = merge(var.user_data.vars, {
-    linux_device = join("", hcloud_volume.master[0].*.linux_device)
+    linux_device = join("", hcloud_volume.master.*.linux_device)
   })
 }
 
@@ -34,8 +34,8 @@ resource "hcloud_volume_attachment" "attach" {
 }
 
 resource "hcloud_server_network" "network_attach" {
-  count = var.network.attach ? 0 : 1
+  count = var.network.attach ? 1 : 0
 
   server_id  = hcloud_server.node.id
-  network_id = var.network.net_id
+  subnet_id = var.network.subnet_id
 }
