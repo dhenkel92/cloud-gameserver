@@ -3,5 +3,5 @@ location = "nbg1"
 
 server = {
   type  = "cx11"
-  image = "26095165"
+  image = "26181822"
 }

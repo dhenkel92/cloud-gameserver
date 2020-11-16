@@ -7,6 +7,7 @@ echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" > /etc/ap
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
 apt-get update
 apt-get install -y ansible
+ansible-galaxy collection install amazon.aws
 
 # Move ansible files from temp to proper folder
 mv /tmp/ansible /root

@@ -1,30 +1,30 @@
 ---
-- name: Install required packages
-  apt:
-    pkg:
-    - apt-transport-https
-    - ca-certificates
-    - wget
-    - dirmngr
-    - gnupg
-    - software-properties-common
-    state: present
-    update_cache: true
+- name: Install Java
+  include: java.yml
 
-- name: Add Java GPG apt Key
-  apt_key:
-    url: https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public
-    state: present
+- name: Ensure boto and boto3 modules are installed
+  pip:
+    name:
+    - boto3
+    - botocore
 
-- name: Add Java Repository
-  apt_repository:
-    repo: deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main
-    state: present
-    filename: java
+- name: Get latest backup
+  shell: /usr/local/bin/aws s3 ls s3://cloud-game/minecraft/backups/the-pack/ | grep 'backup-' | tail -n 1 | awk '{print $4}'
+  register: latest_backup
 
-- name: Install required packages
-  apt:
-    pkg:
-    - adoptopenjdk-8-hotspot
-    state: present
-    update_cache: true
+- name: Download latest backup from S3
+  amazon.aws.aws_s3:
+    bucket: cloud-game
+    object: /minecraft/backups/the-pack/{{ latest_backup.stdout_lines.0 }}
+    dest: /root/backup.tar.gz
+    mode: get
+
+- name: Create Minecraft DIR
+  file:
+    path: /root/minecraft
+    state: directory
+
+- name: Unpack Minecraft backup
+  unarchive:
+    src: /root/backup.tar.gz
+    dest: /root/minecraft

@@ -2,6 +2,15 @@ locals {
   tags = merge(var.tags, {})
 }
 
+data "terraform_remote_state" "aws_platform" {
+  backend = "s3"
+  config = {
+    bucket = "cloud-game.tf-states"
+    key    = "terraform/00-aws-platform"
+    region = "eu-central-1"
+  }
+}
+
 data "terraform_remote_state" "game_cloud" {
   backend = "s3"
   config = {
@@ -30,6 +39,9 @@ module "game_server" {
 
   user_data = {
     path = "${path.module}/files/startup.sh"
-    vars = {}
+    vars = {
+      AWS_ACCESS_KEY_ID=data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].access_key_id
+      AWS_SECRET_ACCESS_KEY=data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].secret_access_key
+    }
   }
 }

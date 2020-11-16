@@ -6,15 +6,16 @@
     state: present
     update_cache: true
 
-- name: Download archive
-  command: curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "/root/awscliv2.zip"
-  args:
-    creates: /root/awscliv2.zip
+
+- name: Download AWS CLI archive
+  get_url:
+    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: /root/awscliv2.zip
 
 - name: Unzip archive
-  command: unzip /root/awscliv2.zip -d /root
-  args:
-    creates: /root/aws/install
+  unarchive:
+    src: /root/awscliv2.zip
+    dest: /root
 
 - name: Install cli
   command: /root/aws/install

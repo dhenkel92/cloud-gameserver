@@ -5,7 +5,6 @@ module "game_user" {
   tags = var.tags
 
   create_key = true
-  pgp_key    = var.pgp_key
 
   policy = templatefile("${path.module}/files/backup.json", {
     bucket_arn = var.game_state_bucket_arn
