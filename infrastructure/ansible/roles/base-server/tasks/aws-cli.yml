@@ -2,10 +2,9 @@
 - name: Install required packages
   apt:
     pkg:
-    - unzip
+      - unzip
     state: present
     update_cache: true
-
 
 - name: Download AWS CLI archive
   get_url:
@@ -21,3 +20,17 @@
   command: /root/aws/install
   args:
     creates: /usr/local/bin/aws
+
+- name: Create .aws folder
+  file:
+    path: /root/.aws
+    state: directory
+    owner: root
+    group: root
+
+- name: Configure AWS Credentials
+  template:
+    src: credentials
+    dest: /root/.aws/credentials
+    owner: root
+    group: root

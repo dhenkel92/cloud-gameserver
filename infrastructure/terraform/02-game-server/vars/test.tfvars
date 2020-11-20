@@ -1,7 +1,7 @@
-name     = "ark-test"
+name     = "minecraft-test"
 location = "nbg1"
 
 server = {
-  type  = "cx11"
-  image = "26181822"
+  type  = "cx31"
+  image = "26449579"
 }

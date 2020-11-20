@@ -21,10 +21,29 @@
 
 - name: Create Minecraft DIR
   file:
-    path: /root/minecraft
+    path: /root/game-server
     state: directory
 
 - name: Unpack Minecraft backup
   unarchive:
     src: /root/backup.tar.gz
-    dest: /root/minecraft
+    dest: /root/game-server
+
+- name: Create Log Folder
+  file:
+    path: /var/log/game-server
+    state: directory
+    owner: root
+    group: root
+
+- name: Create Game Server systemd file
+  template:
+    src: game-server.service.j2
+    dest: /etc/systemd/system/game-server.service
+    owner: root
+    group: root
+  notify: Restart Game Server
+
+- name: Just force systemd to reread configs (2.4 and above)
+  systemd:
+    daemon_reload: yes

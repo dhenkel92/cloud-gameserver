@@ -1,11 +1,10 @@
 #! /bin/bash
 
-echo "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" >> /etc/environment
-echo "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}" >> /etc/environment
-echo "AWS_DEFAULT_REGION=eu-central-1" >> /etc/environment
+cat <<EOF > /root/ansible/vars/game-server.yaml
+aws:
+  aws_access_key_id: ${AWS_ACCESS_KEY_ID}
+  aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+  aws_default_region: eu-central-1
+EOF
 
-export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-export AWS_DEFAULT_REGION=eu-central-1
-
-ansible-playbook /root/ansible/minecraft.yml
+ansible-playbook /root/ansible/minecraft.yml --extra-vars "@/root/ansible/vars/game-server.yaml"

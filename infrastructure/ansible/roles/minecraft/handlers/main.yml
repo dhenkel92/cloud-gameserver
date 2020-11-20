@@ -1,1 +1,5 @@
 ---
+- name: Restart Game Server
+  service:
+    name: game-server
+    state: restarted
