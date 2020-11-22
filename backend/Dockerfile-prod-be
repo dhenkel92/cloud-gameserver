@@ -4,6 +4,7 @@ ENV NODE_ENV=production
 WORKDIR /usr/src/app
 
 COPY backend/package.json .
+COPY backend/package-lock.json .
 
 RUN npm ci
 
