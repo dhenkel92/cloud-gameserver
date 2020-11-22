@@ -13,7 +13,7 @@
   },
   "admin": {
     "path": "/",
-    "host": "cloud-game.app",
+    "host": "amin.cloud-game.app",
     "serverAdminPanel": false,
     "build": {
       "backend": "https://api.cloud-game.app"
