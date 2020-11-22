@@ -1,0 +1,9 @@
+#! /bin/bash
+
+set -e
+
+docker run -i --rm --name certbot \
+  -e AWS_ACCESS_KEY_ID={{ certbot.access_key_id }} \
+  -e AWS_SECRET_ACCESS_KEY={{ certbot.secret_access_key }} \
+  -v /etc/letsencrypt:/etc/letsencrypt \
+  certbot/dns-route53:latest $@

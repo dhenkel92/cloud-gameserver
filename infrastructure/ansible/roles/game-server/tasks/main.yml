@@ -1,0 +1,24 @@
+---
+- name: Certbot
+  include: certbot.yml
+
+- name: Mysql
+  include: mysql.yml
+
+- name: Create Deploy script
+  template:
+    src: deploy
+    dest: /usr/bin/deploy
+    owner: root
+    group: root
+    mode: 755
+
+- name: Create docker-compose
+  template:
+    src: docker-compose.yml
+    dest: /root/docker-compose.yaml
+    owner: root
+    group: root
+
+- name: Deploy Application
+  shell: /usr/bin/deploy

@@ -1,0 +1,14 @@
+---
+- name: Certbot
+  template:
+    src: certbot
+    dest: /usr/bin/certbot
+    owner: root
+    group: root
+    mode: 775
+
+- name: Create Certs for Domains
+  shell: /usr/bin/certbot certonly --dns-route53 --dns-route53-propagation-seconds 30 -d {{ item }}
+  args:
+    creates: /etc/letsencrypt/live/{{ item }}/fullchain.pem
+  loop: "{{ domains }}"

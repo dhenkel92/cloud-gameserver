@@ -7,7 +7,7 @@ ssh_keys = {
 }
 
 cloud_game_server = {
-  image       = "debian-10"
+  image       = "26563390"
   server_type = "cx11"
   volume = {
     create = true

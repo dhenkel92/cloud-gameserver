@@ -1,0 +1,8 @@
+#! /bin/bash
+
+set -ex
+
+aws ecr get-login-password  | docker login --username AWS --password-stdin 220002198733.dkr.ecr.eu-central-1.amazonaws.com
+
+docker-compose -f /root/docker-compose.yaml pull
+docker-compose -f /root/docker-compose.yaml up -d
