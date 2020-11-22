@@ -2,7 +2,7 @@ variable "name" {
   type = string
 }
 
-variable "network_id" {
+variable "subnet_id" {
   type = string
 }
 
@@ -31,6 +31,7 @@ variable "cloud_game_server" {
 
 variable "container_images" {
   type = object({
+    proxy = string
     strapi_fe = string
     strapi_be = string
     react_fe  = string

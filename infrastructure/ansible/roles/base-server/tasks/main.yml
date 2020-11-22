@@ -1,0 +1,9 @@
+---
+- name: Prepare Server
+  include: prepare-server.yml
+
+- name: Install Docker
+  include: docker.yml
+
+- name: Install AWS Cli
+  include: aws-cli.yml

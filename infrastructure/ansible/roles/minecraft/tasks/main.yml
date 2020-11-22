@@ -1,0 +1,49 @@
+---
+- name: Install Java
+  include: java.yml
+
+- name: Ensure boto and boto3 modules are installed
+  pip:
+    name:
+    - boto3
+    - botocore
+
+- name: Get latest backup
+  shell: /usr/local/bin/aws s3 ls s3://cloud-game/minecraft/backups/the-pack/ | grep 'backup-' | tail -n 1 | awk '{print $4}'
+  register: latest_backup
+
+- name: Download latest backup from S3
+  amazon.aws.aws_s3:
+    bucket: cloud-game
+    object: /minecraft/backups/the-pack/{{ latest_backup.stdout_lines.0 }}
+    dest: /root/backup.tar.gz
+    mode: get
+
+- name: Create Minecraft DIR
+  file:
+    path: /root/game-server
+    state: directory
+
+- name: Unpack Minecraft backup
+  unarchive:
+    src: /root/backup.tar.gz
+    dest: /root/game-server
+
+- name: Create Log Folder
+  file:
+    path: /var/log/game-server
+    state: directory
+    owner: root
+    group: root
+
+- name: Create Game Server systemd file
+  template:
+    src: game-server.service.j2
+    dest: /etc/systemd/system/game-server.service
+    owner: root
+    group: root
+  notify: Restart Game Server
+
+- name: Just force systemd to reread configs (2.4 and above)
+  systemd:
+    daemon_reload: yes

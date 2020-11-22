@@ -1,0 +1,36 @@
+---
+- name: Install required packages
+  apt:
+    pkg:
+      - unzip
+    state: present
+    update_cache: true
+
+- name: Download AWS CLI archive
+  get_url:
+    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: /root/awscliv2.zip
+
+- name: Unzip archive
+  unarchive:
+    src: /root/awscliv2.zip
+    dest: /root
+
+- name: Install cli
+  command: /root/aws/install
+  args:
+    creates: /usr/local/bin/aws
+
+- name: Create .aws folder
+  file:
+    path: /root/.aws
+    state: directory
+    owner: root
+    group: root
+
+- name: Configure AWS Credentials
+  template:
+    src: credentials
+    dest: /root/.aws/credentials
+    owner: root
+    group: root

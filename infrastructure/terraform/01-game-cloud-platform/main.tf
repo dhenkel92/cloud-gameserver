@@ -41,7 +41,7 @@ module "cloud_game_server" {
   source = "./cloud-game-server"
 
   name               = var.name
-  network_id         = module.network.net_id
+  subnet_id         = module.network.subnet_ids[0]
   location           = var.location
   ssh_keys           = module.ssh_keys.ids
   cloud_game_server  = var.cloud_game_server

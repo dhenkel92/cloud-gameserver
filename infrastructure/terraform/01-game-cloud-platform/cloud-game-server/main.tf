@@ -42,6 +42,6 @@ module "cloud_game_server" {
   volume = var.cloud_game_server.volume
   network = {
     attach = true
-    net_id = var.network_id
+    subnet_id = var.subnet_id
   }
 }

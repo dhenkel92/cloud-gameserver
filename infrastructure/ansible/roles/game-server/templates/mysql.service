@@ -1,0 +1,25 @@
+[Unit]
+Description=MySql
+After=network.target
+After=docker.target
+
+[Service]
+StartLimitInterval=5
+StartLimitBurst=10
+ExecStartPre=-docker rm -f mysql
+ExecStart=docker run -i \
+    --net=host \
+    --name mysql \
+    -e "MYSQL_ROOT_PASSWORD={{ mysql.root_pw }}" \
+    -e "MYSQL_DATABASE=strapi" \
+    -e "MYSQL_USER=strapi" \
+    -e "MYSQL_PASSWORD={{ mysql.strapi_pw }}" \
+    -v /var/lib/mysql:/var/lib/mysql \
+    percona:5.7.31
+ExecStop=docker stop mysql
+
+Restart=always
+RestartSec=120
+
+[Install]
+WantedBy=multi-user.target

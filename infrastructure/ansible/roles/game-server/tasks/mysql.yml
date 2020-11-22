@@ -1,0 +1,13 @@
+---
+- name: Install MySql
+  template:
+    src: mysql.service
+    dest: /etc/systemd/system/mysql.service
+    owner: root
+    group: root
+
+- name: Start MySql
+  systemd:
+    name: mysql
+    daemon_reload: yes
+    state: started

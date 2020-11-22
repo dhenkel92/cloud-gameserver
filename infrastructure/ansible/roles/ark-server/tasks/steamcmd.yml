@@ -1,0 +1,22 @@
+---
+- name: Add the user 'johnd' with a specific uid and a primary group of 'admin'
+  user:
+    name: steam
+
+- name: Add i386 arch
+  command: dpkg --add-architecture i386
+
+- name: Install SteamCMD
+  apt:
+    pkg: steamcmd
+    state: present
+    update_cache: true
+
+- name: Create a symbolic link
+  file:
+    src: /usr/games/steamcmd
+    dest: /usr/local/bin/steamcmd
+    owner: root
+    group: root
+    state: link
+  
