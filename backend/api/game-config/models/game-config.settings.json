@@ -3,33 +3,18 @@
   "connection": "default",
   "collectionName": "game_configs",
   "info": {
-    "name": "GameConfig"
+    "name": "GameConfig",
+    "description": ""
   },
   "options": {
     "increments": true,
-    "timestamps": true
+    "timestamps": true,
+    "draftAndPublish": false
   },
   "attributes": {
     "game": {
       "model": "game",
       "via": "game_configs"
-    },
-    "config_deployments": {
-      "collection": "config-deployment",
-      "via": "game_config"
-    },
-    "users": {
-      "plugin": "users-permissions",
-      "collection": "user",
-      "via": "game_configs",
-      "dominant": true
-    },
-    "provider": {
-      "type": "enumeration",
-      "enum": [
-        "hetzner"
-      ],
-      "required": true
     },
     "s3_base_path": {
       "type": "string",
@@ -42,6 +27,18 @@
       "required": true,
       "unique": false,
       "maxLength": 50
+    },
+    "startup_script": {
+      "type": "text",
+      "required": true
+    },
+    "server_config": {
+      "type": "text",
+      "required": true
+    },
+    "game_deployments": {
+      "via": "game_config",
+      "collection": "game-deployment"
     }
   }
 }

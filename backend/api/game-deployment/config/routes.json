@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/game-deployments",
+      "handler": "game-deployment.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/game-deployments/count",
+      "handler": "game-deployment.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/game-deployments/:id",
+      "handler": "game-deployment.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/game-deployments",
+      "handler": "game-deployment.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/game-deployments/:id",
+      "handler": "game-deployment.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/game-deployments/:id",
+      "handler": "game-deployment.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

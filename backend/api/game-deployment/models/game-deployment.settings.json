@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "game_deployments",
+  "info": {
+    "name": "GameDeployment"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "game_config": {
+      "model": "game-config",
+      "via": "game_deployments"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "WAITING",
+        "RUNNING",
+        "FINISHED",
+        "FAILED"
+      ],
+      "required": true,
+      "default": "WAITING"
+    },
+    "game_deployment_logs": {
+      "via": "game_deployment",
+      "collection": "game-deployment-log"
+    }
+  }
+}

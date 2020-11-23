@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "game_deployment_logs",
+  "info": {
+    "name": "GameDeploymentLog"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "game_deployment": {
+      "model": "game-deployment",
+      "via": "game_deployment_logs"
+    },
+    "log": {
+      "type": "text",
+      "required": true
+    }
+  }
+}

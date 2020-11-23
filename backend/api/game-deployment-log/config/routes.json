@@ -2,48 +2,48 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/config-deployments",
-      "handler": "config-deployment.find",
+      "path": "/game-deployment-logs",
+      "handler": "game-deployment-log.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/config-deployments/count",
-      "handler": "config-deployment.count",
+      "path": "/game-deployment-logs/count",
+      "handler": "game-deployment-log.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/config-deployments/:id",
-      "handler": "config-deployment.findOne",
+      "path": "/game-deployment-logs/:id",
+      "handler": "game-deployment-log.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/config-deployments",
-      "handler": "config-deployment.create",
+      "path": "/game-deployment-logs",
+      "handler": "game-deployment-log.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/config-deployments/:id",
-      "handler": "config-deployment.update",
+      "path": "/game-deployment-logs/:id",
+      "handler": "game-deployment-log.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/config-deployments/:id",
-      "handler": "config-deployment.delete",
+      "path": "/game-deployment-logs/:id",
+      "handler": "game-deployment-log.delete",
       "config": {
         "policies": []
       }
