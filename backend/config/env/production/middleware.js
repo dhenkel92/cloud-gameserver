@@ -4,11 +4,6 @@ module.exports = {
   "cron": {
     "enabled": false
   },
-  "admin": {
-    "url": "/",
-    "host": "amin.cloud-game.app",
-    "serverAdminPanel": false,
-  },
   "logger": {
     "level": "info",
     "exposeInContext": true,
