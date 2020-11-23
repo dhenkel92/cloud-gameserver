@@ -10,10 +10,6 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "game_deployment": {
-      "model": "game-deployment",
-      "via": "game_deployment_logs"
-    },
     "log": {
       "type": "text",
       "required": true
