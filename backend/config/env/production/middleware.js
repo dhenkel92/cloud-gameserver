@@ -1,6 +1,5 @@
 module.exports = {
   "production": true,
-  url: 'https://api.cloud-game.app',
   "cron": {
     "enabled": false
   },
