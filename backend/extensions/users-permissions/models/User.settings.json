@@ -23,6 +23,11 @@
       "configurable": false,
       "required": true
     },
+    "confirmationToken": {
+      "type": "string",
+      "configurable": false,
+      "private": true
+    },
     "provider": {
       "type": "string",
       "configurable": false
