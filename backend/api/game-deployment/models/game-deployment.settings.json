@@ -28,6 +28,10 @@
     },
     "game_deployment_logs": {
       "collection": "game-deployment-log"
+    },
+    "consumer_id": {
+      "type": "string",
+      "required": false
     }
   }
 }
