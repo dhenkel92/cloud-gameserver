@@ -1,6 +1,6 @@
 FROM node:14.15.1-stretch as build
 
-ENV NODE_ENV=production
+ENV NODE_ENV=development
 WORKDIR /usr/src/app
 
 COPY async-server-provisioner/package.json .
@@ -9,10 +9,11 @@ COPY async-server-provisioner/package-lock.json .
 RUN npm ci
 
 COPY async-server-provisioner/ .
-RUN ls -al && ls -al node_modules/.bin/ && cat ./package.json && npm run build
+RUN npm run build
 
 FROM node:14.15.1-stretch
 
+ENV NODE_ENV=production
 WORKDIR /usr/src/app
 
 RUN apt-get update \
