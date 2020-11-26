@@ -42,3 +42,13 @@ module "proxy" {
 
   tags = var.tags
 }
+
+module "consumer" {
+  source = "../../modules/ecr"
+
+  name             = "${local.prefix}/consumer"
+  lifecycle_policy = local.policy
+  tag_mutability   = "MUTABLE"
+
+  tags = var.tags
+}

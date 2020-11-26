@@ -8,6 +8,12 @@ services:
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
 
+  consumer:
+    image: {{ images.consumer }}:latest
+    container_name: consumer
+    environment:
+      HCLOUD_TOKEN: "${HCLOUD_TOKEN}"
+
   react-fe:
     image: {{ images.react_fe }}:latest
     container_name: react-fe
