@@ -6,11 +6,11 @@ on:
       - '.github/workflows/consumer.yml'
       - '.github/scripts/auth.sh'
       - '.github/scripts/deploy.sh'
-      - 'backend/*'
-      - 'backend/*/*'
-      - 'backend/*/*/*'
-      - 'backend/*/*/*/*'
-      - 'backend/*/*/*/*/*'
+      - 'async-server-provisioner/*'
+      - 'async-server-provisioner/*/*'
+      - 'async-server-provisioner/*/*/*'
+      - 'async-server-provisioner/*/*/*/*'
+      - 'async-server-provisioner/*/*/*/*/*'
 
 name: Cloud Game Consumer
 
