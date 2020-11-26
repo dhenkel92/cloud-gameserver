@@ -1,6 +1,7 @@
 import GameDeploymentRepository from '../repositories/GameDeploymentRepository';
 import { TerraformService } from './TerraformService';
 import { GameDeploymentLogRepository } from '../repositories/GameDeploymentLogRepository';
+import { GameDeploymentAction } from '../entities/GameDeployment';
 
 export interface GameDeploymentServiceConfig {
   timeoutMillis?: number;
@@ -43,11 +44,23 @@ export class GameDeploymentService {
       return;
     }
 
+    // tslint:disable-next-line:no-console
+    console.dir(res);
+
     await this.terraformService.init();
-    await this.terraformService.changeWorkspace(res.consumerId);
-    await this.terraformService.apply();
+    await this.terraformService.changeWorkspace(res.workspaceName);
+
+    // tslint:disable-next-line:switch-default
+    switch (res.action) {
+      case GameDeploymentAction.START:
+        await this.terraformService.apply();
+        break;
+      case GameDeploymentAction.STOP:
+        await this.terraformService.destroy();
+        break;
+    }
 
     await this.gameDeployLogRepo.writeLog(res.id, 'isso');
-    await this.gameDeployRepo.finishDeployment(res.id);
+    await this.gameDeployRepo.finishDeployment();
   }
 }

@@ -7,9 +7,9 @@ export interface GameConfig {
 
 export function gameConfigFactory(row: any): GameConfig {
   return {
-    name: row.name,
-    s3BasePath: row.s3_base_path,
-    serverConfig: row.server_config,
-    startupScript: row.startup_script,
+    name: row.gc_name,
+    s3BasePath: row.gc_s3_base_path,
+    serverConfig: row.gc_server_config,
+    startupScript: row.gc_startup_script,
   };
 }

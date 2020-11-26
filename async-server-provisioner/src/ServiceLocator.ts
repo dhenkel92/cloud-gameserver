@@ -11,6 +11,9 @@ export default class ServiceLocator {
   private static instance: ServiceLocator | null;
   private cache: Map<string, any> = new Map();
 
+  private constructor() {
+  }
+
   public static getInstance(): ServiceLocator {
     if (ServiceLocator.instance == null) {
       ServiceLocator.instance = new ServiceLocator();
@@ -30,13 +33,8 @@ export default class ServiceLocator {
     this.cache.set(key, value);
   }
 
-  private async getMysqlConnection(): Promise<mysql.Connection> {
-    if (this.hasCached('mysqlConnection')) {
-      return this.getFromCache('mysqlConnection');
-    }
-
-    // todo: replace with pool
-    const connection = await new Promise<mysql.Connection>((resolve, reject) => {
+  private async getMysqlConnection(isReadUncommitted: boolean = false): Promise<mysql.Connection> {
+    return await new Promise<mysql.Connection>((resolve, reject) => {
       const conn = mysql.createConnection({
         database: config.get('mysql.database'),
         host: config.get('mysql.host'),
@@ -49,12 +47,21 @@ export default class ServiceLocator {
           reject(err);
           return;
         }
-        resolve(conn);
+
+        if (!isReadUncommitted) {
+          resolve(conn);
+          return;
+        }
+
+        conn.query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED', (mysqlErr) => {
+          if (mysqlErr) {
+            reject(mysqlErr);
+            return;
+          }
+          resolve(conn);
+        });
       });
     });
-
-    this.setCache('mysqlConnection', connection);
-    return connection;
   }
 
   /***********************************************************
@@ -66,7 +73,18 @@ export default class ServiceLocator {
     if (this.hasCached('MySqlAdapter')) {
       return this.getFromCache('MySqlAdapter');
     }
-    const connection = await this.getMysqlConnection();
+    const connection = await this.getMysqlConnection(false);
+    const adapter = new MySqlAdapter(connection);
+
+    this.setCache('MySqlAdapter', adapter);
+    return adapter;
+  }
+
+  public async getDirtyMySqlAdapter(): Promise<MySqlAdapter> {
+    if (this.hasCached('MySqlAdapter')) {
+      return this.getFromCache('MySqlAdapter');
+    }
+    const connection = await this.getMysqlConnection(true);
     const adapter = new MySqlAdapter(connection);
 
     this.setCache('MySqlAdapter', adapter);
@@ -94,7 +112,8 @@ export default class ServiceLocator {
       return this.getFromCache('GameDeploymentRepository');
     }
     const adapter = await this.getMySqlAdapter();
-    const repo = new GameDeploymentRepository(adapter);
+    const dirtyAdapter = await this.getDirtyMySqlAdapter();
+    const repo = new GameDeploymentRepository(adapter, dirtyAdapter);
 
     this.setCache('GameDeploymentRepository', repo);
     return repo;
