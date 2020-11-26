@@ -11,6 +11,7 @@ services:
   consumer:
     image: {{ images.consumer }}:latest
     container_name: consumer
+    network_mode: host
     environment:
       - "HCLOUD_TOKEN=${HCLOUD_TOKEN}"
       - NODE_ENV=production
