@@ -15,7 +15,7 @@ export interface GameDeployment {
 
 function generateTFWorkspaceName(row: any): string {
   const rawString = `${row.gc_id}${row.gc_name}`;
-  return rawString.replace(/([\s-_])/g, '_');
+  return rawString.replace(/([\s-_])/g, '_').toLowerCase();
 }
 
 export function gameDeploymentFactory(row: any): GameDeployment {

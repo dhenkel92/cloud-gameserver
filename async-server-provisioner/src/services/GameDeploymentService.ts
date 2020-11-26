@@ -1,7 +1,6 @@
 import GameDeploymentRepository from '../repositories/GameDeploymentRepository';
 import { TerraformService } from './TerraformService';
 import { GameDeploymentLogRepository } from '../repositories/GameDeploymentLogRepository';
-import { GameDeploymentAction } from '../entities/GameDeployment';
 
 export interface GameDeploymentServiceConfig {
   timeoutMillis?: number;
@@ -28,39 +27,30 @@ export class GameDeploymentService {
     this.isRunning = true;
 
     while (this.isRunning) {
-      await this.execute();
-      await new Promise((resolve) => {
-        setTimeout(() => resolve(null), config?.timeoutMillis ?? this.defaults.timeoutMillis);
-      });
+      try {
+        await this.execute();
+        await new Promise((resolve) => {
+          setTimeout(() => resolve(null), config?.timeoutMillis ?? this.defaults.timeoutMillis);
+        });
+      } catch (e) {
+        // tslint:disable-next-line:no-console
+        console.error('Error while processing message', e);
+      }
     }
   }
 
   private async execute(): Promise<void> {
     const res = await this.gameDeployRepo.getDeployment();
-    // tslint:disable-next-line:no-console
-    console.dir(res);
 
     if (res === null) {
       return;
     }
 
-    // tslint:disable-next-line:no-console
-    console.dir(res);
-
-    await this.terraformService.init();
-    await this.terraformService.changeWorkspace(res.workspaceName);
-
-    // tslint:disable-next-line:switch-default
-    switch (res.action) {
-      case GameDeploymentAction.START:
-        await this.terraformService.apply();
-        break;
-      case GameDeploymentAction.STOP:
-        await this.terraformService.destroy();
-        break;
+    try {
+      await this.terraformService.execute(res);
+      await this.gameDeployRepo.finishDeployment();
+    } catch (e) {
+      await this.gameDeployLogRepo.danger(res.id, e);
     }
-
-    await this.gameDeployLogRepo.writeLog(res.id, 'isso');
-    await this.gameDeployRepo.finishDeployment();
   }
 }

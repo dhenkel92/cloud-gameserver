@@ -26,8 +26,8 @@
       "default": "WAITING"
     },
     "game_deployment_logs": {
-      "collection": "game-deployment-log",
-      "via": "game_deployment"
+      "via": "game_deployment",
+      "collection": "game-deployment-log"
     },
     "uuid": {
       "type": "string",

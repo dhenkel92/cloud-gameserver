@@ -146,19 +146,20 @@ export default class ServiceLocator {
       this.getGameDeploymentLogRepository(),
     ]);
 
-    const terraformService = this.getTerraformService();
+    const terraformService = await this.getTerraformService();
     const service = new GameDeploymentService(terraformService, deployRepo, deployLogRepo);
 
     this.setCache('GameDeploymentService', service);
     return service;
   }
 
-  public getTerraformService(): TerraformService {
+  public async getTerraformService(): Promise<TerraformService> {
     if (this.hasCached('TerraformService')) {
       return this.getFromCache('TerraformService');
     }
 
-    const service = new TerraformService(this.getShellAdapter());
+    const repo = await this.getGameDeploymentLogRepository();
+    const service = new TerraformService(this.getShellAdapter(), repo);
 
     this.setCache('TerraformService', service);
     return service;

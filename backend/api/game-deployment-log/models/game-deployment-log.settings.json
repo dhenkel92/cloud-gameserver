@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "game_deployment_logs",
   "info": {
-    "name": "GameDeploymentLog"
+    "name": "GameDeploymentLog",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -10,13 +11,24 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "log": {
+    "log_message": {
       "type": "text",
       "required": true
     },
     "game_deployment": {
-      "via": "game_deployment_logs",
-      "model": "game-deployment"
+      "model": "game-deployment",
+      "via": "game_deployment_logs"
+    },
+    "severity": {
+      "type": "enumeration",
+      "enum": [
+        "DEBUG",
+        "INFO",
+        "WARNING",
+        "DANGER"
+      ],
+      "required": true,
+      "default": "INFO"
     }
   }
 }

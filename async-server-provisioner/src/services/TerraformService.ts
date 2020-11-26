@@ -1,37 +1,64 @@
-import { ShellAdapter } from '../adapters/ShellAdapter';
+import { ShellAdapter, ShellResult } from '../adapters/ShellAdapter';
+import { GameDeployment, GameDeploymentAction } from '../entities/GameDeployment';
+import { GameDeploymentLogRepository } from '../repositories/GameDeploymentLogRepository';
 
 export class TerraformService {
-  constructor(private shellAdapter: ShellAdapter) {
+  constructor(
+    private shellAdapter: ShellAdapter,
+    private gameDeployLogRepo: GameDeploymentLogRepository,
+  ) {
   }
 
-  public async init(): Promise<void> {
+  public async execute(config: GameDeployment): Promise<void> {
+    await this.init(config.id);
+    await this.changeWorkspace(config.id, config.workspaceName);
+
+    switch (config.action) {
+      case GameDeploymentAction.START:
+        await this.apply(config.id);
+        break;
+      case GameDeploymentAction.STOP:
+        await this.destroy(config.id);
+        break;
+      default:
+        throw new Error(`Invalid deployment action: ${config.action}`);
+    }
+  }
+
+  public async init(gameDeployId: number): Promise<void> {
     const res = await this.shellAdapter.exec('cd ./terraform && terraform init');
-    // tslint:disable-next-line:no-console
-    console.dir(res);
+    await this.writeShellLog(gameDeployId, res);
   }
 
-  public async changeWorkspace(name: string): Promise<void> {
+  private async changeWorkspace(gameDeployId: number, name: string): Promise<void> {
     try {
-      const isso = await this.shellAdapter.exec(`cd ./terraform && terraform workspace new ${name}`);
-      // tslint:disable-next-line:no-console
-      console.dir(isso);
+      const newWorkspaceRes = await this.shellAdapter.exec(`cd ./terraform && terraform workspace new ${name}`);
+      await this.writeShellLog(gameDeployId, newWorkspaceRes);
     } catch (e) {
-      // ignoring
+      // ignore
     }
     const res = await this.shellAdapter.exec(`cd ./terraform && terraform workspace select ${name}`);
-    // tslint:disable-next-line:no-console
-    console.dir(res);
+    await this.writeShellLog(gameDeployId, res);
   }
 
-  public async apply(): Promise<void> {
+  private async apply(gameDeployId: number): Promise<void> {
     const res = await this.shellAdapter.exec('cd ./terraform && terraform apply -auto-approve');
-    // tslint:disable-next-line:no-console
-    console.dir(res);
+    await this.writeShellLog(gameDeployId, res);
   }
 
-  public async destroy(): Promise<void> {
+  private async destroy(gameDeployId: number): Promise<void> {
     const res = await this.shellAdapter.exec('cd ./terraform && terraform destroy -auto-approve');
-    // tslint:disable-next-line:no-console
-    console.dir(res);
+    await this.writeShellLog(gameDeployId, res);
+  }
+
+  private async writeShellLog(gameDeployId: number, shellRes: ShellResult): Promise<void> {
+    const promises = [];
+    if (shellRes.stdout !== '') {
+      promises.push(this.gameDeployLogRepo.info(gameDeployId, shellRes.stdout));
+    }
+    if (shellRes.stderr !== '') {
+      promises.push(this.gameDeployLogRepo.info(gameDeployId, shellRes.stderr));
+    }
+    await Promise.all(promises);
   }
 }
