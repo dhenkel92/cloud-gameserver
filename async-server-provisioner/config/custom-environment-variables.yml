@@ -1,0 +1,6 @@
+mysql:
+  database: MYSQL_DATABASE
+  host: MYSQL_HOST
+  port: MYSQL_PORT
+  user: MYSQL_USER
+  pw: MYSQL_PW

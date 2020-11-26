@@ -14,6 +14,10 @@ resource "hcloud_server" "node" {
   ssh_keys = var.ssh_keys
 
   labels = var.tags
+
+  lifecycle {
+    ignore_changes = [user_data]
+  }
 }
 
 resource "hcloud_volume" "master" {
@@ -36,6 +40,6 @@ resource "hcloud_volume_attachment" "attach" {
 resource "hcloud_server_network" "network_attach" {
   count = var.network.attach ? 1 : 0
 
-  server_id  = hcloud_server.node.id
+  server_id = hcloud_server.node.id
   subnet_id = var.network.subnet_id
 }

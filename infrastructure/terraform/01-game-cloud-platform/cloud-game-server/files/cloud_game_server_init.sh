@@ -5,6 +5,7 @@ set -ex
 cat <<EOF > /root/ansible/vars/game-server.yaml
 images:
   proxy: ${proxy_image}
+  consumer: ${consumer_image}
   react_fe: ${react_fe_image}
   strapi_fe: ${strapi_fe_image}
   strapi_be: ${strapi_be_image}

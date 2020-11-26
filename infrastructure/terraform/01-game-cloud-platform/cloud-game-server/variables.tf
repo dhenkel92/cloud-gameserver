@@ -32,6 +32,7 @@ variable "cloud_game_server" {
 variable "container_images" {
   type = object({
     proxy = string
+    consumer = string
     strapi_fe = string
     strapi_be = string
     react_fe  = string

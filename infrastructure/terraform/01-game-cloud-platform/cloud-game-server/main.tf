@@ -27,6 +27,7 @@ module "cloud_game_server" {
       mysql_pw      = random_string.mysql_pw.result
 
       proxy_image     = var.container_images.proxy
+      consumer_image  = var.container_images.consumer
       strapi_fe_image = var.container_images.strapi_fe
       strapi_be_image = var.container_images.strapi_be
       react_fe_image  = var.container_images.react_fe
@@ -41,7 +42,7 @@ module "cloud_game_server" {
 
   volume = var.cloud_game_server.volume
   network = {
-    attach = true
+    attach    = true
     subnet_id = var.subnet_id
   }
 }

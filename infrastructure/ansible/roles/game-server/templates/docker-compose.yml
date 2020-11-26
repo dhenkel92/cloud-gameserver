@@ -8,6 +8,18 @@ services:
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
 
+  consumer:
+    image: {{ images.consumer }}:latest
+    container_name: consumer
+    environment:
+      - "HCLOUD_TOKEN=${HCLOUD_TOKEN}"
+      - NODE_ENV=production
+      - MYSQL_HOST=localhost
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=strapi
+      - MYSQL_USER=strapi
+      - MYSQL_PW={{ mysql.strapi_pw }}
+
   react-fe:
     image: {{ images.react_fe }}:latest
     container_name: react-fe
