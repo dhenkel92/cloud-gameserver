@@ -9,7 +9,7 @@ COPY async-server-provisioner/package-lock.json .
 RUN npm ci
 
 COPY async-server-provisioner/ .
-RUN npm run build
+RUN ls -al && cat ./package.json && npm run build
 
 FROM node:14.15.1-stretch
 
