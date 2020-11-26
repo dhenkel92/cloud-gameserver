@@ -26,7 +26,8 @@
       "type": "string",
       "required": true,
       "unique": false,
-      "maxLength": 50
+      "maxLength": 50,
+      "regex": "[a-zA-Z0-9\\s]+"
     },
     "startup_script": {
       "type": "text",

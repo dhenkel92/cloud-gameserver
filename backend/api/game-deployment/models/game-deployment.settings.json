@@ -19,7 +19,6 @@
       "type": "enumeration",
       "enum": [
         "WAITING",
-        "RUNNING",
         "FINISHED",
         "FAILED"
       ],
@@ -27,11 +26,20 @@
       "default": "WAITING"
     },
     "game_deployment_logs": {
-      "collection": "game-deployment-log"
+      "collection": "game-deployment-log",
+      "via": "game_deployment"
     },
-    "consumer_id": {
+    "uuid": {
       "type": "string",
-      "required": false
+      "maxLength": 100
+    },
+    "action": {
+      "type": "enumeration",
+      "enum": [
+        "START",
+        "STOP"
+      ],
+      "required": true
     }
   }
 }

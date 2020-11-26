@@ -13,6 +13,10 @@
     "log": {
       "type": "text",
       "required": true
+    },
+    "game_deployment": {
+      "via": "game_deployment_logs",
+      "model": "game-deployment"
     }
   }
 }
