@@ -31,8 +31,8 @@ variable "cloud_game_server" {
 
 variable "container_images" {
   type = object({
-    proxy = string
-    consumer = string
+    proxy     = string
+    consumer  = string
     strapi_fe = string
     strapi_be = string
     react_fe  = string
@@ -47,6 +47,13 @@ variable "ecr_readonly_creds" {
 }
 
 variable "certbot_creds" {
+  type = object({
+    access_key_id     = string
+    secret_access_key = string
+  })
+}
+
+variable "consumer_creds" {
   type = object({
     access_key_id     = string
     secret_access_key = string

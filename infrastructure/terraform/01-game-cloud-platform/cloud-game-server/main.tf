@@ -37,6 +37,9 @@ module "cloud_game_server" {
 
       certbot_access_key_id     = var.certbot_creds.access_key_id
       certbot_secret_access_key = var.certbot_creds.secret_access_key
+
+      consumer_access_key_id     = var.consumer_creds.access_key_id
+      consumer_secret_access_key = var.consumer_creds.secret_access_key
     }
   }
 

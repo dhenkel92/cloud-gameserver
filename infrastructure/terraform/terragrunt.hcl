@@ -6,7 +6,7 @@ remote_state {
     }
     config = {
         bucket = "cloud-game.tf-states"
-        key = "${path_relative_to_include()}"
+        key = "terraform/${path_relative_to_include()}"
         region = "eu-central-1"
     }
 }

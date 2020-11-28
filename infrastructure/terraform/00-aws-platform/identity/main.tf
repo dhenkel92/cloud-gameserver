@@ -46,3 +46,14 @@ module "certbot" {
     hz_id = var.main_hz_id
   })
 }
+
+module "async_server_provisioner" {
+  source = "../../modules/iam_user"
+
+  name = "async-server-provisioner"
+  tags = var.tags
+
+  create_key = true
+
+  policy = templatefile("${path.module}/files/async-server-provisioner.json", {})
+}

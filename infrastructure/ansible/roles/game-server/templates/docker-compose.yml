@@ -20,6 +20,8 @@ services:
       - MYSQL_DATABASE=strapi
       - MYSQL_USER=strapi
       - MYSQL_PW={{ mysql.strapi_pw }}
+      - AWS_ACCESS_KEY_ID={{ consumer.access_key_id }}
+      - AWS_SECRET_ACCESS_KEY={{ consumer.secret_access_key }}
 
   react-fe:
     image: {{ images.react_fe }}:latest

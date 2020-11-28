@@ -27,6 +27,10 @@ aws:
 certbot:
   access_key_id: ${certbot_access_key_id}
   secret_access_key: ${certbot_secret_access_key}
+
+consumer:
+  access_key_id: ${consumer_access_key_id}
+  secret_access_key: ${consumer_secret_access_key}
 EOF
 
 # Mount Volume
