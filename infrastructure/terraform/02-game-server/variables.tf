@@ -13,6 +13,10 @@ variable "server" {
   })
 }
 
+variable "s3_base_path" {
+  type = string
+}
+
 variable "tags" {
   type    = map(string)
   default = {}

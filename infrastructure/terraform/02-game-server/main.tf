@@ -40,6 +40,7 @@ module "game_server" {
   user_data = {
     path = "${path.module}/files/startup.sh"
     vars = {
+      s3_base_path = var.s3_base_path
       AWS_ACCESS_KEY_ID=data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].access_key_id
       AWS_SECRET_ACCESS_KEY=data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].secret_access_key
     }
