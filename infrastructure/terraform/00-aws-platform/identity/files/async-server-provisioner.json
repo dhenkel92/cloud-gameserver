@@ -1,15 +1,35 @@
 {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Action": "s3:ListBucket",
-        "Resource": "arn:aws:s3:::cloud-game.tf-states"
-      },
-      {
-        "Effect": "Allow",
-        "Action": ["s3:GetObject", "s3:PutObject"],
-        "Resource": "arn:aws:s3:::cloud-game.tf-states/*"
-      }
-    ]
-  }
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowCreateAndListS3ActionsOnSpecifiedTerragruntBucket",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetBucketVersioning",
+        "s3:GetObject",
+        "s3:GetBucketAcl",
+        "s3:GetBucketLogging",
+        "s3:CreateBucket",
+        "s3:PutObject",
+        "s3:PutBucketPublicAccessBlock",
+        "s3:PutBucketTagging",
+        "s3:PutBucketPolicy",
+        "s3:PutBucketVersioning",
+        "s3:PutEncryptionConfiguration",
+        "s3:PutBucketAcl",
+        "s3:PutBucketLogging"
+      ],
+      "Resource": "arn:aws:s3:::cloud-game.tf-states"
+    },
+    {
+      "Sid": "AllowGetAndPutS3ActionsOnSpecifiedTerragruntBucketPath",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject",
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::cloud-game.tf-states/*"
+    }
+  ]
+}

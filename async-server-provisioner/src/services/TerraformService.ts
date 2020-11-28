@@ -28,7 +28,7 @@ export class TerraformService {
   }
 
   private async init(gameDeployId: number): Promise<void> {
-    const res = await this.shellAdapter.exec('cd ./terraform/02-game-server && terraform init');
+    const res = await this.shellAdapter.exec('cd ./terraform/02-game-server && terragrunt init');
     await this.writeShellLog(gameDeployId, res);
   }
 
