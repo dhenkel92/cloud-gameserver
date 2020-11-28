@@ -49,7 +49,9 @@ export class GameDeploymentService {
 
     this.logger.info('received new message %s', JSON.stringify(res));
     try {
+      this.logger.info('start terraform execution');
       await this.terraformService.execute(res);
+      this.logger.info('finished terraform execution');
       await this.gameDeployRepo.finishDeployment();
     } catch (e) {
       this.logger.error('failed to execute message');
