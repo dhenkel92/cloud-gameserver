@@ -1,3 +1,4 @@
+import { Logger } from 'pino';
 import GameDeploymentRepository from '../repositories/GameDeploymentRepository';
 import { TerraformService } from './TerraformService';
 import { GameDeploymentLogRepository } from '../repositories/GameDeploymentLogRepository';
@@ -16,6 +17,7 @@ export class GameDeploymentService {
     private terraformService: TerraformService,
     private gameDeployRepo: GameDeploymentRepository,
     private gameDeployLogRepo: GameDeploymentLogRepository,
+    private logger: Logger,
   ) {
   }
 
@@ -30,8 +32,7 @@ export class GameDeploymentService {
       try {
         await this.execute();
       } catch (e) {
-        // tslint:disable-next-line:no-console
-        console.error('Error while processing message', e);
+        this.logger.error('Error while processing message %s', e);
       }
       await new Promise((resolve) => {
         setTimeout(() => resolve(null), config?.timeoutMillis ?? this.defaults.timeoutMillis);
@@ -46,11 +47,17 @@ export class GameDeploymentService {
       return;
     }
 
+    this.logger.info('received new message %s', JSON.stringify(res));
     try {
       await this.terraformService.execute(res);
       await this.gameDeployRepo.finishDeployment();
     } catch (e) {
-      await this.gameDeployLogRepo.danger(res.id, e);
+      this.logger.error('failed to execute message');
+      this.logger.error(e);
+      await Promise.all([
+        this.gameDeployLogRepo.danger(res.id, e),
+        this.gameDeployRepo.finishDeployment(),
+      ]);
     }
   }
 }

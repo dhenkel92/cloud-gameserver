@@ -1,5 +1,6 @@
 import * as config from 'config';
 import * as mysql from 'mysql';
+import * as pino from 'pino';
 import MySqlAdapter from './adapters/MySqlAdapter';
 import GameDeploymentRepository from './repositories/GameDeploymentRepository';
 import { GameDeploymentService } from './services/GameDeploymentService';
@@ -31,6 +32,21 @@ export default class ServiceLocator {
 
   private setCache<T>(key: string, value: T) {
     this.cache.set(key, value);
+  }
+
+  /***********************************************************
+   *
+   * General
+   *
+   ***********************************************************/
+  private getLogger(): pino.Logger {
+    if (this.hasCached('Logger')) {
+      return this.getFromCache('Logger');
+    }
+
+    const logger = pino();
+    this.setCache('Logger', logger);
+    return logger;
   }
 
   private async getMysqlConnection(isReadUncommitted: boolean = false): Promise<mysql.Connection> {
@@ -147,7 +163,12 @@ export default class ServiceLocator {
     ]);
 
     const terraformService = await this.getTerraformService();
-    const service = new GameDeploymentService(terraformService, deployRepo, deployLogRepo);
+    const service = new GameDeploymentService(
+      terraformService,
+      deployRepo,
+      deployLogRepo,
+      this.getLogger()
+    );
 
     this.setCache('GameDeploymentService', service);
     return service;
@@ -159,7 +180,11 @@ export default class ServiceLocator {
     }
 
     const repo = await this.getGameDeploymentLogRepository();
-    const service = new TerraformService(this.getShellAdapter(), repo);
+    const service = new TerraformService(
+      this.getShellAdapter(),
+      repo,
+      this.getLogger()
+    );
 
     this.setCache('TerraformService', service);
     return service;
