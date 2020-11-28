@@ -12,8 +12,8 @@
   },
   "attributes": {
     "game_config": {
-      "model": "game-config",
-      "via": "game_deployments"
+      "via": "game_deployments",
+      "model": "game-config"
     },
     "status": {
       "type": "enumeration",

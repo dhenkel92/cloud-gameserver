@@ -3,11 +3,13 @@
   "connection": "default",
   "collectionName": "games",
   "info": {
-    "name": "Game"
+    "name": "Game",
+    "description": ""
   },
   "options": {
     "increments": true,
-    "timestamps": true
+    "timestamps": true,
+    "draftAndPublish": false
   },
   "attributes": {
     "name": {
@@ -17,6 +19,11 @@
     "game_configs": {
       "via": "game",
       "collection": "game-config"
+    },
+    "s3_base_path": {
+      "type": "string",
+      "required": true,
+      "maxLength": 150
     }
   }
 }

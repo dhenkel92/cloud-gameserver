@@ -16,12 +16,6 @@
       "model": "game",
       "via": "game_configs"
     },
-    "s3_base_path": {
-      "type": "string",
-      "maxLength": 150,
-      "required": true,
-      "unique": true
-    },
     "name": {
       "type": "string",
       "required": true,
@@ -38,8 +32,8 @@
       "required": true
     },
     "game_deployments": {
-      "via": "game_config",
-      "collection": "game-deployment"
+      "collection": "game-deployment",
+      "via": "game_config"
     }
   }
 }
