@@ -1,6 +1,7 @@
 import { ShellAdapter, ShellResult } from '../adapters/ShellAdapter';
 import { GameDeployment, GameDeploymentAction } from '../entities/GameDeployment';
 import { GameDeploymentLogRepository } from '../repositories/GameDeploymentLogRepository';
+import { createMinecraftTFConfigFromGameConfig, mcTFConfToTFArgs, MinecraftTFConfig } from '../entities/MinecraftTFConfig';
 
 export class TerraformService {
   constructor(
@@ -10,44 +11,53 @@ export class TerraformService {
   }
 
   public async execute(config: GameDeployment): Promise<void> {
+    const tfVars = createMinecraftTFConfigFromGameConfig(config);
     await this.init(config.id);
     await this.changeWorkspace(config.id, config.workspaceName);
 
     switch (config.action) {
       case GameDeploymentAction.START:
-        await this.apply(config.id);
+        await this.apply(config.id, tfVars);
         break;
       case GameDeploymentAction.STOP:
-        await this.destroy(config.id);
+        await this.destroy(config.id, tfVars);
         break;
       default:
         throw new Error(`Invalid deployment action: ${config.action}`);
     }
   }
 
-  public async init(gameDeployId: number): Promise<void> {
-    const res = await this.shellAdapter.exec('cd ./terraform && terraform init');
+  private async init(gameDeployId: number): Promise<void> {
+    const res = await this.shellAdapter.exec('cd ./terraform/02-game-server && terragrunt init');
     await this.writeShellLog(gameDeployId, res);
   }
 
   private async changeWorkspace(gameDeployId: number, name: string): Promise<void> {
     try {
-      const newWorkspaceRes = await this.shellAdapter.exec(`cd ./terraform && terraform workspace new ${name}`);
+      const newWorkspaceRes = await this.shellAdapter.exec(`cd ./terraform/02-game-server && terragrunt workspace new ${name}`);
       await this.writeShellLog(gameDeployId, newWorkspaceRes);
     } catch (e) {
       // ignore
     }
-    const res = await this.shellAdapter.exec(`cd ./terraform && terraform workspace select ${name}`);
+    const res = await this.shellAdapter.exec(`cd ./terraform/02-game-server && terragrunt workspace select ${name}`);
     await this.writeShellLog(gameDeployId, res);
   }
 
-  private async apply(gameDeployId: number): Promise<void> {
-    const res = await this.shellAdapter.exec('cd ./terraform && terraform apply -auto-approve');
+  private async apply(gameDeployId: number, tfConfig: MinecraftTFConfig): Promise<void> {
+    const tfArgs = mcTFConfToTFArgs(tfConfig);
+    const command = `cd ./terraform/02-game-server && terragrunt apply -auto-approve ${tfArgs}`;
+    // tslint:disable-next-line:no-console
+    console.log('apply', command);
+    const res = await this.shellAdapter.exec(command);
     await this.writeShellLog(gameDeployId, res);
   }
 
-  private async destroy(gameDeployId: number): Promise<void> {
-    const res = await this.shellAdapter.exec('cd ./terraform && terraform destroy -auto-approve');
+  private async destroy(gameDeployId: number, tfConfig: MinecraftTFConfig): Promise<void> {
+    const tfArgs = mcTFConfToTFArgs(tfConfig);
+    const command = `cd ./terraform/02-game-server && terragrunt destroy -auto-approve ${tfArgs}`;
+    // tslint:disable-next-line:no-console
+    console.log('destroy', command);
+    const res = await this.shellAdapter.exec(command);
     await this.writeShellLog(gameDeployId, res);
   }
 

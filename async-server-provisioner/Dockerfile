@@ -20,7 +20,9 @@ RUN apt-get update \
     && apt-get install -y wget unzip \
     && wget https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip -O /root/terraform.zip \
     && unzip -d /root/ /root/terraform.zip \
-    && mv /root/terraform /usr/bin/terraform
+    && mv /root/terraform /usr/bin/terraform \
+    && wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.26.7/terragrunt_linux_amd64 -O /usr/bin/terragrunt \
+    && chmod +x /usr/bin/terragrunt
 
 COPY --from=build /usr/src/app/package.json .
 COPY --from=build /usr/src/app/node_modules ./node_modules

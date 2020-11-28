@@ -29,13 +29,13 @@ export class GameDeploymentService {
     while (this.isRunning) {
       try {
         await this.execute();
-        await new Promise((resolve) => {
-          setTimeout(() => resolve(null), config?.timeoutMillis ?? this.defaults.timeoutMillis);
-        });
       } catch (e) {
         // tslint:disable-next-line:no-console
         console.error('Error while processing message', e);
       }
+      await new Promise((resolve) => {
+        setTimeout(() => resolve(null), config?.timeoutMillis ?? this.defaults.timeoutMillis);
+      });
     }
   }
 
