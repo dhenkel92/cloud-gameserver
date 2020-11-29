@@ -12,4 +12,11 @@
   archive:
     format: gz
     path: /root/game-server
-    dest: /tmp/{{ backup_name.stdout.0 }}
+    dest: /tmp/{{ backup_name.stdout }}
+
+- name: Upload Backup File to S3
+  amazon.aws.aws_s3:
+    bucket: "{{ bucket_name }}"
+    object: /{{base_path}}/{{ backup_name.stdout }}
+    src: /tmp/{{ backup_name.stdout }}
+    mode: put
