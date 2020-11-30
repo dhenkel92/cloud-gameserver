@@ -19,10 +19,10 @@ export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment):
   return {
     name: mfConfig.workspaceName,
     s3BasePath: `${mfConfig.gameConfig.s3BasePath}/${mfConfig.workspaceName}`,
-    location: config.get('server.location'),
+    location: config.get('hcloudServer.location'),
     server: {
-      type: config.get('server.type'),
-      image: config.get('server.image'),
+      type: config.get('hcloudServer.type'),
+      image: config.get('hcloudServer.image'),
     },
   };
 }
