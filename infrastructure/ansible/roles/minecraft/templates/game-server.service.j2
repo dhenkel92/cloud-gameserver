@@ -1,7 +1,8 @@
 {%- set memory = (ansible_memory_mb.real.total / 4 * 3) | int -%}
 [Unit]
 Description=Game Server
-After=network.target
+After=gs-shutdown.service
+Requires=gs-shutdown.service network-online.target
 
 [Service]
 WorkingDirectory=/root/game-server
@@ -10,6 +11,7 @@ StartLimitBurst=10
 StandardOutput=append:/var/log/game-server/app.log
 StandardError=append:/var/log/game-server/error.log
 ExecStart=java -server -Xmx{{ memory }}M -Xms{{ memory }}M -Dfml.queryResult=confirm -jar /root/game-server/forge-1.12.2-14.23.5.2847-universal.jar nogui
+TimeoutStopSec=300
 
 Restart=always
 RestartSec=120

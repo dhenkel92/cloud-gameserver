@@ -4,3 +4,6 @@ mysql:
   port: MYSQL_PORT
   user: MYSQL_USER
   pw: MYSQL_PW
+
+hetzner:
+  token: HCLOUD_TOKEN

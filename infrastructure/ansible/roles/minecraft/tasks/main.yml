@@ -36,13 +36,22 @@
     owner: root
     group: root
 
+
+- name: Create shutdown service
+  template:
+    src: game-server-shutdown.service
+    dest: /etc/systemd/system/gs-shutdown.service
+    owner: root
+    group: root
+  notify: Start Game Server shutdown script
+
 - name: Create Game Server systemd file
   template:
     src: game-server.service.j2
     dest: /etc/systemd/system/game-server.service
     owner: root
     group: root
-  notify: Restart Game Server
+  notify: Start Game Server
 
 - name: Just force systemd to reread configs (2.4 and above)
   systemd:

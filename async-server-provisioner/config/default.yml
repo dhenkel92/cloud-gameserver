@@ -4,3 +4,6 @@ mysql:
   port: 3306
   user: strapi
   pw: strapi
+
+hetzner:
+  token: placeholder
