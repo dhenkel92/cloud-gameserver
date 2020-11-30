@@ -21,7 +21,7 @@ export function createMinecraftTFConfigFromGameConfig(config: GameDeployment): M
     location: 'nbg1',
     server: {
       type: 'cx31',
-      image: '26563390',
+      image: '27056125',
     },
   };
 }

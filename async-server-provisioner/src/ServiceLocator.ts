@@ -7,6 +7,8 @@ import { GameDeploymentService } from './services/GameDeploymentService';
 import { ShellAdapter } from './adapters/ShellAdapter';
 import { TerraformService } from './services/TerraformService';
 import { GameDeploymentLogRepository } from './repositories/GameDeploymentLogRepository';
+import { HetznerCloudAdapter } from './adapters/HetznerCloudAdapter';
+import { HetznerCloudRepository } from './repositories/HetznerCloudRepository';
 
 export default class ServiceLocator {
   private static instance: ServiceLocator | null;
@@ -118,6 +120,16 @@ export default class ServiceLocator {
     return adapter;
   }
 
+  private getHetznerCloudAdapter(): HetznerCloudAdapter {
+    if (this.hasCached('HetznerCloudAdapter')) {
+      return this.getFromCache('HetznerCloudAdapter');
+    }
+
+    const adapter = new HetznerCloudAdapter(config.get('hetzner.token'));
+    this.setCache('HetznerCloudAdapter', adapter);
+    return adapter;
+  }
+
   /***********************************************************
    *
    * Repositories
@@ -147,6 +159,19 @@ export default class ServiceLocator {
     return repo;
   }
 
+  public getHetznerCloudRepository(): HetznerCloudRepository {
+    if (this.hasCached('HetznerCloudRepository')) {
+      return this.getFromCache('HetznerCloudRepository');
+    }
+
+    const repo = new HetznerCloudRepository(
+      this.getHetznerCloudAdapter(),
+      this.getLogger(),
+    );
+    this.setCache('HetznerCloudRepository', repo);
+    return repo;
+  }
+
   /***********************************************************
    *
    * Services
@@ -167,6 +192,7 @@ export default class ServiceLocator {
       terraformService,
       deployRepo,
       deployLogRepo,
+      this.getHetznerCloudRepository(),
       this.getLogger()
     );
 
