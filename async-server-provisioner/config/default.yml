@@ -7,3 +7,8 @@ mysql:
 
 hetzner:
   token: placeholder
+
+hcloudServer:
+  type: cx31
+  image: '27057682'
+  location: nbg1

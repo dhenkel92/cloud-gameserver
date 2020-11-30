@@ -1,3 +1,4 @@
+import * as config from 'config';
 import { GameDeployment } from './GameDeployment';
 
 export interface MinecraftTFConfig {
@@ -10,18 +11,18 @@ export interface MinecraftTFConfig {
   }
 }
 
-export function mcTFConfToTFArgs(config: MinecraftTFConfig): string {
-  return `-var='name=${config.name}' -var='location=${config.location}' -var='s3_base_path=${config.s3BasePath}' -var='server=${JSON.stringify(config.server)}'`;
+export function mcTFConfToTFArgs(mfConfig: MinecraftTFConfig): string {
+  return `-var='name=${mfConfig.name}' -var='location=${mfConfig.location}' -var='s3_base_path=${mfConfig.s3BasePath}' -var='server=${JSON.stringify(mfConfig.server)}'`;
 }
 
-export function createMinecraftTFConfigFromGameConfig(config: GameDeployment): MinecraftTFConfig {
+export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment): MinecraftTFConfig {
   return {
-    name: config.workspaceName,
-    s3BasePath: `${config.gameConfig.s3BasePath}/${config.workspaceName}`,
-    location: 'nbg1',
+    name: mfConfig.workspaceName,
+    s3BasePath: `${mfConfig.gameConfig.s3BasePath}/${mfConfig.workspaceName}`,
+    location: config.get('server.location'),
     server: {
-      type: 'cx31',
-      image: '27056125',
+      type: config.get('server.type'),
+      image: config.get('server.image'),
     },
   };
 }
