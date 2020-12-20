@@ -1,3 +1,4 @@
+terraform_path: ./terraform/02-game-server
 mysql:
   database: strapi
   host: 127.0.0.1

@@ -1,3 +1,4 @@
+terraform_path: TERRAFORM_PATH
 mysql:
   database: MYSQL_DATABASE
   host: MYSQL_HOST

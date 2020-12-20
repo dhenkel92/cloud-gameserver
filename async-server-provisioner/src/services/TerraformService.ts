@@ -6,6 +6,7 @@ import { createMinecraftTFConfigFromGameConfig, mcTFConfToTFArgs, MinecraftTFCon
 
 export class TerraformService {
   constructor(
+    private terraformPath: string,
     private shellAdapter: ShellAdapter,
     private gameDeployLogRepo: GameDeploymentLogRepository,
     private logger: Logger
@@ -31,26 +32,26 @@ export class TerraformService {
 
   private async init(gameDeployId: number): Promise<void> {
     this.logger.info('initialize terraform');
-    const res = await this.shellAdapter.exec('cd ./terraform/02-game-server && terragrunt init');
+    const res = await this.shellAdapter.exec(`cd ${this.terraformPath} && terragrunt init`);
     await this.writeShellLog(gameDeployId, res);
   }
 
   private async changeWorkspace(gameDeployId: number, name: string): Promise<void> {
     this.logger.info('create new workspace');
     try {
-      const newWorkspaceRes = await this.shellAdapter.exec(`cd ./terraform/02-game-server && terragrunt workspace new ${name}`);
+      const newWorkspaceRes = await this.shellAdapter.exec(`cd ${this.terraformPath} && terragrunt workspace new ${name}`);
       await this.writeShellLog(gameDeployId, newWorkspaceRes);
     } catch (e) {
       this.logger.info('workspace already exists');
     }
-    const res = await this.shellAdapter.exec(`cd ./terraform/02-game-server && terragrunt workspace select ${name}`);
+    const res = await this.shellAdapter.exec(`cd ${this.terraformPath} && terragrunt workspace select ${name}`);
     await this.writeShellLog(gameDeployId, res);
   }
 
   private async apply(gameDeployId: number, tfConfig: MinecraftTFConfig): Promise<void> {
     this.logger.info('apply terraform');
     const tfArgs = mcTFConfToTFArgs(tfConfig);
-    const command = `cd ./terraform/02-game-server && terragrunt apply -auto-approve ${tfArgs}`;
+    const command = `cd ${this.terraformPath} && terragrunt apply -auto-approve ${tfArgs}`;
     this.logger.info(command);
     const res = await this.shellAdapter.exec(command);
     await this.writeShellLog(gameDeployId, res);
@@ -59,7 +60,7 @@ export class TerraformService {
   private async destroy(gameDeployId: number, tfConfig: MinecraftTFConfig): Promise<void> {
     this.logger.info('destroy terraform');
     const tfArgs = mcTFConfToTFArgs(tfConfig);
-    const command = `cd ./terraform/02-game-server && terragrunt destroy -auto-approve ${tfArgs}`;
+    const command = `cd ${this.terraformPath} && terragrunt destroy -auto-approve ${tfArgs}`;
     this.logger.info(command);
     const res = await this.shellAdapter.exec(command);
     await this.writeShellLog(gameDeployId, res);

@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "game_servers",
+  "info": {
+    "name": "GameServer",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "server_ip": {
+      "type": "string",
+      "required": true
+    },
+    "dns": {
+      "type": "string",
+      "required": true
+    },
+    "game_config": {
+      "model": "game-config",
+      "via": "game_servers"
+    }
+  }
+}

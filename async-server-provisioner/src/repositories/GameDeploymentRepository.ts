@@ -20,7 +20,7 @@ export default class GameDeploymentRepository {
     `, [uuid]);
 
     const rows = await this.dirtyMysqlAdapter.query(`
-      SELECT gd.id as gd_id, gd.uuid as gd_uuid, gd.action as gd_action, gc.id as gc_id, gc.name as gc_name, gc.startup_script as gc_startup_script, gc.server_config as gc_server_config, g.s3_base_path as g_s3_base_path
+      SELECT gd.id as gd_id, gd.uuid as gd_uuid, gd.action as gd_action, gc.id as gc_id, gc.name as gc_name, gc.configuration as gc_configuraiton, g.s3_base_path as g_s3_base_path
       FROM game_deployments gd
         INNER JOIN game_configs gc ON gc.id = gd.game_config
         INNER JOIN games g ON g.id = gc.game

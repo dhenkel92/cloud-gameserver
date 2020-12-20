@@ -207,6 +207,7 @@ export default class ServiceLocator {
 
     const repo = await this.getGameDeploymentLogRepository();
     const service = new TerraformService(
+      config.get('terraform_path'),
       this.getShellAdapter(),
       repo,
       this.getLogger()
