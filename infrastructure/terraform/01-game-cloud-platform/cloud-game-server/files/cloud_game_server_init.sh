@@ -1,6 +1,6 @@
 #! /bin/bash
 
-set -ex 
+set -ex
 
 cat <<EOF > /root/ansible/vars/game-server.yaml
 images:

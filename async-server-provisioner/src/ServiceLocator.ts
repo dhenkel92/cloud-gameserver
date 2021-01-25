@@ -14,8 +14,8 @@ export default class ServiceLocator {
   private static instance: ServiceLocator | null;
   private cache: Map<string, any> = new Map();
 
-  private constructor() {
-  }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
 
   public static getInstance(): ServiceLocator {
     if (ServiceLocator.instance == null) {
@@ -51,7 +51,7 @@ export default class ServiceLocator {
     return logger;
   }
 
-  private async getMysqlConnection(isReadUncommitted: boolean = false): Promise<mysql.Connection> {
+  private async getMysqlConnection(isReadUncommitted = false): Promise<mysql.Connection> {
     return await new Promise<mysql.Connection>((resolve, reject) => {
       const conn = mysql.createConnection({
         database: config.get('mysql.database'),
@@ -164,10 +164,7 @@ export default class ServiceLocator {
       return this.getFromCache('HetznerCloudRepository');
     }
 
-    const repo = new HetznerCloudRepository(
-      this.getHetznerCloudAdapter(),
-      this.getLogger(),
-    );
+    const repo = new HetznerCloudRepository(this.getHetznerCloudAdapter(), this.getLogger());
     this.setCache('HetznerCloudRepository', repo);
     return repo;
   }
@@ -182,10 +179,7 @@ export default class ServiceLocator {
       return this.getFromCache('GameDeploymentService');
     }
 
-    const [deployRepo, deployLogRepo] = await Promise.all([
-      this.getGameDeploymentRepository(),
-      this.getGameDeploymentLogRepository(),
-    ]);
+    const [deployRepo, deployLogRepo] = await Promise.all([this.getGameDeploymentRepository(), this.getGameDeploymentLogRepository()]);
 
     const terraformService = await this.getTerraformService();
     const service = new GameDeploymentService(
@@ -206,12 +200,7 @@ export default class ServiceLocator {
     }
 
     const repo = await this.getGameDeploymentLogRepository();
-    const service = new TerraformService(
-      config.get('terraform_path'),
-      this.getShellAdapter(),
-      repo,
-      this.getLogger()
-    );
+    const service = new TerraformService(config.get('terraform_path'), this.getShellAdapter(), repo, this.getLogger());
 
     this.setCache('TerraformService', service);
     return service;

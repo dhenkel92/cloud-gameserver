@@ -69,4 +69,3 @@ export class Login extends React.Component<LoginProps, {}> {
         );
     }
 }
-

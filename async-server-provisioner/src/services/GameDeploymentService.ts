@@ -13,16 +13,15 @@ export class GameDeploymentService {
   private readonly defaults: GameDeploymentServiceConfig = {
     timeoutMillis: 5 * 1000,
   };
-  private isRunning: boolean = false;
+  private isRunning = false;
 
   constructor(
     private terraformService: TerraformService,
     private gameDeployRepo: GameDeploymentRepository,
     private gameDeployLogRepo: GameDeploymentLogRepository,
     private hcloudRepo: HetznerCloudRepository,
-    private logger: Logger,
-  ) {
-  }
+    private logger: Logger
+  ) {}
 
   public stop() {
     this.isRunning = false;
@@ -74,10 +73,7 @@ export class GameDeploymentService {
     } catch (e) {
       this.logger.error('failed to execute message');
       this.logger.error(e);
-      await Promise.all([
-        this.gameDeployLogRepo.danger(res.id, e),
-        this.gameDeployRepo.finishDeployment(),
-      ]);
+      await Promise.all([this.gameDeployLogRepo.danger(res.id, e), this.gameDeployRepo.finishDeployment()]);
     }
   }
 }

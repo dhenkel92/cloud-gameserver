@@ -8,11 +8,13 @@ export interface MinecraftTFConfig {
   server: {
     type: string;
     image: string;
-  }
+  };
 }
 
 export function mcTFConfToTFArgs(mfConfig: MinecraftTFConfig): string {
-  return `-var='name=${mfConfig.name}' -var='location=${mfConfig.location}' -var='s3_base_path=${mfConfig.s3BasePath}' -var='server=${JSON.stringify(mfConfig.server)}'`;
+  return `-var='name=${mfConfig.name}' -var='location=${mfConfig.location}' -var='s3_base_path=${
+    mfConfig.s3BasePath
+  }' -var='server=${JSON.stringify(mfConfig.server)}'`;
 }
 
 export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment): MinecraftTFConfig {

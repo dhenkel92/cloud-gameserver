@@ -10,8 +10,7 @@ export class TerraformService {
     private shellAdapter: ShellAdapter,
     private gameDeployLogRepo: GameDeploymentLogRepository,
     private logger: Logger
-  ) {
-  }
+  ) {}
 
   public async execute(config: GameDeployment): Promise<void> {
     const tfVars = createMinecraftTFConfigFromGameConfig(config);

@@ -1,8 +1,7 @@
 import * as mysql from 'mysql';
 
 export default class MySqlAdapter {
-  constructor(private connection: mysql.Connection) {
-  }
+  constructor(private connection: mysql.Connection) {}
 
   public async query(query: string, args: any[] = []): Promise<any> {
     return new Promise((resolve, reject) => {

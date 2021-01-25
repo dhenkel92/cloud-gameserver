@@ -12,7 +12,7 @@ output "ips" {
   value = {
     cloud_game = {
       private = module.cloud_game_server.private_ip
-      public = module.cloud_game_server.public_ip
+      public  = module.cloud_game_server.public_ip
     }
   }
 }
