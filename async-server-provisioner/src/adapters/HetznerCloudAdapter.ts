@@ -4,8 +4,7 @@ import { createHetznerServer, HetznerServer } from '../entities/HetznerServer';
 export class HetznerCloudAdapter {
   private static readonly API_BASE_PATH = 'https://api.hetzner.cloud/v1';
 
-  constructor(private token: string) {
-  }
+  constructor(private token: string) {}
 
   private defaultHeader(): { [key: string]: string } {
     return {

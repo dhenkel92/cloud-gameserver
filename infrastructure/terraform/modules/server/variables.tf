@@ -35,11 +35,11 @@ variable "volume" {
 
 variable "network" {
   type = object({
-    attach = bool
+    attach    = bool
     subnet_id = string
   })
   default = {
-    attach = false
+    attach    = false
     subnet_id = ""
   }
 }

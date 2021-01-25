@@ -1,0 +1,50 @@
+repos:
+  #########################################
+  # General
+  #########################################
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-yaml
+        exclude: infrastructure/ansible/roles/game-server/templates/docker-compose.yml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  #########################################
+  # Backend
+  #########################################
+  - repo: local
+    hooks:
+      - id: eslint:async-server-provisioner
+        name: Eslint Async Server Provisioner
+        language: script
+        pass_filenames: false
+        files: ^async-server-provisioner/
+        entry: ./bin/execute-npm.sh
+        args: ["async-server-provisioner", "eslint:fix"]
+  #########################################
+  # React Frontend
+  #########################################
+  - repo: local
+    hooks:
+      - id: eslint:react
+        name: Eslint React Frontend
+        language: script
+        pass_filenames: false
+        files: ^react-frontend/
+        entry: ./bin/execute-npm.sh
+        args: ["react-frontend", "eslint:fix"]
+  #########################################
+  # Infrastructure
+  #########################################
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.45.0
+    hooks:
+      - id: terraform_fmt
+        files: ^infrastructure/terraform
+      - id: terraform_validate
+        files: ^infrastructure/terraform
+      - id: terragrunt_fmt
+        files: ^infrastructure/terragrunt
+      - id: terragrunt_validate
+        files: ^infrastructure/terragrunt/.*/terragrunt.hcl

@@ -4,16 +4,12 @@ import { Logger } from 'pino';
 import { wait } from '../helper';
 
 export class HetznerCloudRepository {
-  constructor(
-    private adapter: HetznerCloudAdapter,
-    private logger: Logger,
-  ) {
-  }
+  constructor(private adapter: HetznerCloudAdapter, private logger: Logger) {}
 
   public async getServerByName(name: string): Promise<HetznerServer | null> {
     const servers = await this.adapter.listServer();
-    const server = servers.find(s => s.name === name);
-    return (server) ? server : null;
+    const server = servers.find((s) => s.name === name);
+    return server ? server : null;
   }
 
   public async shutdownServer(server: HetznerServer): Promise<void> {

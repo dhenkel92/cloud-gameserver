@@ -9,7 +9,7 @@
     update_cache: true
 
 - name: Disallow password authentication
-  lineinfile: 
+  lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^PasswordAuthentication"
     line: "PasswordAuthentication no"
@@ -17,7 +17,7 @@
   notify: Restart ssh
 
 - name: Disallow root login
-  lineinfile: 
+  lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^PermitRootLogin"
     line: "PermitRootLogin yes"

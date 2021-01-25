@@ -2,7 +2,7 @@ export interface HetznerServer {
   id: number;
   name: string;
   status: string;
-  labels: { [key: string]: string }
+  labels: { [key: string]: string };
 }
 
 export function createHetznerServer(server: { [key: string]: any }): HetznerServer {
