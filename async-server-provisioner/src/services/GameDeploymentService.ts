@@ -3,6 +3,7 @@ import GameDeploymentRepository from '../repositories/GameDeploymentRepository';
 import { TerraformService } from './TerraformService';
 import { GameDeploymentLogRepository } from '../repositories/GameDeploymentLogRepository';
 import { HetznerCloudRepository } from '../repositories/HetznerCloudRepository';
+import { GameDeploymentAction } from '../entities/GameDeployment';
 
 export interface GameDeploymentServiceConfig {
   timeoutMillis?: number;
@@ -62,7 +63,10 @@ export class GameDeploymentService {
 
     this.logger.info('received new message %s', JSON.stringify(res));
     try {
-      await this.shutdownHetznerServer(res.workspaceName);
+      if (res.action === GameDeploymentAction.STOP) {
+        await this.shutdownHetznerServer(res.workspaceName);
+      }
+
       this.logger.info('start terraform execution');
       await this.terraformService.execute(res);
       this.logger.info('finished terraform execution');

@@ -23,17 +23,17 @@
       "maxLength": 50,
       "regex": "[a-zA-Z0-9\\s]+"
     },
-    "startup_script": {
-      "type": "text",
-      "required": true
-    },
-    "server_config": {
-      "type": "text",
-      "required": true
-    },
     "game_deployments": {
       "collection": "game-deployment",
       "via": "game_config"
+    },
+    "configuration": {
+      "type": "json",
+      "required": true
+    },
+    "game_servers": {
+      "via": "game_config",
+      "collection": "game-server"
     }
   }
 }

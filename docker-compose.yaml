@@ -1,8 +1,9 @@
-version: '3'
+version: "3"
 
 services:
   strapi:
-    build: .
+    build:
+      context: ./backend
     container_name: strapi
     environment:
       - DATABASE_CLIENT=mysql
@@ -16,15 +17,13 @@ services:
     links:
       - db:db
     volumes:
-      - .:/usr/src/app
+      - ./backend:/usr/src/app
     depends_on:
       - db
 
   db:
     container_name: mysql
     image: mysql:5.7.29
-    restart: always
-#    command: --default-authentication-plugin=mysql_native_password
     ports:
       - 3306:3306
     environment:
@@ -32,3 +31,20 @@ services:
       MYSQL_USER: strapi
       MYSQL_PASSWORD: strapi
       MYSQL_ROOT_PASSWORD: strapi
+
+  consumer:
+    build:
+      context: ./async-server-provisioner
+      dockerfile: Dockerfile-dev
+    container_name: consumer
+    command: ["npm", "run", "watch"]
+    links:
+      - db:db
+    environment:
+      - MYSQL_HOST=db
+      - TERRAFORM_PATH=/opt/terraform/02-game-server
+      - HCLOUD_TOKEN=${HCLOUD_TOKEN}
+    volumes:
+      - ~/.aws:/root/.aws
+      - ./async-server-provisioner:/usr/src/app
+      - ./infrastructure/terraform:/opt/terraform
