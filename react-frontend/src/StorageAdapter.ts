@@ -1,40 +1,40 @@
 export const AUTH_TOKEN_NAME = 'auth-token';
 
 export class StorageAdapter {
-    private static instance: StorageAdapter | null = null;
+  private static instance: StorageAdapter | null = null;
 
-    public static getInstance(): StorageAdapter {
-        if (this.instance === null) {
-            this.instance = new StorageAdapter();
-        }
-
-        return this.instance;
+  public static getInstance(): StorageAdapter {
+    if (this.instance === null) {
+      this.instance = new StorageAdapter();
     }
 
-    private constructor() {
-    }
+    return this.instance;
+  }
 
-    public setItem(key: string, value: string) {
-        localStorage.setItem(key, value);
-    }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private constructor() {}
 
-    public getItem(key: string): string | null {
-        return localStorage.getItem(key);
-    }
+  public setItem(key: string, value: string) {
+    localStorage.setItem(key, value);
+  }
 
-    public clearItem(key: string) {
-        localStorage.removeItem(key);
-    }
+  public getItem(key: string): string | null {
+    return localStorage.getItem(key);
+  }
 
-    public setAuthToken(token: string) {
-        this.setItem(AUTH_TOKEN_NAME, token);
-    }
+  public clearItem(key: string) {
+    localStorage.removeItem(key);
+  }
 
-    public getAuthToken(): string | null {
-        return this.getItem(AUTH_TOKEN_NAME);
-    }
+  public setAuthToken(token: string) {
+    this.setItem(AUTH_TOKEN_NAME, token);
+  }
 
-    public clearAuthToken() {
-        this.clearItem(AUTH_TOKEN_NAME);
-    }
+  public getAuthToken(): string | null {
+    return this.getItem(AUTH_TOKEN_NAME);
+  }
+
+  public clearAuthToken() {
+    this.clearItem(AUTH_TOKEN_NAME);
+  }
 }
