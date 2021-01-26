@@ -17,13 +17,18 @@
       "maxLength": 45
     },
     "game_configs": {
-      "via": "game",
-      "collection": "game-config"
+      "collection": "game-config",
+      "via": "game"
     },
     "s3_base_path": {
       "type": "string",
       "required": true,
       "maxLength": 150
+    },
+    "users_permissions_user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "games"
     }
   }
 }

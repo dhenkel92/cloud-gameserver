@@ -13,8 +13,8 @@
   },
   "attributes": {
     "game": {
-      "model": "game",
-      "via": "game_configs"
+      "via": "game_configs",
+      "model": "game"
     },
     "name": {
       "type": "string",
