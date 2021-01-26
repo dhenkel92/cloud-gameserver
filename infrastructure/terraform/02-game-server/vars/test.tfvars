@@ -7,3 +7,5 @@ server = {
   type  = "cx31"
   image = "27030193"
 }
+
+game_config = {}

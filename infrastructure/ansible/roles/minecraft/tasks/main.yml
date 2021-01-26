@@ -2,11 +2,14 @@
 - name: Install Java
   include: java.yml
 
+- set_fact:
+    game_config: "{{ configuration | from_json }}"
+
 - name: Ensure boto and boto3 modules are installed
   pip:
     name:
-    - boto3
-    - botocore
+      - boto3
+      - botocore
 
 - name: Get latest backup
   shell: /usr/local/bin/aws s3 ls s3://{{ bucket_name }}/{{ base_path }}/ | grep 'backup-' | tail -n 1 | awk '{print $4}'
@@ -36,6 +39,13 @@
     owner: root
     group: root
 
+- name: Create Server Startup file
+  template:
+    src: startup.sh.j2
+    dest: /root/startup.sh
+    owner: root
+    group: root
+    mode: 0755
 
 - name: Create shutdown service
   template:
@@ -47,7 +57,7 @@
 
 - name: Create Game Server systemd file
   template:
-    src: game-server.service.j2
+    src: game-server.service
     dest: /etc/systemd/system/game-server.service
     owner: root
     group: root

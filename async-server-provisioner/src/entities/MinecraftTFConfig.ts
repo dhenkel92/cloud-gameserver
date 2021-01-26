@@ -9,12 +9,13 @@ export interface MinecraftTFConfig {
     type: string;
     image: string;
   };
+  configuration: string;
 }
 
 export function mcTFConfToTFArgs(mfConfig: MinecraftTFConfig): string {
   return `-var='name=${mfConfig.name}' -var='location=${mfConfig.location}' -var='s3_base_path=${
     mfConfig.s3BasePath
-  }' -var='server=${JSON.stringify(mfConfig.server)}'`;
+  }' -var='server=${JSON.stringify(mfConfig.server)}' -var='game_config=${mfConfig.configuration}'`;
 }
 
 export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment): MinecraftTFConfig {
@@ -26,5 +27,6 @@ export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment):
       type: config.get('hcloudServer.type'),
       image: config.get('hcloudServer.image'),
     },
+    configuration: mfConfig.gameConfig.configuration,
   };
 }

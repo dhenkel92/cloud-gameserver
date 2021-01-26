@@ -1,0 +1,8 @@
+{%- set memory = (ansible_memory_mb.real.total / 4 * 3) | int -%}
+#! /bin/bash
+
+MEMORY={{ memory }}
+GAME_DIR="/root/game-server"
+
+CMD=$(echo '{{ game_config.command }}' | sed s/MEMORY/${MEMORY}/g | sed s#GAME_DIR#${GAME_DIR}#g)
+eval $CMD
