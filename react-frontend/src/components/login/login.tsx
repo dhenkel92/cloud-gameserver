@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
 import colors from '../general/colors/Colors.module.css';
 import { Input } from '../general/input/Input';
-import { Button } from '../general/button/Button';
+import { Button, PrimaryButton } from '../general/button/Button';
 import gql from 'graphql-tag';
 import { Mutation } from '@apollo/react-components';
 import { Redirect, RouteComponentProps } from 'react-router-dom';
@@ -49,7 +49,7 @@ export class Login extends React.Component<LoginProps> {
     return (
       <Mutation mutation={LOGIN_MUTATION} variables={this.state} onCompleted={(data: any) => this.login(data)}>
         {(mutation: any) => (
-          <div className={`login ${colors.background}`}>
+          <div className={`login ${colors.surface}`}>
             <FontAwesomeIcon icon={faUnlockAlt} size="2x" className={colors.primaryColor} />
             <h2>Login</h2>
             <div className="form">
@@ -60,7 +60,7 @@ export class Login extends React.Component<LoginProps> {
                 value={password}
                 onChange={(e) => this.setState({ password: e.target.value })}
               />
-              <Button name="Login" className="loginButton" onClick={mutation} />
+              <PrimaryButton name="Login" className="loginButton" onClick={mutation} />
             </div>
           </div>
         )}

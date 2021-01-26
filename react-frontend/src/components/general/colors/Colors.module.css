@@ -1,17 +1,17 @@
 .background {
-    background-color: #121212;
+    background-color: #0B0C10;
     color: #FFFFFF;
 }
 
 .surface {
-    border: 1px solid #1d1d1d;
-    background-color: #1d1d1d;
+    border: 1px solid #1F2833;
+    background-color: #1F2833;
     color: #FFFFFF;
 }
 
 .surface01 {
-    border: 1px solid #2d2d2d;
-    background-color: #2d2d2d;
+    border: 1px solid #1F2833;
+    background-color: #1F2833;
     color: #FFFFFF;
 }
 
@@ -22,24 +22,34 @@
 }
 
 .primary {
-    background-color: #BB86FC;
+    background-color: #66FCF1;
     color: #000000;
 }
 
 .primaryColor {
-    color: #BB86FC;
+    color: #66FCF1;
+}
+
+.primaryBtn {
+    background-color: #66FCF1;
+    border: 2px solid #66FCF1;
+    color: #000000;
+}
+
+.primaryBtn:active {
+    border: 2px solid black;
 }
 
 .primaryHover:hover {
-    border: 1px solid #BB86FC;
+    border: 1px solid #45A29E;
 }
 
 .primaryFocus:focus {
-    border: 1px solid #BB86FC;
+    border: 1px solid #45A29E;
 }
 
 .secondary {
-    background-color: #03DAC6;
+    background-color: #C5C6C7;
     color: #000000;
 }
 

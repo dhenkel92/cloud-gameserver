@@ -1,14 +1,13 @@
 import React from 'react';
 import './GameConfigButtons.css';
-import { Button } from '../../../general/button/Button';
-import colors from '../../../general/colors/Colors.module.css';
+import { ErrorButton, SuccessButton } from '../../../general/button/Button';
 
 export class GameConfigButtons extends React.Component {
   render(): JSX.Element {
     return (
-      <div>
-        <Button name="Start" />
-        <Button name="Stop" className={colors.error} />
+      <div className="gameButtonGroup">
+        <SuccessButton name="Start" />
+        <ErrorButton name="Stop" />
       </div>
     );
   }

@@ -17,7 +17,7 @@ export class Home extends React.Component<HomeProps> {
           <Navigation redirectCallback={(path) => this.props.history.push(path)} />
         </div>
         <div className="homeRight column">
-          <div className={`homeTopBar  ${colors.primary}`}>
+          <div className={`homeTopBar  ${colors.surface}`}>
             <span>Dashboard</span>
           </div>
           <div className="homeContent">

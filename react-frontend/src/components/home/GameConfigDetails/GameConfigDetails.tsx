@@ -6,7 +6,6 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import colors from '../../general/colors/Colors.module.css';
 import { DetailsTable } from './DetailsTable/DetailsTable';
 import { DetailsConsole } from './DetailsConsole/DetailsConsole';
-import { GameConfigButtons } from './GameConfigButtons/GameConfigButtons';
 
 interface GameConfigDetailsPropsParams {
   id: string;
@@ -24,9 +23,6 @@ export class GameConfigDetails extends React.Component<GameConfigDetailsProps> {
           <Link to="/">
             <FontAwesomeIcon icon={faArrowLeft} size="2x" />
           </Link>
-        </div>
-        <div className="configButtonsWrapper">
-          <GameConfigButtons />
         </div>
         <div className="configDetailsContentWrapper">
           <div className={`configDetails`}>

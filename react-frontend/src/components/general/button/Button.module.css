@@ -1,5 +1,26 @@
-.myButton {
-    padding: 10px;
-    border-radius: 5px;
-    text-transform: uppercase;
+.btn {
+    border: 2px solid black;
+    padding: 12px 26px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.success {
+    background-color: #4CAF50;
+    border: 1px solid #4CAF50;
+    color: black;
+}
+
+.success:active {
+    border: 1px solid black;
+}
+
+.danger {
+    border: 1px solid #f44336;
+    background-color: #f44336;
+    color: black;
+}
+
+.danger:active {
+    border: 1px solid black;
 }

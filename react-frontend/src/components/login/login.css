@@ -1,7 +1,9 @@
 .login {
     width: 400px;
-    margin: 150px auto 0 auto;
+    margin: 150px auto auto auto;
     text-align: center;
+    padding: 20px;
+    border-radius: 20px;
 }
 
 .form {
@@ -9,7 +11,8 @@
 }
 
 .form > input, .form > .loginButton {
+    border: 1px solid black;
     display: block;
-    margin: 10px auto 10px auto;
+    margin: 20px auto 20px auto;
     width: 80%;
 }

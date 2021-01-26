@@ -2,6 +2,7 @@ import React from 'react';
 import './DetailsTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { GameConfigButtons } from '../GameConfigButtons/GameConfigButtons';
 
 export class DetailsTable extends React.Component {
   render(): JSX.Element {
@@ -22,6 +23,10 @@ export class DetailsTable extends React.Component {
           <div className="detailsTableColumnRight">
             <FontAwesomeIcon icon={faCircle} color="red" /> Offline
           </div>
+        </div>
+        <hr />
+        <div className="detailsTableRow">
+          <GameConfigButtons />
         </div>
       </div>
     );

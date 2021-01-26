@@ -3,8 +3,8 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import btnStyle from '../../../general/button/Button.module.css';
 import colors from '../../../general/colors/Colors.module.css';
+import { PrimaryLinkButton } from '../../../general/button/LinkButton';
 
 export class GameConfigEntry extends React.Component {
   render(): JSX.Element {
@@ -21,9 +21,10 @@ export class GameConfigEntry extends React.Component {
           <FontAwesomeIcon icon={faCircle} color="red" /> Offline
         </div>
         <div className="configEntryButton">
-          <Link to="/config/12" className={`${btnStyle.myButton} ${colors.primary}`}>
-            Configure
-          </Link>
+          <PrimaryLinkButton name="Configure" to="/config/12" />
+          {/*<Link to="/config/12" className={`${btnStyle.myButton} ${colors.primary}`}>*/}
+          {/*  Configure*/}
+          {/*</PrimaLink>*/}
         </div>
       </div>
     );

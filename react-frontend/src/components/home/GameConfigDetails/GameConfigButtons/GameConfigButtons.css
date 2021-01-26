@@ -1,0 +1,8 @@
+.gameButtonGroup {
+    display: flex;
+    flex-grow: 1;
+}
+
+.gameButtonGroup > button {
+    margin: 10px;
+}
