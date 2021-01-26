@@ -24,11 +24,6 @@
       "type": "string",
       "required": true,
       "maxLength": 150
-    },
-    "users_permissions_user": {
-      "plugin": "users-permissions",
-      "model": "user",
-      "via": "games"
     }
   }
 }
