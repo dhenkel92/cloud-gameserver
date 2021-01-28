@@ -60,7 +60,7 @@
       "configurable": false
     },
     "game_configs": {
-      "via": "users_permissions_user",
+      "via": "user",
       "collection": "game-config"
     }
   }

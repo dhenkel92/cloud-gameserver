@@ -14,7 +14,7 @@ module.exports = {
 
     const query = {
       ...ctx.query,
-      users: user.id,
+      user: user.id,
     }
     let data;
     if (ctx.query._q) {
@@ -33,7 +33,7 @@ module.exports = {
 
     const query = {
       ...ctx.query,
-      users: user.id,
+      user: user.id,
     }
 
     let data;
@@ -44,10 +44,5 @@ module.exports = {
     }
 
     ctx.send(data);
-  },
-  async deploy(ctx) {
-    return {
-      juhu: 12,
-    };
   }
 };

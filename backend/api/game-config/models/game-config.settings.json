@@ -34,7 +34,7 @@
       "collection": "game-server",
       "via": "game_config"
     },
-    "users_permissions_user": {
+    "user": {
       "plugin": "users-permissions",
       "model": "user",
       "via": "game_configs"
