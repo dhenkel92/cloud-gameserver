@@ -6,11 +6,7 @@ on:
       - '.github/workflows/strapi.yml'
       - '.github/scripts/auth.sh'
       - '.github/scripts/deploy.sh'
-      - 'backend/*'
-      - 'backend/*/*'
-      - 'backend/*/*/*'
-      - 'backend/*/*/*/*'
-      - 'backend/*/*/*/*/*'
+      - 'backend/**/*'
 
 name: Cloud Game Backend Strapi
 
