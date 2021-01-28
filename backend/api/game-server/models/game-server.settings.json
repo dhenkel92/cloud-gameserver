@@ -20,8 +20,8 @@
       "required": true
     },
     "game_config": {
-      "model": "game-config",
-      "via": "game_servers"
+      "via": "game_servers",
+      "model": "game-config"
     }
   }
 }

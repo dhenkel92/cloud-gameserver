@@ -17,8 +17,8 @@
       "maxLength": 45
     },
     "game_configs": {
-      "collection": "game-config",
-      "via": "game"
+      "via": "game",
+      "collection": "game-config"
     },
     "s3_base_path": {
       "type": "string",

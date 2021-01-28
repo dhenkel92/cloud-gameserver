@@ -13,15 +13,14 @@
   },
   "attributes": {
     "game": {
-      "via": "game_configs",
-      "model": "game"
+      "model": "game",
+      "via": "game_configs"
     },
     "name": {
       "type": "string",
       "required": true,
       "unique": false,
-      "maxLength": 50,
-      "regex": "[a-zA-Z0-9\\s]+"
+      "maxLength": 50
     },
     "game_deployments": {
       "collection": "game-deployment",
@@ -32,8 +31,13 @@
       "required": true
     },
     "game_servers": {
-      "via": "game_config",
-      "collection": "game-server"
+      "collection": "game-server",
+      "via": "game_config"
+    },
+    "users_permissions_user": {
+      "plugin": "users-permissions",
+      "model": "user",
+      "via": "game_configs"
     }
   }
 }

@@ -58,6 +58,10 @@
       "via": "users",
       "plugin": "users-permissions",
       "configurable": false
+    },
+    "game_configs": {
+      "via": "users_permissions_user",
+      "collection": "game-config"
     }
   }
 }
