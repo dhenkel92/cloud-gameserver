@@ -20,14 +20,22 @@ data "terraform_remote_state" "game_cloud" {
   }
 }
 
+module "firewall" {
+  source = "../modules/firewall"
+
+  name  = var.name
+  rules = []
+}
+
 module "game_server" {
   source = "../modules/server"
 
   name     = var.name
   location = var.location
 
-  server_type = var.server.type
-  image       = var.server.image
+  server_type  = var.server.type
+  image        = var.server.image
+  firewall_ids = [module.firewall.id]
 
   ssh_keys = data.terraform_remote_state.game_cloud.outputs.ssh_key_ids
   tags     = local.tags
