@@ -23,8 +23,14 @@ data "terraform_remote_state" "game_cloud" {
 module "firewall" {
   source = "../modules/firewall"
 
-  name  = var.name
-  rules = []
+  name = var.name
+  rules = [
+    {
+      proto      = "tcp"
+      port       = "22"
+      source_ips = ["0.0.0.0/0"]
+    }
+  ]
 }
 
 module "game_server" {
