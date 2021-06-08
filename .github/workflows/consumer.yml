@@ -11,6 +11,7 @@ on:
       - 'async-server-provisioner/*/*/*'
       - 'async-server-provisioner/*/*/*/*'
       - 'async-server-provisioner/*/*/*/*/*'
+      - 'infrastructure/terraform/02-game-server/**/*'
 
 name: Cloud Game Consumer
 
