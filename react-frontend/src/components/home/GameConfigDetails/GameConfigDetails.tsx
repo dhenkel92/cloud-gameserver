@@ -8,7 +8,6 @@ import { DetailsTable } from './DetailsTable/DetailsTable';
 import { DetailsConsole } from './DetailsConsole/DetailsConsole';
 
 interface GameConfigDetailsPropsParams {
-  id: string;
 }
 
 type GameConfigDetailsProps = {

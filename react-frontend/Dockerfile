@@ -1,4 +1,4 @@
-FROM node:14.15.1-stretch as build
+FROM node:14.17.0-stretch as build
 
 WORKDIR /usr/src/app
 

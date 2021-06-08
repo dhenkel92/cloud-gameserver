@@ -1,4 +1,4 @@
-FROM node:14.15.1-stretch as build
+FROM node:14.17.0-stretch as build
 
 ENV NODE_ENV=development
 WORKDIR /usr/src/app
@@ -11,7 +11,7 @@ RUN npm ci
 COPY async-server-provisioner/ .
 RUN npm run build
 
-FROM node:14.15.1-stretch
+FROM node:14.17.0-stretch
 
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
