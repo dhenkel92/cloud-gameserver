@@ -5,7 +5,7 @@ locals {
 data "terraform_remote_state" "aws_platform" {
   backend = "s3"
   config = {
-    bucket = "cloud-game.tf-states"
+    bucket = "cloud-game-tf-states"
     key    = "terraform/00-aws-platform"
     region = "eu-central-1"
   }
@@ -14,7 +14,7 @@ data "terraform_remote_state" "aws_platform" {
 data "terraform_remote_state" "game_cloud" {
   backend = "s3"
   config = {
-    bucket = "cloud-game.tf-states"
+    bucket = "cloud-game-tf-states"
     key    = "terraform/01-game-cloud-platform"
     region = "eu-central-1"
   }
