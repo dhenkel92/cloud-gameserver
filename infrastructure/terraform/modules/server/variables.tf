@@ -56,5 +56,6 @@ variable "user_data" {
 }
 
 variable "firewall_ids" {
-  type = list(string)
+  default = []
+  type    = list(string)
 }

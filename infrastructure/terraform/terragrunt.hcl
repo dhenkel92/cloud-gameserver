@@ -1,14 +1,23 @@
+locals {
+    aws_region = "eu-central-1"
+    tags = {}
+}
+
 remote_state {
-    backend = "s3"
-    generate = {
-        path = "backend.tf"
-        if_exists = "overwrite_terragrunt"
-    }
-    config = {
-        bucket = "cloud-game.tf-states"
+  backend = "s3"
+  config = {
+    encrypt             = true
+        bucket = "cloud-game-tf-states"
         key = "terraform/${path_relative_to_include()}"
-        region = "eu-central-1"
-    }
+    region              = local.aws_region
+    dynamodb_table      = "terraform-locks"
+    s3_bucket_tags      = local.tags
+    dynamodb_table_tags = local.tags
+  }
+  generate = {
+    path      = "backend.tf"
+    if_exists = "overwrite_terragrunt"
+  }
 }
 
 generate "provider" {
@@ -17,7 +26,7 @@ generate "provider" {
     contents = <<EOF
 provider "hcloud" {}
 provider "aws" {
-  region  = "eu-central-1"
+  region  = "${local.aws_region}"
 }
 EOF
 }
