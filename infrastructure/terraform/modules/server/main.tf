@@ -11,7 +11,8 @@ resource "hcloud_server" "node" {
   location    = var.location
   user_data   = templatefile(var.user_data.path, local.user_data_vars)
 
-  ssh_keys = var.ssh_keys
+  ssh_keys     = var.ssh_keys
+  firewall_ids = var.firewall_ids
 
   labels = var.tags
 

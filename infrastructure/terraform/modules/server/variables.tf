@@ -54,3 +54,7 @@ variable "user_data" {
     vars = {}
   }
 }
+
+variable "firewall_ids" {
+  type = list(string)
+}

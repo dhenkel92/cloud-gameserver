@@ -10,6 +10,24 @@ resource "random_string" "mysql_pw" {
   special = false
 }
 
+module "firewall" {
+  source = "../../modules/firewall"
+
+  name = var.name
+  rules = [
+    {
+      proto      = "tcp"
+      port       = "443"
+      source_ips = ["0.0.0.0/0"]
+    },
+    {
+      proto      = "tcp"
+      port       = "22"
+      source_ips = ["0.0.0.0/0"]
+    }
+  ]
+}
+
 module "cloud_game_server" {
   source = "../../modules/server"
 
@@ -43,7 +61,8 @@ module "cloud_game_server" {
     }
   }
 
-  volume = var.cloud_game_server.volume
+  firewall_ids = [module.firewall.id]
+  volume       = var.cloud_game_server.volume
   network = {
     attach    = true
     subnet_id = var.subnet_id
