@@ -41,10 +41,3 @@ chown -R 999:999 /var/lib/mysql
 rm -Rf /var/lib/mysql/lost+found
 
 # ansible-playbook /root/ansible/game-server.yml --extra-vars "@/root/ansible/vars/game-server.yaml"
-
-# Install firewall
-# apt-get install -y ufw
-# ufw allow proto tcp from any to any port 22
-# ufw allow proto tcp from any to any port 443
-# ufw allow proto tcp from any to any port 80
-# yes | ufw enable
