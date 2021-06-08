@@ -7,12 +7,9 @@ import colors from '../../general/colors/Colors.module.css';
 import { DetailsTable } from './DetailsTable/DetailsTable';
 import { DetailsConsole } from './DetailsConsole/DetailsConsole';
 
-interface GameConfigDetailsPropsParams {
-}
-
 type GameConfigDetailsProps = {
   name: string;
-} & RouteComponentProps<GameConfigDetailsPropsParams>;
+} & RouteComponentProps;
 
 export class GameConfigDetails extends React.Component<GameConfigDetailsProps> {
   render(): JSX.Element {

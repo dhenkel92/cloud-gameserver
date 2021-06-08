@@ -18,7 +18,7 @@ variable "s3_base_path" {
 }
 
 variable "game_config" {
-  type = map
+  type = map(any)
 }
 
 variable "tags" {
