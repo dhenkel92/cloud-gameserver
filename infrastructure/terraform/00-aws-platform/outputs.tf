@@ -1,5 +1,6 @@
 output "access_keys" {
-  value = module.identity.access_keys
+  sensitive = true
+  value     = module.identity.access_keys
 }
 
 output "images" {
