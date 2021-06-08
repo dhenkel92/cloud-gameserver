@@ -23,7 +23,8 @@ export class GameDeploymentLogRepository {
   }
 
   public async writeLog(gameDeployId: number, severity: GameDeploymentLogSeverity, message: any): Promise<void> {
-    const msg = JSON.stringify(message);
+    // https://stackoverflow.com/questions/31698871/er-truncated-wrong-value-for-field-on-saving-some-strings-to-mysql
+    const msg = JSON.stringify(message).replace(/[\u0800-\uFFFF]/g, '');
     await this.mysqlAdapter.query(
       `
       INSERT INTO game_deployment_logs (game_deployment, log_message, severity)
