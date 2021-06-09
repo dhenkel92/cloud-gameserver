@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { App } from './components/app/App';
 import * as serviceWorker from './serviceWorker';
-import { HttpLink, ApolloClient, InMemoryCache } from 'apollo-boost';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { setContext } from 'apollo-link-context';
+import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client';
 import { StorageAdapter } from './StorageAdapter';
+import { setContext } from '@apollo/client/link/context';
 
 const authLink = setContext((_, { headers }) => {
   const token = StorageAdapter.getInstance().getAuthToken();
@@ -18,7 +17,7 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const httpLink = new HttpLink({
+const httpLink = createHttpLink({
   uri: 'https://api.cloud-game.app/graphql',
 });
 

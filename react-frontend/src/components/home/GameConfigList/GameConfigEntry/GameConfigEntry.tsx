@@ -6,7 +6,11 @@ import { Link } from 'react-router-dom';
 import colors from '../../../general/colors/Colors.module.css';
 import { PrimaryLinkButton } from '../../../general/button/LinkButton';
 
-export class GameConfigEntry extends React.Component {
+type GameConfigEntryProps = {
+  name: string;
+};
+
+export class GameConfigEntry extends React.Component<GameConfigEntryProps> {
   render(): JSX.Element {
     return (
       <div className={`configEntryWrapper ${colors.surface02} ${colors.primaryHover}`}>
@@ -16,7 +20,7 @@ export class GameConfigEntry extends React.Component {
             <img alt="Minecraft" src={'https://i.computer-bild.de/imgs/1/1/5/2/9/5/0/5/Minecraft-1024x576-8b2043ae37807fa0.jpg'} />
           </Link>
         </div>
-        <div className="configName">The pack - v1.0.0</div>
+        <div className="configName">{this.props.name}</div>
         <div className="configEntryStatus">
           <FontAwesomeIcon icon={faCircle} color="red" /> Offline
         </div>
