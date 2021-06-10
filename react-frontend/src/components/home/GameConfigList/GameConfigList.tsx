@@ -8,14 +8,22 @@ import { gql, useQuery } from '@apollo/client';
 const GAME_CONFIGS = gql`
   query {
     gameConfigs {
+      id
       name
+      game {
+        name
+      }
     }
   }
 `;
 
 interface GameConfigResponse {
   gameConfigs: {
+    id: string;
     name: string;
+    game: {
+      name: string;
+    };
   }[];
 }
 
@@ -24,10 +32,11 @@ export const GameConfigList = (): JSX.Element => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  console.log(data);
   let entries: JSX.Element[] = [];
   if (data) {
-    entries = entries.concat(data.gameConfigs.map((e) => <GameConfigEntry name={e.name} key={e.name} />));
+    entries = entries.concat(
+      data.gameConfigs.map((e) => <GameConfigEntry gameConfigName={e.name} key={e.id} gameConfigId={e.id} gameName={e.game.name} />)
+    );
   }
 
   return (
