@@ -1,9 +1,9 @@
 import React from 'react';
 import './GameConfigList.css';
-import { GameConfigEntry } from './GameConfigEntry/GameConfigEntry';
-import colors from '../../general/colors/Colors.module.css';
-import { GameConfigEntryEmpty } from './GameConfigEntryEmpty/GameConfigEntryEmpty';
 import { gql, useQuery } from '@apollo/client';
+import colors from '../../general/colors/Colors.module.css';
+import { GameConfigEntry } from './GameConfigEntry/GameConfigEntry';
+import { GameConfigEntryEmpty } from './GameConfigEntryEmpty/GameConfigEntryEmpty';
 
 const GAME_CONFIGS = gql`
   query {

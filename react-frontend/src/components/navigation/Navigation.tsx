@@ -13,7 +13,7 @@ type NavigationProps = {
 export class Navigation extends React.Component<NavigationProps> {
   private storageAdapter = StorageAdapter.getInstance();
 
-  private logout() {
+  private logout(): void {
     this.storageAdapter.clearAuthToken();
     this.props.redirectCallback('/');
   }

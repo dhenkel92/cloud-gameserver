@@ -1,8 +1,7 @@
 import React from 'react';
-import styles from './Button.module.css';
-import colors from '../colors/Colors.module.css';
-import { Button } from './Button';
 import { Link } from 'react-router-dom';
+import colors from '../colors/Colors.module.css';
+import styles from './Button.module.css';
 
 type LinkButtonProps = {
   name: string;

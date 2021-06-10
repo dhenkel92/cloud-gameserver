@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import { App } from './components/app/App';
 import * as serviceWorker from './serviceWorker';
-import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client';
 import { StorageAdapter } from './StorageAdapter';
-import { setContext } from '@apollo/client/link/context';
 
 const authLink = setContext((_, { headers }) => {
   const token = StorageAdapter.getInstance().getAuthToken();

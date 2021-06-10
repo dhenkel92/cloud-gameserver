@@ -2,11 +2,11 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import './GameConfigDetails.css';
-import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { gql, useQuery } from '@apollo/client';
 import colors from '../../general/colors/Colors.module.css';
 import { DetailsTable } from './DetailsTable/DetailsTable';
 import { DetailsConsole } from './DetailsConsole/DetailsConsole';
-import { gql, useQuery } from '@apollo/client';
 
 const GAME_CONFIG_DETAILS = gql`
   query gameConfig($id: ID!) {

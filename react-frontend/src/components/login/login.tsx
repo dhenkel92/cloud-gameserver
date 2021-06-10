@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import './login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
+import { Redirect } from 'react-router-dom';
+import { gql, useMutation } from '@apollo/client';
 import colors from '../general/colors/Colors.module.css';
 import { Input } from '../general/input/Input';
 import { PrimaryButton } from '../general/button/Button';
-import { Redirect } from 'react-router-dom';
 import { StorageAdapter } from '../../StorageAdapter';
-import { gql, useMutation } from '@apollo/client';
 
 const LOGIN_MUTATION = gql`
   mutation login($username: String!, $password: String!) {

@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './Button.module.css';
 import colors from '../colors/Colors.module.css';
+import styles from './Button.module.css';
 
 type ButtonProps = {
   name: string;

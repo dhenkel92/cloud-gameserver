@@ -1,11 +1,11 @@
 import React from 'react';
 import './Home.css';
+import { RouteComponentProps } from 'react-router-dom';
 import { Navigation } from '../navigation/Navigation';
-import { GameConfigList } from './GameConfigList/GameConfigList';
 import colors from '../general/colors/Colors.module.css';
 import { PrivateRoute } from '../general/PrivateRoute/PrivateRoute';
+import { GameConfigList } from './GameConfigList/GameConfigList';
 import { GameConfigDetails } from './GameConfigDetails/GameConfigDetails';
-import { RouteComponentProps } from 'react-router-dom';
 
 type HomeProps = RouteComponentProps;
 
