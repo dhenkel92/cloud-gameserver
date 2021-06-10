@@ -14,7 +14,7 @@ export class StorageAdapter {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
-  public setItem(key: string, value: string) {
+  public setItem(key: string, value: string): void {
     localStorage.setItem(key, value);
   }
 
@@ -22,11 +22,11 @@ export class StorageAdapter {
     return localStorage.getItem(key);
   }
 
-  public clearItem(key: string) {
+  public clearItem(key: string): void {
     localStorage.removeItem(key);
   }
 
-  public setAuthToken(token: string) {
+  public setAuthToken(token: string): void {
     this.setItem(AUTH_TOKEN_NAME, token);
   }
 
@@ -34,7 +34,7 @@ export class StorageAdapter {
     return this.getItem(AUTH_TOKEN_NAME);
   }
 
-  public clearAuthToken() {
+  public clearAuthToken(): void {
     this.clearItem(AUTH_TOKEN_NAME);
   }
 }
