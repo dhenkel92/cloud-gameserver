@@ -1,6 +1,3 @@
-#############################################
-# This is basically a copy of /infrasturcure/terraform/02-game-server/variables.tf
-#############################################
 variable "name" {
   type = string
 }
@@ -18,6 +15,10 @@ variable "server" {
 
 variable "s3_base_path" {
   type = string
+}
+
+variable "game_config" {
+  type = map(any)
 }
 
 variable "tags" {

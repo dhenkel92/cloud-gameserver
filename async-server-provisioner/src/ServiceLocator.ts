@@ -9,6 +9,7 @@ import { TerraformService } from './services/TerraformService';
 import { GameDeploymentLogRepository } from './repositories/GameDeploymentLogRepository';
 import { HetznerCloudAdapter } from './adapters/HetznerCloudAdapter';
 import { HetznerCloudRepository } from './repositories/HetznerCloudRepository';
+import { GameConfigRepository } from './repositories/GameConfigRepository';
 
 export default class ServiceLocator {
   private static instance: ServiceLocator | null;
@@ -169,6 +170,16 @@ export default class ServiceLocator {
     return repo;
   }
 
+  public async getGameConfigRepository(): Promise<GameConfigRepository> {
+    if (this.hasCached('GameConfigRepository')) {
+      return this.getFromCache('GameConfigRepository');
+    }
+
+    const repo = new GameConfigRepository(await this.getMySqlAdapter());
+    this.setCache('GameConfigRepository', repo);
+    return repo;
+  }
+
   /***********************************************************
    *
    * Services
@@ -179,12 +190,17 @@ export default class ServiceLocator {
       return this.getFromCache('GameDeploymentService');
     }
 
-    const [deployRepo, deployLogRepo] = await Promise.all([this.getGameDeploymentRepository(), this.getGameDeploymentLogRepository()]);
+    const [deployRepo, configRepo, deployLogRepo] = await Promise.all([
+      this.getGameDeploymentRepository(),
+      this.getGameConfigRepository(),
+      this.getGameDeploymentLogRepository(),
+    ]);
 
     const terraformService = await this.getTerraformService();
     const service = new GameDeploymentService(
       terraformService,
       deployRepo,
+      configRepo,
       deployLogRepo,
       this.getHetznerCloudRepository(),
       this.getLogger()

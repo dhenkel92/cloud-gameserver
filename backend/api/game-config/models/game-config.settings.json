@@ -38,6 +38,16 @@
       "plugin": "users-permissions",
       "model": "user",
       "via": "game_configs"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "RUNNING",
+        "STOPPED",
+        "FAILED",
+        "ACTION_SCHEDULED"
+      ],
+      "required": true
     }
   }
 }

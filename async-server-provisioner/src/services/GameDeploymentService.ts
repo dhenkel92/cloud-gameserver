@@ -4,6 +4,8 @@ import { TerraformService } from './TerraformService';
 import { GameDeploymentLogRepository } from '../repositories/GameDeploymentLogRepository';
 import { HetznerCloudRepository } from '../repositories/HetznerCloudRepository';
 import { GameDeploymentAction } from '../entities/GameDeployment';
+import { GameConfigRepository } from '../repositories/GameConfigRepository';
+import { GameConfigStatus } from '../entities/GameConfig';
 
 export interface GameDeploymentServiceConfig {
   timeoutMillis?: number;
@@ -18,6 +20,7 @@ export class GameDeploymentService {
   constructor(
     private terraformService: TerraformService,
     private gameDeployRepo: GameDeploymentRepository,
+    private gameConfigRepo: GameConfigRepository,
     private gameDeployLogRepo: GameDeploymentLogRepository,
     private hcloudRepo: HetznerCloudRepository,
     private logger: Logger
@@ -70,10 +73,17 @@ export class GameDeploymentService {
       await this.terraformService.execute(res);
       this.logger.info('finished terraform execution');
       await this.gameDeployRepo.finishDeployment();
+
+      if (res.action === GameDeploymentAction.START) {
+        await this.gameConfigRepo.updateGCStatus(res.gameConfig.id, GameConfigStatus.RUNNING);
+      } else {
+        await this.gameConfigRepo.updateGCStatus(res.gameConfig.id, GameConfigStatus.STOPPED);
+      }
     } catch (e) {
       this.logger.error('failed to execute message');
       this.logger.error(e);
       await Promise.all([this.gameDeployLogRepo.danger(res.id, e), this.gameDeployRepo.finishDeployment()]);
+      await this.gameConfigRepo.updateGCStatus(res.gameConfig.id, GameConfigStatus.FAILED);
     }
   }
 }
