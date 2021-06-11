@@ -42,12 +42,14 @@
     "status": {
       "type": "enumeration",
       "enum": [
+        "STARTING",
         "RUNNING",
+        "STOPPING",
         "STOPPED",
-        "FAILED",
-        "ACTION_SCHEDULED"
+        "FAILED"
       ],
-      "required": true
+      "required": true,
+      "default": "STOPPED"
     }
   }
 }

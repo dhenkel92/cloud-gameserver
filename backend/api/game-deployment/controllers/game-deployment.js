@@ -9,15 +9,16 @@ const { parseMultipartData, sanitizeEntity } = require('strapi-utils');
 
 module.exports = {
   async create(ctx) {
-    const gameConfigId = ctx.request.body.game_config;
+    const { game_config: gameConfigID, action } = ctx.request.body;
+    const lastDeployment = await strapi.services["game-deployment"].find({
+      _sort: 'created_at:desc',
+      _limit: 1,
+      game_config: gameConfigID,
+      status: 'WAITING',
+    });
 
-    const gameConfig = await strapi.services["game-config"].findOne({id: gameConfigId});
-    if (gameConfig === null) {
-      throw new Error('Game Config was not found!');
-    }
-
-    if (gameConfig.status === 'ACTION_SCHEDULED') {
-      throw new Error('Action already scheduled, please wait until done');
+    if (lastDeployment.length > 0) {
+      return ctx.badRequest(null, [{ messages: [{ id: 'Game is already deploying.' }] }]);
     }
 
     let entity;
@@ -28,7 +29,16 @@ module.exports = {
       entity = await strapi.services['game-deployment'].create(ctx.request.body);
     }
 
-    await strapi.services['game-config'].update({id: gameConfigId}, {status: 'ACTION_SCHEDULED'});
+    switch (action) {
+      case 'START':
+        await strapi.services['game-config'].update({ id: gameConfigID }, { status: 'STARTING' });
+        break;
+      case 'STOP':
+        await strapi.services['game-config'].update({ id: gameConfigID }, { status: 'STOPPING' });
+        break;
+      default:
+        throw new Error('invalid');
+    }
 
     return sanitizeEntity(entity, { model: strapi.models['game-deployment'] });
   },
