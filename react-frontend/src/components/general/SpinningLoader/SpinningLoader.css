@@ -1,0 +1,9 @@
+.spinningLoader {
+    display: flex;
+    flex-grow: 1;
+}
+
+.spinningLoader > svg {
+    display: block;
+    margin: auto;
+}

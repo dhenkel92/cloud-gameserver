@@ -3,28 +3,23 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import './GameConfigDetails.css';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import colors from '../../general/colors/Colors.module.css';
 import { DetailsTable } from './DetailsTable/DetailsTable';
 import { DetailsConsole } from './DetailsConsole/DetailsConsole';
-
-const GAME_CONFIG_DETAILS = gql`
-  query gameConfig($id: ID!) {
-    gameConfig(id: $id) {
-      name
-      game {
-        name
-      }
-    }
-  }
-`;
+import { GAME_CONFIG_DETAILS } from './GameConfigDetailQuery';
 
 type GameConfigDetailsResponse = {
   gameConfig: {
+    id: number;
     name: string;
+    status: string;
     game: {
       name: string;
     };
+    game_deployments: {
+      action: string;
+    }[];
   };
 };
 
@@ -34,11 +29,16 @@ type GameConfigDetailsProps = {
 
 export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element => {
   const gameConfigId = props.match.params.id;
-  const { loading, error, data } = useQuery<GameConfigDetailsResponse>(GAME_CONFIG_DETAILS, { variables: { id: gameConfigId } });
+  const { loading, error, data } = useQuery<GameConfigDetailsResponse>(GAME_CONFIG_DETAILS, {
+    variables: { id: gameConfigId },
+    pollInterval: 1000,
+  });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
   if (!data) return <p>Error :(</p>;
+  // eslint-disable-next-line no-console
+  console.log(data);
 
   return (
     <div className="configDetailsWrapper">
@@ -54,7 +54,12 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
               alt={data.gameConfig.game.name}
               src={'https://i.computer-bild.de/imgs/1/1/5/2/9/5/0/5/Minecraft-1024x576-8b2043ae37807fa0.jpg'}
             />
-            <DetailsTable gameName={data.gameConfig.game.name} gameConfigName={data.gameConfig.name} />
+            <DetailsTable
+              gameName={data.gameConfig.game.name}
+              gameConfigName={data.gameConfig.name}
+              gameConfigId={data.gameConfig.id}
+              gameConfigStatus={data.gameConfig.status}
+            />
           </div>
         </div>
         <div className={`configDetailsLog`}>

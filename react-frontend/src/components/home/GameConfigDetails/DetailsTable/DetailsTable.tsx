@@ -3,10 +3,25 @@ import './DetailsTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { GameConfigButtons } from '../GameConfigButtons/GameConfigButtons';
+import { SpinningLoader } from '../../../general/SpinningLoader/SpinningLoader';
 
 interface DetailsTableProps {
   gameName: string;
+  gameConfigId: number;
   gameConfigName: string;
+  gameConfigStatus: string;
+}
+
+function configStatusToColor(status: string): string {
+  switch (status) {
+    case 'STARTING':
+    case 'STOPPING':
+      return 'orange';
+    case 'RUNNING':
+      return 'green';
+    default:
+      return 'red';
+  }
 }
 
 export class DetailsTable extends React.Component<DetailsTableProps> {
@@ -26,12 +41,16 @@ export class DetailsTable extends React.Component<DetailsTableProps> {
         <div className="detailsTableRow">
           <div className="detailsTableColumnLeft">Status:</div>
           <div className="detailsTableColumnRight">
-            <FontAwesomeIcon icon={faCircle} color="red" /> Offline
+            <FontAwesomeIcon icon={faCircle} color={configStatusToColor(this.props.gameConfigStatus)} /> {this.props.gameConfigStatus}
           </div>
         </div>
         <hr />
         <div className="detailsTableRow">
-          <GameConfigButtons />
+          {this.props.gameConfigStatus === 'STARTING' || this.props.gameConfigStatus === 'STOPPING' ? (
+            <SpinningLoader />
+          ) : (
+            <GameConfigButtons gameConfigId={this.props.gameConfigId} />
+          )}
         </div>
       </div>
     );

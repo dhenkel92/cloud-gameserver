@@ -8,6 +8,7 @@ type ButtonProps = {
 
 type SpecializedButton = {
   name: string;
+  onClick?: (e: MouseEvent) => void;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export class Button extends React.Component<ButtonProps> {
