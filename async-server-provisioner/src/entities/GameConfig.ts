@@ -1,8 +1,9 @@
 export enum GameConfigStatus {
+  STARTING = 'STARTING',
   RUNNING = 'RUNNING',
+  STOPPING = 'STOPPING',
   STOPPED = 'STOPPED',
   FAILED = 'FAILED',
-  ACTION_SCHEDULED = 'ACTION_SCHEDULED',
 }
 
 export interface GameConfig {
@@ -15,14 +16,16 @@ export interface GameConfig {
 
 function statusToGCStatus(status: string): GameConfigStatus {
   switch (status) {
+    case 'STARTING':
+      return GameConfigStatus.STARTING;
     case 'RUNNING':
       return GameConfigStatus.RUNNING;
+    case 'STOPPING':
+      return GameConfigStatus.STOPPING;
     case 'STOPPED':
       return GameConfigStatus.STOPPED;
     case 'FAILED':
       return GameConfigStatus.FAILED;
-    case 'ACTION_SCHEDULED':
-      return GameConfigStatus.ACTION_SCHEDULED;
   }
 }
 
