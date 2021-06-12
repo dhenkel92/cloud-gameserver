@@ -26,6 +26,10 @@
     "private_ip": {
       "type": "string",
       "required": true
+    },
+    "game_server_ports": {
+      "collection": "game-server-port",
+      "via": "game_server"
     }
   }
 }
