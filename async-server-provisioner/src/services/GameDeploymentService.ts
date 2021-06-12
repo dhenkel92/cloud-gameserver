@@ -6,6 +6,7 @@ import { HetznerCloudRepository } from '../repositories/HetznerCloudRepository';
 import { GameDeploymentAction } from '../entities/GameDeployment';
 import { GameConfigRepository } from '../repositories/GameConfigRepository';
 import { GameConfigStatus } from '../entities/GameConfig';
+import { GameServerRepository } from '../repositories/GameServerRepository';
 
 export interface GameDeploymentServiceConfig {
   timeoutMillis?: number;
@@ -23,6 +24,7 @@ export class GameDeploymentService {
     private gameConfigRepo: GameConfigRepository,
     private gameDeployLogRepo: GameDeploymentLogRepository,
     private hcloudRepo: HetznerCloudRepository,
+    private gameServerRepo: GameServerRepository,
     private logger: Logger
   ) {}
 
@@ -70,13 +72,19 @@ export class GameDeploymentService {
       }
 
       this.logger.info('start terraform execution');
-      await this.terraformService.execute(res);
+      const tfOutput = await this.terraformService.execute(res);
       this.logger.info('finished terraform execution');
       await this.gameDeployRepo.finishDeployment();
 
       if (res.action === GameDeploymentAction.START) {
+        this.logger.info('Create game server entry');
+        await this.gameServerRepo.createGameServer(res.gameConfig.id, tfOutput);
+        this.logger.info('Update game config status to running');
         await this.gameConfigRepo.updateGCStatus(res.gameConfig.id, GameConfigStatus.RUNNING);
       } else {
+        this.logger.info('Delete game server entries');
+        await this.gameServerRepo.deleteGameServerForConfig(res.gameConfig.id);
+        this.logger.info('Update game config status to stopped');
         await this.gameConfigRepo.updateGCStatus(res.gameConfig.id, GameConfigStatus.STOPPED);
       }
     } catch (e) {

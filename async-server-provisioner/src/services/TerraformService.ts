@@ -4,6 +4,12 @@ import { GameDeployment, GameDeploymentAction } from '../entities/GameDeployment
 import { GameDeploymentLogRepository } from '../repositories/GameDeploymentLogRepository';
 import { createMinecraftTFConfigFromGameConfig, mcTFConfToTFArgs, MinecraftTFConfig } from '../entities/MinecraftTFConfig';
 
+export interface TerraformGSOutput {
+  privateIP: string;
+  publicIP: string;
+  dns: string;
+}
+
 export class TerraformService {
   constructor(
     private terraformPath: string,
@@ -12,7 +18,7 @@ export class TerraformService {
     private logger: Logger
   ) {}
 
-  public async execute(config: GameDeployment): Promise<void> {
+  public async execute(config: GameDeployment): Promise<TerraformGSOutput | null> {
     const tfVars = createMinecraftTFConfigFromGameConfig(config);
     await this.init(config.id);
     await this.changeWorkspace(config.id, config.workspaceName);
@@ -20,10 +26,15 @@ export class TerraformService {
     switch (config.action) {
       case GameDeploymentAction.START:
         await this.apply(config.id, tfVars);
-        break;
+        const output = await this.getOutput();
+        return {
+          dns: '',
+          privateIP: output.server_private_ip.value,
+          publicIP: output.server_public_ip.value,
+        };
       case GameDeploymentAction.STOP:
         await this.destroy(config.id, tfVars);
-        break;
+        return null;
       default:
         throw new Error(`Invalid deployment action: ${config.action}`);
     }
@@ -63,6 +74,14 @@ export class TerraformService {
     this.logger.info(command);
     const res = await this.shellAdapter.exec(command);
     await this.writeShellLog(gameDeployId, res);
+  }
+
+  private async getOutput(): Promise<{ [key: string]: any }> {
+    this.logger.info('get terraform output as json');
+    const command = `cd ${this.terraformPath} && terragrunt output --json`;
+    this.logger.info(command);
+    const res = await this.shellAdapter.exec(command);
+    return JSON.parse(res.stdout);
   }
 
   private async writeShellLog(gameDeployId: number, shellRes: ShellResult): Promise<void> {
