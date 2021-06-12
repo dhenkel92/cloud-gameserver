@@ -1,0 +1,17 @@
+[package]
+name = "game-server-watcher"
+version = "0.1.0"
+authors = ["Daniel Henkel <daniel@henkel.tech>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+# Treat warnings as a build error.
+strict = []
+
+[dependencies]
+clap = { version = "3.0.0-beta.2", features = ["yaml"] }
+serde = { version = "1.0.126", features = ["derive"] }
+serde_yaml = "0.8.17"
+rocket = { version = "0.5.0-rc.1", features = ["json"] }
