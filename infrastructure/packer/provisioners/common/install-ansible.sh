@@ -2,6 +2,9 @@
 
 set -ex
 
+# Move Game Server Watcher executable
+mv /tmp/game-server-watcher /usr/bin/game-server-watcher
+
 # Install ansible
 echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" > /etc/apt/sources.list.d/ansible.list
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
