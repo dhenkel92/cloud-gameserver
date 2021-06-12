@@ -10,6 +10,7 @@ const GAME_CONFIGS = gql`
     gameConfigs {
       id
       name
+      status
       game {
         name
       }
@@ -21,6 +22,7 @@ interface GameConfigResponse {
   gameConfigs: {
     id: string;
     name: string;
+    status: string;
     game: {
       name: string;
     };
@@ -35,7 +37,9 @@ export const GameConfigList = (): JSX.Element => {
   let entries: JSX.Element[] = [];
   if (data) {
     entries = entries.concat(
-      data.gameConfigs.map((e) => <GameConfigEntry gameConfigName={e.name} key={e.id} gameConfigId={e.id} gameName={e.game.name} />)
+      data.gameConfigs.map((e) => (
+        <GameConfigEntry gameConfigName={e.name} key={e.id} gameConfigId={e.id} gameName={e.game.name} gameConfigStatus={e.status} />
+      ))
     );
   }
 

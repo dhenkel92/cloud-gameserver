@@ -5,11 +5,13 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import colors from '../../../general/colors/Colors.module.css';
 import { PrimaryLinkButton } from '../../../general/button/LinkButton';
+import { gameConfigStatusToColor } from '../../../../helpers/gameConfigStatusToColor';
 
 type GameConfigEntryProps = {
   gameConfigId: string;
   gameConfigName: string;
   gameName: string;
+  gameConfigStatus: string;
 };
 
 export class GameConfigEntry extends React.Component<GameConfigEntryProps> {
@@ -27,7 +29,7 @@ export class GameConfigEntry extends React.Component<GameConfigEntryProps> {
         </div>
         <div className="configName">{this.props.gameConfigName}</div>
         <div className="configEntryStatus">
-          <FontAwesomeIcon icon={faCircle} color="red" /> Offline
+          <FontAwesomeIcon icon={faCircle} color={gameConfigStatusToColor(this.props.gameConfigStatus)} /> {this.props.gameConfigStatus}
         </div>
         <div className="configEntryButton">
           <PrimaryLinkButton name="Configure" to={`/config/${this.props.gameConfigId}`} />

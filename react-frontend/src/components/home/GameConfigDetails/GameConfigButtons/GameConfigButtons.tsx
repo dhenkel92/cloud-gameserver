@@ -16,6 +16,7 @@ const CREATE_GAME_DEPLOY = gql`
 
 type GameConfigButtonsProps = {
   gameConfigId: number;
+  gameConfigStatus: string;
 };
 
 export const GameConfigButtons = (props: GameConfigButtonsProps): JSX.Element => {
@@ -25,8 +26,11 @@ export const GameConfigButtons = (props: GameConfigButtonsProps): JSX.Element =>
 
   return (
     <div className="gameButtonGroup">
-      <SuccessButton name="Start" onClick={() => mutation({ variables: { id: props.gameConfigId, action: 'START' } })} />
-      <ErrorButton name="Stop" onClick={() => mutation({ variables: { id: props.gameConfigId, action: 'STOP' } })} />
+      {props.gameConfigStatus === 'RUNNING' ? (
+        <ErrorButton name="Stop" onClick={() => mutation({ variables: { id: props.gameConfigId, action: 'STOP' } })} />
+      ) : (
+        <SuccessButton name="Start" onClick={() => mutation({ variables: { id: props.gameConfigId, action: 'START' } })} />
+      )}
     </div>
   );
 };
