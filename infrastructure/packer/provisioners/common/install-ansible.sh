@@ -2,6 +2,9 @@
 
 set -ex
 
+# Move Game Server Watcher executable
+mv /tmp/game-server-watcher /usr/bin/game-server-watcher
+
 # Install ansible
 echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" > /etc/apt/sources.list.d/ansible.list
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
@@ -15,11 +18,11 @@ mkdir -p /root/ansible/vars
 
 cp /root/ansible/host/ansible.cfg /etc/ansible/ansible.cfg
 
-cat <<EOF > /root/ansible/vars/base-server.yaml
+cat <<EOF > /root/ansible/vars/game-server.yaml
 aws:
   aws_access_key_id: placeholder
   aws_secret_access_key: placeholder
   aws_default_region: eu-central-1
 EOF
 
-ansible-playbook /root/ansible/base-server.yml --extra-vars "@/root/ansible/vars/base-server.yaml"
+ansible-playbook /root/ansible/game-server.yml --extra-vars "@/root/ansible/vars/game-server.yaml"

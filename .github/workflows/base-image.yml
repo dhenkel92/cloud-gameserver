@@ -1,0 +1,81 @@
+on:
+  push:
+    # branches:
+      # - master
+    paths:
+      - '.github/workflows/base-image.yml'
+      - 'game-server-watcher/**/*'
+      - 'infrastructure/packer/**/*'
+      - 'infrastructure/ansible/**/*'
+
+name: Base Image
+
+jobs:
+  build-executable:
+    name: Build Game Server Watcher
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Fix Cargo Registry Cache Permissions
+        run: sudo chown -R $(whoami):$(id -ng) ~/.cargo/
+      - name: Cache cargo registry
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-style-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache cargo index
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-index-style-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache cargo build
+        uses: actions/cache@v1
+        with:
+          path: target
+          key: ${{ runner.os }}-cargo-build-target-style-${{ hashFiles('**/Cargo.lock') }}
+      - uses: raftario/setup-rust-action@v1
+        with:
+          rust-channel: stable
+          rust-host: x86_64-unknown-linux-gnu
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+      - name: Build executable
+        working-directory: game-server-watcher
+        run: cargo build --release --features "strict"
+      - uses: actions/upload-artifact@master
+        with:
+          name: game-server-watcher
+          path: game-server-watcher/target/release/game-server-watcher
+
+  build-image:
+    name: Build Hetzner Image
+    runs-on: ubuntu-latest
+    needs:
+      - build-executable
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@master
+        with:
+          name: game-server-watcher
+          path: infrastructure/packer/tmp
+      # fix backwards incompatibilities in template
+      - name: Fix Template
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: fix
+          target: infrastructure/packer/manifests/basic_gameserver.json
+      # validate templates
+      - name: Validate Template
+        uses: hashicorp/packer-github-actions@master
+        with:
+          command: validate
+          arguments: -syntax-only
+          target: infrastructure/packer/manifests/basic_gameserver.json
+      # build artifact
+      - name: Build Packer image
+        working-directory: infrastructure/packer/
+        run: packer build -color=false -on-error=abort -var-file ./vars/production.json ./manifests/basic_gameserver.json
+        env:
+          PACKER_LOG: 1h
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}

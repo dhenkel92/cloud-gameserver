@@ -1,24 +1,20 @@
 ---
-- name: Certbot
-  include: certbot.yml
-
-- name: Mysql
-  include: mysql.yml
-
-- name: Create Deploy script
+- name: Create game server watcher config
   template:
-    src: deploy
-    dest: /usr/bin/deploy
-    owner: root
-    group: root
-    mode: 755
-
-- name: Create docker-compose
-  template:
-    src: docker-compose.yml
-    dest: /root/docker-compose.yaml
+    src: game-server-watcher.yaml
+    dest: /opt/game-server-watcher.yaml
     owner: root
     group: root
 
-- name: Deploy Application
-  shell: /usr/bin/deploy
+- name: Create game server watcher service
+  template:
+    src: game-server-watcher.service
+    dest: /etc/systemd/system/game-server-watcher.service
+    owner: root
+    group: root
+
+- name: Start game server watcher
+  systemd:
+    name: game-server-watcher
+    daemon_reload: yes
+    state: started
