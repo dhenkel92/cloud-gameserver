@@ -1,7 +1,7 @@
 watchers:
   - name: game
     ports:
-      - port: "{{ server.port }}"
+      - port: {{ server.port }}
         host: 127.0.0.1
     logFiles:
       - path: ./Cargo.toml

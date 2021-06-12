@@ -29,6 +29,16 @@ module "firewall" {
       proto      = "tcp"
       port       = "22"
       source_ips = ["0.0.0.0/0"]
+    },
+    {
+      proto      = "tcp"
+      port       = var.game_config.server.port
+      source_ips = ["0.0.0.0/0"]
+    },
+    {
+      proto      = "tcp"
+      port       = "8080"
+      source_ips = ["0.0.0.0/0"]
     }
   ]
 }
