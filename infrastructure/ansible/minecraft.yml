@@ -4,3 +4,4 @@
   roles:
   - base-server
   - minecraft
+  - game-server

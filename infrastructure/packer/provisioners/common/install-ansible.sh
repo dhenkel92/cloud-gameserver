@@ -18,11 +18,11 @@ mkdir -p /root/ansible/vars
 
 cp /root/ansible/host/ansible.cfg /etc/ansible/ansible.cfg
 
-cat <<EOF > /root/ansible/vars/base-server.yaml
+cat <<EOF > /root/ansible/vars/game-server.yaml
 aws:
   aws_access_key_id: placeholder
   aws_secret_access_key: placeholder
   aws_default_region: eu-central-1
 EOF
 
-ansible-playbook /root/ansible/base-server.yml --extra-vars "@/root/ansible/vars/base-server.yaml"
+ansible-playbook /root/ansible/game-server.yml --extra-vars "@/root/ansible/vars/game-server.yaml"
