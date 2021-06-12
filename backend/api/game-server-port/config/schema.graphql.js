@@ -13,9 +13,16 @@ module.exports = {
     },
     GameServer: {
       game_server_ports: async ({private_ip}) => {
-        const res = await fetch(`http://${private_ip}:8080/watchers/game/`);
-        const configs = await res.json();
-        return configs.data.ports;
+        try {
+          const res = await fetch(`http://${private_ip}:8080/watchers/game/`, {
+            method: 'GET',
+            timeout: 200,
+          });
+          const configs = await res.json();
+          return configs.data.ports;
+        } catch(err) {
+          return [];
+        }
       },
     },
   },
