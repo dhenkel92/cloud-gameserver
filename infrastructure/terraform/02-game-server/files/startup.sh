@@ -8,6 +8,8 @@ aws:
   aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
   aws_default_region: eu-central-1
 configuration: '${game_config}'
+server:
+  port: ${server_port}
 EOF
 
 ansible-playbook /root/ansible/minecraft.yml --extra-vars "@/root/ansible/vars/game-server.yaml"
