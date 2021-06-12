@@ -19,6 +19,8 @@ jobs:
         with:
           rust-channel: stable
           rust-host: x86_64-unknown-linux-gnu
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Build executable
         run: |
           cd game-server-watcher
