@@ -6,6 +6,7 @@ on:
       - '.github/workflows/base-image.yml'
       - 'game-server-watcher/**/*'
       - 'infrastructure/packer/**/*'
+      - 'infrastructure/ansible/**/*'
 
 name: Base Image
 
@@ -60,7 +61,7 @@ jobs:
         uses: hashicorp/packer-github-actions@master
         with:
           command: build
-          arguments: "-color=false -on-error=abort"
+          arguments: "-color=false -on-error=abort -var-file  infrastructure/packer/vars/production.json"
           target: infrastructure/packer/manifests/basic_gameserver.json
         env:
           PACKER_LOG: 1h
