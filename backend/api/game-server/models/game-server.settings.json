@@ -11,7 +11,7 @@
     "draftAndPublish": false
   },
   "attributes": {
-    "server_ip": {
+    "public_ip": {
       "type": "string",
       "required": true
     },
@@ -22,6 +22,10 @@
     "game_config": {
       "via": "game_servers",
       "model": "game-config"
+    },
+    "private_ip": {
+      "type": "string",
+      "required": true
     }
   }
 }

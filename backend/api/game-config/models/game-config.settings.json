@@ -31,8 +31,8 @@
       "required": true
     },
     "game_servers": {
-      "collection": "game-server",
-      "via": "game_config"
+      "via": "game_config",
+      "collection": "game-server"
     },
     "user": {
       "plugin": "users-permissions",
