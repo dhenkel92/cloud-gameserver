@@ -8,6 +8,7 @@ import colors from '../../general/colors/Colors.module.css';
 import { DetailsTable } from './DetailsTable/DetailsTable';
 import { DetailsConsole } from './DetailsConsole/DetailsConsole';
 import { GAME_CONFIG_DETAILS } from './GameConfigDetailQuery';
+import { GameServerDetails } from './GameServerDetails/GameServerDetails';
 
 type GameConfigDetailsResponse = {
   gameConfig: {
@@ -19,6 +20,11 @@ type GameConfigDetailsResponse = {
     };
     game_deployments: {
       action: string;
+    }[];
+    game_servers: {
+      dns: string;
+      public_ip: string;
+      private_ip: string;
     }[];
   };
 };
@@ -39,6 +45,16 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
   if (!data) return <p>Error :(</p>;
   // eslint-disable-next-line no-console
   console.log(data);
+
+  let gameServerDetails = <p></p>;
+  if (data.gameConfig.game_servers.length > 0) {
+    const gameServer = data.gameConfig.game_servers[0];
+    gameServerDetails = (
+      <div className={`gameServerDetails ${colors.surface01}`}>
+        <GameServerDetails dns={gameServer.dns} publicIp={gameServer.public_ip} privateIp={gameServer.private_ip} />
+      </div>
+    );
+  }
 
   return (
     <div className="configDetailsWrapper">
@@ -61,6 +77,7 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
               gameConfigStatus={data.gameConfig.status}
             />
           </div>
+          {gameServerDetails}
         </div>
         <div className={`configDetailsLog`}>
           <div className={`test2 ${colors.surface01}`}>

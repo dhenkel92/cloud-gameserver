@@ -41,3 +41,7 @@
     border-radius: 5px;
     overflow: auto;
 }
+
+.gameServerDetails {
+    margin-top: 20px;
+}

@@ -1,0 +1,20 @@
+.gameServerDetailsTable {
+    padding: 10px;
+}
+
+.gameServerDetailsTableRow {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.gameServerDetailsTableColumnLeft {
+    text-align: right;
+    margin-right: 10px;
+    width: 35%;
+}
+
+.gameServerDetailsTableColumnRight {
+    margin-left: 10px;
+    width: 65%;
+}

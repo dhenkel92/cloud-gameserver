@@ -13,6 +13,11 @@ export const GAME_CONFIG_DETAILS = gql`
         action
         created_at
       }
+      game_servers {
+        dns
+        public_ip
+        private_ip
+      }
     }
   }
 `;
