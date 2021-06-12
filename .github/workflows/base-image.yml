@@ -16,6 +16,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Fix Cargo Registry Cache Permissions
+        run: sudo chown -R $(whoami):$(id -ng) ~/.cargo/
+      - name: Cache cargo registry
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-style-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache cargo index
+        uses: actions/cache@v1
+        with:
+          path: ~/.cargo/git
+          key: ${{ runner.os }}-cargo-index-style-${{ hashFiles('**/Cargo.lock') }}
+      - name: Cache cargo build
+        uses: actions/cache@v1
+        with:
+          path: target
+          key: ${{ runner.os }}-cargo-build-target-style-${{ hashFiles('**/Cargo.lock') }}
       - uses: raftario/setup-rust-action@v1
         with:
           rust-channel: stable
@@ -23,9 +40,8 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
       - name: Build executable
-        run: |
-          cd game-server-watcher
-          cargo build --release --features "strict"
+        working-directory: game-server-watcher
+        run: cargo build --release --features "strict"
       - uses: actions/upload-artifact@master
         with:
           name: game-server-watcher
@@ -57,12 +73,9 @@ jobs:
           arguments: -syntax-only
           target: infrastructure/packer/manifests/basic_gameserver.json
       # build artifact
-      - name: Build Artifact
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: build
-          arguments: "-color=false -on-error=abort -var-file  infrastructure/packer/vars/production.json"
-          target: infrastructure/packer/manifests/basic_gameserver.json
+      - name: Build Packer image
+        working-directory: infrastructure/packer/
+        run: packer build -color=false -on-error=abort -var-file ./vars/production.json ./manifests/basic_gameserver.json
         env:
           PACKER_LOG: 1h
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
