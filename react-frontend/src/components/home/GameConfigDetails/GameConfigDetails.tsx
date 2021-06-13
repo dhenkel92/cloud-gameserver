@@ -25,6 +25,10 @@ type GameConfigDetailsResponse = {
       dns: string;
       public_ip: string;
       private_ip: string;
+      game_server_ports: {
+        address: string;
+        is_reachable: boolean;
+      }[];
     }[];
   };
 };
@@ -51,7 +55,12 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
     const gameServer = data.gameConfig.game_servers[0];
     gameServerDetails = (
       <div className={`gameServerDetails ${colors.surface01}`}>
-        <GameServerDetails dns={gameServer.dns} publicIp={gameServer.public_ip} privateIp={gameServer.private_ip} />
+        <GameServerDetails
+          dns={gameServer.dns}
+          publicIp={gameServer.public_ip}
+          privateIp={gameServer.private_ip}
+          ports={gameServer.game_server_ports}
+        />
       </div>
     );
   }

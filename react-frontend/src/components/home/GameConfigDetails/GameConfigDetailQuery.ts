@@ -17,6 +17,10 @@ export const GAME_CONFIG_DETAILS = gql`
         dns
         public_ip
         private_ip
+        game_server_ports {
+          address
+          is_reachable
+        }
       }
     }
   }
