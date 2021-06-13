@@ -3,5 +3,5 @@
   connection: local
   roles:
   - base-server
-  - minecraft
   - game-server
+  - minecraft
