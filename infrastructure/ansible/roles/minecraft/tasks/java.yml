@@ -1,4 +1,7 @@
 ---
+- set_fact:
+    game_config: "{{ configuration | from_json }}"
+
 - name: Install required packages
   apt:
     pkg:
@@ -26,6 +29,7 @@
 - name: Install required packages
   apt:
     pkg:
-    - adoptopenjdk-8-hotspot
+    - "{{ item }}"
     state: present
     update_cache: true
+    loop: "{{ game_config.server.packages }}"

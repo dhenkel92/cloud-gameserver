@@ -24,6 +24,10 @@
       "type": "string",
       "required": true,
       "maxLength": 150
+    },
+    "game_config_templates": {
+      "via": "game",
+      "collection": "game-config-template"
     }
   }
 }

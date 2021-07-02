@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/game-config-templates",
+      "handler": "game-config-template.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/game-config-templates/count",
+      "handler": "game-config-template.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/game-config-templates/:id",
+      "handler": "game-config-template.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/game-config-templates",
+      "handler": "game-config-template.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/game-config-templates/:id",
+      "handler": "game-config-template.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/game-config-templates/:id",
+      "handler": "game-config-template.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "game_config_templates",
+  "info": {
+    "name": "GameConfigTemplate"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "s3_base_path": {
+      "type": "text",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    },
+    "game": {
+      "model": "game",
+      "via": "game_config_templates"
+    }
+  }
+}
