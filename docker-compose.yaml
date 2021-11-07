@@ -23,6 +23,7 @@ services:
 
   db:
     container_name: mysql
+    platform: linux/amd64
     image: mysql:5.7.29
     ports:
       - 3306:3306
