@@ -15,7 +15,7 @@
     "mysql": "2.18.1",
     "strapi": "3.6.3",
     "strapi-admin": "3.6.3",
-    "node-fetch": "2.6.1",
+    "node-fetch": "3.1.1",
     "strapi-connector-bookshelf": "3.6.3",
     "strapi-plugin-content-manager": "3.6.3",
     "strapi-plugin-content-type-builder": "3.6.3",
