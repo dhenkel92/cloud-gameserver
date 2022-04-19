@@ -1,7 +1,6 @@
 use crate::net::is_port_reachable::is_port_reachable_with_timeout;
 use crate::routes::types::{create_watcher_links, JsonResponseLinks};
 use crate::watcher_config::WatcherConfig;
-use clap::ArgMatches;
 use rocket::serde::{json::Json, Serialize};
 use rocket::State;
 use std::collections::HashMap;
@@ -29,10 +28,9 @@ struct WatcherPortDetails {
 #[get("/watchers/<name>")]
 pub fn watcher_details(
     config: &State<WatcherConfig>,
-    clap_config: &State<ArgMatches>,
+    clap_config: &State<crate::Args>,
     name: &str,
 ) -> Json<WatcherDetails> {
-    let base_url = clap_config.value_of("base-url").unwrap();
     let watcher = config.watchers.iter().find(|watch| watch.name == name);
 
     if watcher.is_none() {
@@ -57,6 +55,6 @@ pub fn watcher_details(
             ports: port_details,
             links: HashMap::new(),
         },
-        links: create_watcher_links(base_url, &watcher.name),
+        links: create_watcher_links(&clap_config.base_url, &watcher.name),
     })
 }
