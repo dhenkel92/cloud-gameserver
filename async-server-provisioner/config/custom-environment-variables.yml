@@ -8,3 +8,4 @@ mysql:
 
 hetzner:
   token: HCLOUD_TOKEN
+  image: HCLOUD_IMAGE

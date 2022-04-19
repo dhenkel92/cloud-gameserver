@@ -11,5 +11,5 @@ hetzner:
 
 hcloudServer:
   type: cx31
-  image: '40500586'
+  image: '67522680'
   location: nbg1
