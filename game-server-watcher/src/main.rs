@@ -46,12 +46,6 @@ fn rocket(figment: &Figment, watcher_config: &WatcherConfig, clap_config: &Args)
 
 #[rocket::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    // let clap_config = load_yaml!("clap-config.yml");
-    // let matches = App::from(clap_config)
-    // .version(clap::crate_version!())
-    // .author(clap::crate_authors!())
-    // .about(&*("\n".to_owned() + clap::crate_description!()))
-    // .get_matches();
     let args: Args = Args::parse();
 
     println!("matches: {:?}", args);
