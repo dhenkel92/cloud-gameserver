@@ -28,8 +28,6 @@
 
 - name: Install required packages
   apt:
-    pkg:
-    - "{{ item }}"
+    pkg: "{{ game_config.server.packages }}"
     state: present
     update_cache: true
-    loop: "{{ game_config.server.packages }}"
