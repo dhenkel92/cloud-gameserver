@@ -1,7 +1,7 @@
 on:
   push:
-    branches:
-      - master
+    # branches:
+      # - master
     paths:
       - '.github/workflows/strapi.yml'
       - '.github/scripts/auth.sh'
@@ -53,7 +53,10 @@ jobs:
       - name: Build Docker Container
         run: |
           cd backend
-          docker build -t $IMAGE:$GITHUB_RUN_ID -f Dockerfile-prod-fe .
+          docker build -t $IMAGE:$GITHUB_RUN_ID -f Dockerfile-prod-fe --build-arg ADMIN_URL=${ADMIN_URL} --build-arg SERVER_URL=${SERVER_URL} .
+        env:
+          ADMIN_URL: https://admin.cloud-game.app/
+          SERVER_URL: https://api.cloud-game.app/
       - name: Push Container
         run: |
           docker tag $IMAGE:$GITHUB_RUN_ID $IMAGE:latest

@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "game_versions",
+  "info": {
+    "singularName": "game-version",
+    "pluralName": "game-versions",
+    "displayName": "GameVersion",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "version": {
+      "type": "string",
+      "required": true
+    },
+    "game_instances": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::game-instance.game-instance",
+      "mappedBy": "game_version"
+    },
+    "game_flavour": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::game-flavour.game-flavour",
+      "inversedBy": "game_versions"
+    },
+    "users_permissions_users": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "game_versions"
+    },
+    "docker_image": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

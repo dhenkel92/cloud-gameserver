@@ -1,4 +1,10 @@
-FROM node:14.17.0-stretch as build
+FROM node:16.14-bullseye as build
+
+ARG ADMIN_URL=http://localhost:1337/admin
+ENV ADMIN_URL=$ADMIN_URL
+
+ARG SERVER_URL=http://localhost:1337
+ENV SERVER_URL=$SERVER_URL
 
 ENV NODE_ENV=production
 WORKDIR /usr/src/app

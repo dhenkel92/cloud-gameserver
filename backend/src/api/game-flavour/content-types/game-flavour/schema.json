@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "game_flavours",
+  "info": {
+    "singularName": "game-flavour",
+    "pluralName": "game-flavours",
+    "displayName": "GameFlavour",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "game": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::game.game",
+      "inversedBy": "game_flavours"
+    },
+    "game_versions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::game-version.game-version",
+      "mappedBy": "game_flavour"
+    },
+    "description": {
+      "type": "richtext",
+      "required": false
+    }
+  }
+}

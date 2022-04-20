@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "game_instances",
+  "info": {
+    "singularName": "game-instance",
+    "pluralName": "game-instances",
+    "displayName": "GameInstance"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "game_version": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::game-version.game-version",
+      "inversedBy": "game_instances"
+    },
+    "game_deployments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::game-deployment.game-deployment",
+      "mappedBy": "game_instance"
+    }
+  }
+}
