@@ -7,7 +7,7 @@ import { Redirect } from 'react-router-dom';
 import colors from '../general/colors/Colors.module.css';
 import { StorageAdapter } from '../../StorageAdapter';
 
-const API_URL = process.env.API_URL ?? 'http://localhost:1337/graphql';
+const API_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:1337/graphql';
 
 export const Login = (): JSX.Element => {
   if (StorageAdapter.getInstance().getAuthToken() !== null) {
