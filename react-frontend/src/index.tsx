@@ -18,8 +18,8 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const httpLink = createHttpLink({
-  uri: 'https://api.cloud-game.app/graphql',
-  // uri: 'http://localhost:1337/graphql',
+  // uri: 'https://api.cloud-game.app/graphql',
+  uri: 'http://localhost:1337/graphql',
 });
 
 const client = new ApolloClient({
