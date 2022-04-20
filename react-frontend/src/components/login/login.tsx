@@ -31,9 +31,5 @@ export const Callback = (): JSX.Element => {
       StorageAdapter.getInstance().setAuthToken(res.jwt);
       history.push('/');
     });
-  return (
-    <div className={`login ${colors.surface}`}>
-      waiting...
-    </div>
-  );
+  return <div className={`login ${colors.surface}`}>waiting...</div>;
 };
