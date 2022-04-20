@@ -32,7 +32,9 @@ jobs:
       - name: Build Docker Container
         run: |
           cd react-frontend
-          docker build -t $IMAGE:$GITHUB_RUN_ID -f Dockerfile .
+          docker build -t $IMAGE:$GITHUB_RUN_ID -f Dockerfile --build-arg API_URL=${API_URL} .
+        env:
+          API_URL=https://api.cloud-game.app/graphql
       - name: Push Container
         run: |
           docker tag $IMAGE:$GITHUB_RUN_ID $IMAGE:latest
