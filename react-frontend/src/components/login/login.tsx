@@ -7,6 +7,8 @@ import { Redirect } from 'react-router-dom';
 import colors from '../general/colors/Colors.module.css';
 import { StorageAdapter } from '../../StorageAdapter';
 
+const API_URL = process.env.API_URL ?? 'http://localhost:1337/graphql';
+
 export const Login = (): JSX.Element => {
   if (StorageAdapter.getInstance().getAuthToken() !== null) {
     return <Redirect to="/" />;
@@ -16,14 +18,14 @@ export const Login = (): JSX.Element => {
     <div className={`login ${colors.surface}`}>
       <FontAwesomeIcon icon={faUnlockAlt} size="2x" className={colors.primaryColor} />
       <h2>Login</h2>
-      <a href="http://localhost:1337/api/connect/auth0">Login</a>
+      <a href={`${API_URL}/api/connect/auth0`}>Login</a>
     </div>
   );
 };
 
 export const Callback = (): JSX.Element => {
   const history = useHistory();
-  fetch(`http://localhost:1337/api/auth/auth0/callback${location.search}`)
+  fetch(`${API_URL}/api/auth/auth0/callback${location.search}`)
     .then((res) => res.json())
     .then((res) => {
       StorageAdapter.getInstance().setAuthToken(res.jwt);
@@ -31,9 +33,7 @@ export const Callback = (): JSX.Element => {
     });
   return (
     <div className={`login ${colors.surface}`}>
-      <FontAwesomeIcon icon={faUnlockAlt} size="2x" className={colors.primaryColor} />
-      <h2>Login</h2>
-      <a href="http://localhost:1337/api/connect/auth0">Login</a>
+      waiting...
     </div>
   );
 };
