@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "game_deployments",
+  "info": {
+    "singularName": "game-deployment",
+    "pluralName": "game-deployments",
+    "displayName": "GameDeployment",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cloud_instance": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cloud-instance.cloud-instance",
+      "inversedBy": "game_deployments"
+    },
+    "game_instance": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::game-instance.game-instance",
+      "inversedBy": "game_deployments"
+    },
+    "start_time": {
+      "type": "datetime",
+      "required": true
+    },
+    "stop_time": {
+      "type": "datetime"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "STARTING",
+        "RUNNING",
+        "STOPPING",
+        "FINISHED",
+        "FAILED"
+      ],
+      "required": true,
+      "default": "STARTING"
+    },
+    "public_ip": {
+      "type": "string"
+    },
+    "private_ip": {
+      "type": "string"
+    },
+    "domain": {
+      "type": "string"
+    }
+  }
+}

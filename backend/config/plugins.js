@@ -1,23 +1,15 @@
-module.exports = ({ env }) => ({
+module.exports = {
+  //
   graphql: {
-    "endpoint": "/graphql",
-    "shadowCRUD": true,
-    "playgroundAlways": true,
-    "depthLimit": 7,
-    apolloServer: {
-      "tracing": false,
-      "amountLimit": 100,
+    config: {
+      endpoint: '/graphql',
+      shadowCRUD: true,
+      playgroundAlways: false,
+      depthLimit: 7,
+      amountLimit: 100,
+      apolloServer: {
+        tracing: false,
+      },
     },
   },
-  upload: {
-    "provider": "aws-s3",
-    "providerOptions": {
-      "accessKeyId": env('AWS_ACCESS_KEY_ID', ''),
-      "secretAccessKey": env('AWS_SECRET_ACCESS_KEY', ''),
-      "region": "eu-central-1",
-      "params": {
-        "Bucket": env('AWS_BUCKET_NAME', ''),
-      }
-    },
-  }
-});
+};

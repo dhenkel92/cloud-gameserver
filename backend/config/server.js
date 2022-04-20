@@ -1,16 +1,9 @@
 module.exports = ({ env }) => ({
   host: env('HOST', '0.0.0.0'),
-  port: env('PORT', '1337'),
-  proxy: {
-    enabled: false
+  port: env.int('PORT', 1337),
+    url: env('', 'http://localhost:1337'),
+  app: {
+    keys: env.array('APP_KEYS'),
   },
-  cron: {
-    enabled: false
-  },
-  admin: {
-    autoOpen: false,
-    auth: {
-      secret: env('ADMIN_JWT_SECRET', '6974ce49-975a-4a45-be32-3e9e266ae1d3'),
-    }
-  }
 });
+

@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "games",
+  "info": {
+    "singularName": "game",
+    "pluralName": "games",
+    "displayName": "Game"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "game_flavours": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::game-flavour.game-flavour",
+      "mappedBy": "game"
+    }
+  }
+}

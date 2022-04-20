@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cloud_instances",
+  "info": {
+    "singularName": "cloud-instance",
+    "pluralName": "cloud-instances",
+    "displayName": "CloudInstance",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "provider": {
+      "type": "string",
+      "required": true
+    },
+    "api_name": {
+      "type": "string",
+      "required": true
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "cost_per_hour": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "game_deployments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::game-deployment.game-deployment",
+      "mappedBy": "cloud_instance"
+    },
+    "cpu": {
+      "type": "string",
+      "required": true
+    },
+    "memory": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
