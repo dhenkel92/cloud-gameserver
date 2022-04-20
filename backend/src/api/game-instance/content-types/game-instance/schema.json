@@ -4,7 +4,8 @@
   "info": {
     "singularName": "game-instance",
     "pluralName": "game-instances",
-    "displayName": "GameInstance"
+    "displayName": "GameInstance",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -26,6 +27,12 @@
       "relation": "oneToMany",
       "target": "api::game-deployment.game-deployment",
       "mappedBy": "game_instance"
+    },
+    "users_permissions_users": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "game_instances"
     }
   }
 }

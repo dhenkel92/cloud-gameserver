@@ -18,6 +18,7 @@
     "mysql": "2.18.1",
     "strapi-plugin-entity-relationship-chart": "^4.1.0"
   },
+  "resolutions": { "@graphql-tools/utils": "8.6.7" },
   "author": {
     "name": "A Strapi developer"
   },

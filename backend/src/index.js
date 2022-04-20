@@ -1,5 +1,7 @@
 'use strict';
 
+const middlewares = require('./graphql/middlewares');
+
 module.exports = {
   /**
    * An asynchronous register function that runs before
@@ -7,7 +9,20 @@ module.exports = {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/*{ strapi }*/) {},
+  register(/*{ strapi }*/) {
+    const extensionService = strapi.plugin('graphql').service('extension');
+
+    extensionService.use({
+      resolversConfig: {
+        'Query.gameInstances': {
+          middlewares: [
+            middlewares.filterUsers,
+          ],
+        },
+      },
+    })
+  },
+
 
   /**
    * An asynchronous bootstrap function that runs before
