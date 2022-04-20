@@ -1,7 +1,7 @@
 on:
   push:
-    branches:
-      - master
+    # branches:
+      # - master
     paths:
       - '.github/workflows/strapi.yml'
       - '.github/scripts/auth.sh'
