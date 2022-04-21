@@ -28,12 +28,6 @@
       "target": "api::game-flavour.game-flavour",
       "inversedBy": "game_versions"
     },
-    "users_permissions_users": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "game_versions"
-    },
     "docker_image": {
       "type": "string",
       "required": true
