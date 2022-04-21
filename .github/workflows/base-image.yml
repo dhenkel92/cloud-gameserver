@@ -1,7 +1,7 @@
 on:
   push:
     # branches:
-      # - master
+      # - main
     paths:
       - '.github/workflows/base-image.yml'
       - 'game-server-watcher/**/*'

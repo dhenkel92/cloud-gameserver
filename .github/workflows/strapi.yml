@@ -1,7 +1,7 @@
 on:
   push:
     # branches:
-      # - master
+      # - main
     paths:
       - '.github/workflows/strapi.yml'
       - '.github/scripts/auth.sh'
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Authenticate
-        # if: github.ref == 'refs/heads/master'
+        # if: github.ref == 'refs/heads/main'
         run: ./.github/scripts/auth.sh
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Authenticate
-        # if: github.ref == 'refs/heads/master'
+        # if: github.ref == 'refs/heads/main'
         run: ./.github/scripts/auth.sh
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}

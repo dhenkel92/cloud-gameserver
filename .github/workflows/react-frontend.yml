@@ -1,7 +1,7 @@
 on:
   push:
     # branches:
-      # - master
+      # - main
     paths:
       - '.github/workflows/react-frontend.yml'
       - '.github/scripts/auth.sh'
