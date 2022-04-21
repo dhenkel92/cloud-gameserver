@@ -53,7 +53,8 @@
       "type": "string"
     },
     "cost_per_hour": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true
     }
   }
 }
