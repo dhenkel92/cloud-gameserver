@@ -7,31 +7,8 @@ import { useQuery } from '@apollo/client';
 import colors from '../../general/colors/Colors.module.css';
 import { DetailsTable } from './DetailsTable/DetailsTable';
 import { DetailsConsole } from './DetailsConsole/DetailsConsole';
-import { GAME_CONFIG_DETAILS } from './GameConfigDetailQuery';
+import { GAME_CONFIG_DETAILS, GameConfigDetailsResponse } from './GameConfigDetailQuery';
 import { GameServerDetails } from './GameServerDetails/GameServerDetails';
-
-type GameConfigDetailsResponse = {
-  gameConfig: {
-    id: number;
-    name: string;
-    status: string;
-    game: {
-      name: string;
-    };
-    game_deployments: {
-      action: string;
-    }[];
-    game_servers: {
-      dns: string;
-      public_ip: string;
-      private_ip: string;
-      game_server_ports: {
-        address: string;
-        is_reachable: boolean;
-      }[];
-    }[];
-  };
-};
 
 type GameConfigDetailsProps = {
   name: string;
@@ -46,20 +23,22 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-  if (!data) return <p>Error :(</p>;
+  if (!data || data.gameInstances.data.length == 0) return <p>Error :(</p>;
+  const gameInstance = data.gameInstances.data[0];
   // eslint-disable-next-line no-console
-  console.log(data);
+  console.log(gameInstance);
 
   let gameServerDetails = <p></p>;
-  if (data.gameConfig.game_servers.length > 0) {
-    const gameServer = data.gameConfig.game_servers[0];
+  if (gameInstance.attributes.game_deployments.data.length > 0) {
+    const gameServer = gameInstance.attributes.game_deployments.data[0];
     gameServerDetails = (
       <div className={`gameServerDetails ${colors.surface01}`}>
         <GameServerDetails
-          dns={gameServer.dns}
-          publicIp={gameServer.public_ip}
-          privateIp={gameServer.private_ip}
-          ports={gameServer.game_server_ports}
+          dns={gameServer.attributes.domain}
+          publicIp={gameServer.attributes.public_ip}
+          privateIp={gameServer.attributes.private_ip}
+          // todo: fix
+          ports={[]}
         />
       </div>
     );
@@ -76,14 +55,14 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
         <div className={`configDetails`}>
           <div className={`test1 ${colors.surface01}`}>
             <img
-              alt={data.gameConfig.game.name}
+              alt={gameInstance.attributes.name}
               src={'https://i.computer-bild.de/imgs/1/1/5/2/9/5/0/5/Minecraft-1024x576-8b2043ae37807fa0.jpg'}
             />
             <DetailsTable
-              gameName={data.gameConfig.game.name}
-              gameConfigName={data.gameConfig.name}
-              gameConfigId={data.gameConfig.id}
-              gameConfigStatus={data.gameConfig.status}
+              gameName={gameInstance.attributes.game_version.data.attributes.game.data.attributes.name}
+              gameConfigName={gameInstance.attributes.name}
+              gameConfigId={gameInstance.id}
+              gameConfigStatus={gameInstance.attributes.status}
             />
           </div>
           {gameServerDetails}
