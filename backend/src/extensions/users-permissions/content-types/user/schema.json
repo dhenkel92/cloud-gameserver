@@ -63,17 +63,11 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "game_versions": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::game-version.game-version",
-      "mappedBy": "users_permissions_users"
-    },
     "game_instances": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::game-instance.game-instance",
-      "inversedBy": "users_permissions_users"
+      "mappedBy": "users_permissions_users"
     }
   }
 }

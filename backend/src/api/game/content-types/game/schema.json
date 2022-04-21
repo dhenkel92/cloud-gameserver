@@ -21,6 +21,12 @@
       "relation": "oneToMany",
       "target": "api::game-flavour.game-flavour",
       "mappedBy": "game"
+    },
+    "game_versions": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::game-version.game-version",
+      "mappedBy": "game"
     }
   }
 }

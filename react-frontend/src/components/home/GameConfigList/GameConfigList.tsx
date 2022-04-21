@@ -7,26 +7,70 @@ import { GameConfigEntryEmpty } from './GameConfigEntryEmpty/GameConfigEntryEmpt
 
 const GAME_CONFIGS = gql`
   query {
-    gameConfigs {
-      id
-      name
-      status
-      game {
-        name
+    gameInstances {
+      data {
+        id
+        attributes {
+          name
+          status
+          game_version {
+            data {
+              attributes {
+                version
+                game_flavour {
+                  data {
+                    attributes {
+                      name
+                    }
+                  }
+                }
+                game {
+                  data {
+                    attributes {
+                      name
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }
 `;
 
 interface GameConfigResponse {
-  gameConfigs: {
-    id: string;
-    name: string;
-    status: string;
-    game: {
-      name: string;
-    };
-  }[];
+  gameInstances: {
+    data: {
+      id: string;
+      attributes: {
+        name: string;
+        status: string;
+        game_version: {
+          data: {
+            attributes: {
+              version: string;
+              game_flavour: {
+                data: {
+                  attributes: {
+                    name: string;
+                  };
+                };
+              };
+              game: {
+                data: {
+                  attributes: {
+                    name: string;
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
+    }[];
+  };
 }
 
 export const GameConfigList = (): JSX.Element => {
@@ -37,8 +81,14 @@ export const GameConfigList = (): JSX.Element => {
   let entries: JSX.Element[] = [];
   if (data) {
     entries = entries.concat(
-      data.gameConfigs.map((e) => (
-        <GameConfigEntry gameConfigName={e.name} key={e.id} gameConfigId={e.id} gameName={e.game.name} gameConfigStatus={e.status} />
+      data.gameInstances.data.map((e) => (
+        <GameConfigEntry
+          gameConfigName={e.attributes.name}
+          key={e.id}
+          gameConfigId={e.id}
+          gameName={e.attributes.game_version.data.attributes.game.data.attributes.name}
+          gameConfigStatus={e.attributes.status}
+        />
       ))
     );
   }
