@@ -37,6 +37,12 @@
     "docker_image": {
       "type": "string",
       "required": true
+    },
+    "game": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::game.game",
+      "inversedBy": "game_versions"
     }
   }
 }

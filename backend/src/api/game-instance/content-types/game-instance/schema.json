@@ -33,6 +33,16 @@
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "game_instances"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "STOPPED",
+        "RUNNING",
+        "FAILED"
+      ],
+      "required": true,
+      "default": "STOPPED"
     }
   }
 }
