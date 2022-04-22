@@ -10,6 +10,7 @@ interface DetailsTableProps {
   gameConfigId: number;
   gameConfigName: string;
   gameConfigStatus: string;
+  gameDeploymentId: string;
 }
 
 export class DetailsTable extends React.Component<DetailsTableProps> {
@@ -34,7 +35,12 @@ export class DetailsTable extends React.Component<DetailsTableProps> {
         </div>
         <hr />
         <div className="detailsTableRow">
-          <GameConfigButtons cloudInstanceId={1} gameConfigId={this.props.gameConfigId} gameConfigStatus={this.props.gameConfigStatus} />
+          <GameConfigButtons
+            cloudInstanceId={1}
+            gameConfigId={this.props.gameConfigId}
+            gameConfigStatus={this.props.gameConfigStatus}
+            gameDeploymentId={this.props.gameDeploymentId}
+          />
         </div>
       </div>
     );

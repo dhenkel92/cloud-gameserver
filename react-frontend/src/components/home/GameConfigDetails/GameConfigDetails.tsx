@@ -29,11 +29,13 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
   console.log(gameInstance);
 
   let deploymentStatus = 'STOPPED';
+  let gameDeploymentId = '-1';
   let gameServerDetails = <p></p>;
   if (gameInstance.attributes.game_deployments.data.length > 0) {
     // always take the first entry as it's in a decending order
     const gameServer = gameInstance.attributes.game_deployments.data[0];
     deploymentStatus = gameServer.attributes.status;
+    gameDeploymentId = gameServer.id;
     gameServerDetails = (
       <div className={`gameServerDetails ${colors.surface01}`}>
         <GameServerDetails
@@ -66,6 +68,7 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
               gameConfigName={gameInstance.attributes.name}
               gameConfigId={gameInstance.id}
               gameConfigStatus={deploymentStatus}
+              gameDeploymentId={gameDeploymentId}
             />
           </div>
           {gameServerDetails}

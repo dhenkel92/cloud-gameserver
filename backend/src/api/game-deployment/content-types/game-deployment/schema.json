@@ -54,7 +54,7 @@
     },
     "cost_per_hour": {
       "type": "decimal",
-      "required": true
+      "required": false
     }
   }
 }
