@@ -12,7 +12,13 @@ const GAME_CONFIGS = gql`
         id
         attributes {
           name
-          status
+          game_deployments(sort: ["start_time:desc"], pagination: { limit: 1 }) {
+            data {
+              attributes {
+                status
+              }
+            }
+          }
           game_version {
             data {
               attributes {
@@ -46,7 +52,13 @@ interface GameConfigResponse {
       id: string;
       attributes: {
         name: string;
-        status: string;
+        game_deployments: {
+          data: {
+            attributes: {
+              status: string;
+            };
+          }[];
+        };
         game_version: {
           data: {
             attributes: {
@@ -78,19 +90,23 @@ export const GameConfigList = (): JSX.Element => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  let entries: JSX.Element[] = [];
+  const entries: JSX.Element[] = [];
   if (data) {
-    entries = entries.concat(
-      data.gameInstances.data.map((e) => (
+    for (const gameInstance of data.gameInstances.data) {
+      let status = 'STOPPED';
+      if (gameInstance.attributes.game_deployments.data.length > 0) {
+        status = gameInstance.attributes.game_deployments.data[0].attributes.status;
+      }
+      entries.push(
         <GameConfigEntry
-          gameConfigName={e.attributes.name}
-          key={e.id}
-          gameConfigId={e.id}
-          gameName={e.attributes.game_version.data.attributes.game.data.attributes.name}
-          gameConfigStatus={e.attributes.status}
+          gameConfigName={gameInstance.attributes.name}
+          key={gameInstance.id}
+          gameConfigId={gameInstance.id}
+          gameName={gameInstance.attributes.game_version.data.attributes.game.data.attributes.name}
+          gameConfigStatus={status}
         />
-      ))
-    );
+      );
+    }
   }
 
   return (

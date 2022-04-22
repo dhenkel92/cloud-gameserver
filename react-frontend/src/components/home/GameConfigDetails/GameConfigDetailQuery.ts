@@ -7,7 +7,6 @@ export const GAME_CONFIG_DETAILS = gql`
         id
         attributes {
           name
-          status
           game_deployments(sort: ["start_time:desc"]) {
             data {
               id
@@ -64,7 +63,6 @@ export type GameConfigDetailsResponse = {
       id: number;
       attributes: {
         name: string;
-        status: string;
         game_deployments: {
           data: {
             id: string;

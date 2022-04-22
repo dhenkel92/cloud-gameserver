@@ -38,3 +38,9 @@ export class PrimaryButton extends React.Component<SpecializedButton> {
     return <Button {...this.props} className={`${colors.primaryBtn} ${this.props.className}`} />;
   }
 }
+
+export class ProcessingButton extends React.Component<SpecializedButton> {
+  render(): JSX.Element {
+    return <Button {...this.props} className={`${styles.processing} ${this.props.className}`} />;
+  }
+}

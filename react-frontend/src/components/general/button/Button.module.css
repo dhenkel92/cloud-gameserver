@@ -24,3 +24,9 @@
 .danger:active {
     border: 1px solid black;
 }
+
+.processing {
+    border: 1px solid #fc7703;
+    background-color: #fc7703;
+    color: black;
+}

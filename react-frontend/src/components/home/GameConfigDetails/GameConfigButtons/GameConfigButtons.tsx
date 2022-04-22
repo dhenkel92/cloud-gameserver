@@ -1,8 +1,9 @@
 import React from 'react';
 import './GameConfigButtons.css';
 import { gql, useMutation } from '@apollo/client';
-import { ErrorButton, SuccessButton } from '../../../general/button/Button';
+import { SuccessButton, ErrorButton } from '../../../general/button/Button';
 import { GAME_CONFIG_DETAILS } from '../GameConfigDetailQuery';
+import { SpinningLoader } from '../../../general/SpinningLoader/SpinningLoader';
 
 const CREATE_GAME_DEPLOY = gql`
   mutation ($id: ID!, $action: ENUM_GAMEDEPLOYMENT_ACTION!) {
@@ -15,6 +16,7 @@ const CREATE_GAME_DEPLOY = gql`
 `;
 
 type GameConfigButtonsProps = {
+  cloudInstanceId: number;
   gameConfigId: number;
   gameConfigStatus: string;
 };
@@ -24,13 +26,21 @@ export const GameConfigButtons = (props: GameConfigButtonsProps): JSX.Element =>
     refetchQueries: [{ query: GAME_CONFIG_DETAILS, variables: { id: props.gameConfigId } }],
   });
 
-  return (
-    <div className="gameButtonGroup">
-      {props.gameConfigStatus === 'RUNNING' ? (
-        <ErrorButton name="Stop" onClick={() => mutation({ variables: { id: props.gameConfigId, action: 'STOP' } })} />
-      ) : (
-        <SuccessButton name="Start" onClick={() => mutation({ variables: { id: props.gameConfigId, action: 'START' } })} />
-      )}
-    </div>
-  );
+  let button = <div></div>;
+  switch (props.gameConfigStatus) {
+    case 'RUNNING':
+      button = (
+        <ErrorButton disabled={true} name="Stop" onClick={() => mutation({ variables: { id: props.gameConfigId, action: 'STOP' } })} />
+      );
+      break;
+    case 'STOPPED':
+      button = <SuccessButton name="Start" onClick={() => mutation({ variables: { id: props.gameConfigId, action: 'START' } })} />;
+      break;
+    case 'STARTING':
+    case 'STOPPING':
+      button = <SpinningLoader />;
+      break;
+  }
+
+  return <div className="gameButtonGroup">{button}</div>;
 };

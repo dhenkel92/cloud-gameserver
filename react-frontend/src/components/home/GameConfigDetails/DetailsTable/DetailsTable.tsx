@@ -3,7 +3,6 @@ import './DetailsTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { GameConfigButtons } from '../GameConfigButtons/GameConfigButtons';
-import { SpinningLoader } from '../../../general/SpinningLoader/SpinningLoader';
 import { gameConfigStatusToColor } from '../../../../helpers/gameConfigStatusToColor';
 
 interface DetailsTableProps {
@@ -35,11 +34,7 @@ export class DetailsTable extends React.Component<DetailsTableProps> {
         </div>
         <hr />
         <div className="detailsTableRow">
-          {this.props.gameConfigStatus === 'STARTING' || this.props.gameConfigStatus === 'STOPPING' ? (
-            <SpinningLoader />
-          ) : (
-            <GameConfigButtons gameConfigId={this.props.gameConfigId} gameConfigStatus={this.props.gameConfigStatus} />
-          )}
+          <GameConfigButtons cloudInstanceId={1} gameConfigId={this.props.gameConfigId} gameConfigStatus={this.props.gameConfigStatus} />
         </div>
       </div>
     );

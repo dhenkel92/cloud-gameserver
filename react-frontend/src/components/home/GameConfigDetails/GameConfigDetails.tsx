@@ -28,9 +28,12 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
   // eslint-disable-next-line no-console
   console.log(gameInstance);
 
+  let deploymentStatus = 'STOPPED';
   let gameServerDetails = <p></p>;
   if (gameInstance.attributes.game_deployments.data.length > 0) {
+    // always take the first entry as it's in a decending order
     const gameServer = gameInstance.attributes.game_deployments.data[0];
+    deploymentStatus = gameServer.attributes.status;
     gameServerDetails = (
       <div className={`gameServerDetails ${colors.surface01}`}>
         <GameServerDetails
@@ -62,14 +65,14 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
               gameName={gameInstance.attributes.game_version.data.attributes.game.data.attributes.name}
               gameConfigName={gameInstance.attributes.name}
               gameConfigId={gameInstance.id}
-              gameConfigStatus={gameInstance.attributes.status}
+              gameConfigStatus={deploymentStatus}
             />
           </div>
           {gameServerDetails}
         </div>
         <div className={`configDetailsLog`}>
           <div className={`test2 ${colors.surface01}`}>
-            <DetailsConsole />
+            <DetailsConsole deployments={gameInstance.attributes.game_deployments.data} />
           </div>
         </div>
       </div>
