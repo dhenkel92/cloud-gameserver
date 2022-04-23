@@ -27,6 +27,6 @@ export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment):
       type: mfConfig.cloudInstance.apiName,
       image: config.get('hcloudServer.image'),
     },
-    configuration: '{}',
+    configuration: '{"server":{"port":1234}}',
   };
 }
