@@ -21,7 +21,7 @@ export default class GameDeploymentRepository {
 
     const rows = await this.dirtyMysqlAdapter.query(
       `
-      SELECT gd.id as gd_id, gd.status as gd_status, gd.consumer_uuid as gd_consumer_uuid, ci.provider as ci_provider, ci.api_name as ci_api_name, ci.cost_per_hour as ci_cost_per_hour, ci.region as ci_region, gi.id as ig_id, gi.name as gi_name, gv.docker_image as gv_docker_image
+      SELECT gd.id as gd_id, gd.status as gd_status, gd.consumer_uuid as gd_consumer_uuid, ci.provider as ci_provider, ci.api_name as ci_api_name, ci.cost_per_hour as ci_cost_per_hour, ci.region as ci_region, gi.id as gi_id, gi.name as gi_name, gv.docker_image as gv_docker_image
       FROM game_deployments gd
         INNER JOIN game_deployments_game_instance_links gil ON gil.game_deployment_id = gd.id
         INNER JOIN game_instances gi ON gil.game_instance_id = gi.id
