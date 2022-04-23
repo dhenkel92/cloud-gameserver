@@ -36,17 +36,20 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
     const gameServer = gameInstance.attributes.game_deployments.data[0];
     deploymentStatus = gameServer.attributes.status;
     gameDeploymentId = gameServer.id;
-    gameServerDetails = (
-      <div className={`gameServerDetails ${colors.surface01}`}>
-        <GameServerDetails
-          dns={gameServer.attributes.domain}
-          publicIp={gameServer.attributes.public_ip}
-          privateIp={gameServer.attributes.private_ip}
-          // todo: fix
-          ports={[]}
-        />
-      </div>
-    );
+
+    if (gameServer.attributes.status == 'RUNNING') {
+      gameServerDetails = (
+        <div className={`gameServerDetails ${colors.surface01}`}>
+          <GameServerDetails
+            dns={gameServer.attributes.domain}
+            publicIp={gameServer.attributes.public_ip}
+            privateIp={gameServer.attributes.private_ip}
+            // todo: fix
+            ports={[]}
+          />
+        </div>
+      );
+    }
   }
 
   return (

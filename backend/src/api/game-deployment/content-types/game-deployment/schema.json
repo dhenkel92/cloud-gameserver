@@ -55,6 +55,10 @@
     "cost_per_hour": {
       "type": "decimal",
       "required": false
+    },
+    "consumer_uuid": {
+      "type": "string",
+      "private": true
     }
   }
 }

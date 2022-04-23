@@ -9,8 +9,6 @@ import { TerraformService } from './services/TerraformService';
 import { GameDeploymentLogRepository } from './repositories/GameDeploymentLogRepository';
 import { HetznerCloudAdapter } from './adapters/HetznerCloudAdapter';
 import { HetznerCloudRepository } from './repositories/HetznerCloudRepository';
-import { GameConfigRepository } from './repositories/GameConfigRepository';
-import { GameServerRepository } from './repositories/GameServerRepository';
 
 export default class ServiceLocator {
   private static instance: ServiceLocator | null;
@@ -101,13 +99,13 @@ export default class ServiceLocator {
   }
 
   public async getDirtyMySqlAdapter(): Promise<MySqlAdapter> {
-    if (this.hasCached('MySqlAdapter')) {
-      return this.getFromCache('MySqlAdapter');
+    if (this.hasCached('DirtyMySqlAdapter')) {
+      return this.getFromCache('DirtyMySqlAdapter');
     }
     const connection = await this.getMysqlConnection(true);
     const adapter = new MySqlAdapter(connection);
 
-    this.setCache('MySqlAdapter', adapter);
+    this.setCache('DirtyMySqlAdapter', adapter);
     return adapter;
   }
 
@@ -171,26 +169,6 @@ export default class ServiceLocator {
     return repo;
   }
 
-  public async getGameConfigRepository(): Promise<GameConfigRepository> {
-    if (this.hasCached('GameConfigRepository')) {
-      return this.getFromCache('GameConfigRepository');
-    }
-
-    const repo = new GameConfigRepository(await this.getMySqlAdapter());
-    this.setCache('GameConfigRepository', repo);
-    return repo;
-  }
-
-  public async getGameServerRepository(): Promise<GameServerRepository> {
-    if (this.hasCached('GameServerRepository')) {
-      return this.getFromCache('GameServerRepository');
-    }
-
-    const repo = new GameServerRepository(await this.getMySqlAdapter());
-    this.setCache('GameServerRepository', repo);
-    return repo;
-  }
-
   /***********************************************************
    *
    * Services
@@ -201,23 +179,10 @@ export default class ServiceLocator {
       return this.getFromCache('GameDeploymentService');
     }
 
-    const [deployRepo, configRepo, deployLogRepo, gameServerRepo] = await Promise.all([
-      this.getGameDeploymentRepository(),
-      this.getGameConfigRepository(),
-      this.getGameDeploymentLogRepository(),
-      this.getGameServerRepository(),
-    ]);
+    const [deployRepo] = await Promise.all([this.getGameDeploymentRepository()]);
 
     const terraformService = await this.getTerraformService();
-    const service = new GameDeploymentService(
-      terraformService,
-      deployRepo,
-      configRepo,
-      deployLogRepo,
-      this.getHetznerCloudRepository(),
-      gameServerRepo,
-      this.getLogger()
-    );
+    const service = new GameDeploymentService(terraformService, deployRepo, this.getHetznerCloudRepository(), this.getLogger());
 
     this.setCache('GameDeploymentService', service);
     return service;

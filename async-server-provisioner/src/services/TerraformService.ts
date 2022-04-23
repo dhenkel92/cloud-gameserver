@@ -1,6 +1,6 @@
 import { Logger } from 'pino';
 import { ShellAdapter, ShellResult } from '../adapters/ShellAdapter';
-import { GameDeployment, GameDeploymentAction } from '../entities/GameDeployment';
+import { GameDeployment, GameDeploymentStatus } from '../entities/GameDeployment';
 import { GameDeploymentLogRepository } from '../repositories/GameDeploymentLogRepository';
 import { createMinecraftTFConfigFromGameConfig, mcTFConfToTFArgs, MinecraftTFConfig } from '../entities/MinecraftTFConfig';
 
@@ -23,8 +23,8 @@ export class TerraformService {
     await this.init(config.id);
     await this.changeWorkspace(config.id, config.workspaceName);
 
-    switch (config.action) {
-      case GameDeploymentAction.START:
+    switch (config.status) {
+      case GameDeploymentStatus.STARTING:
         await this.apply(config.id, tfVars);
         const output = await this.getOutput();
         return {
@@ -32,11 +32,11 @@ export class TerraformService {
           privateIP: output.server_private_ip.value,
           publicIP: output.server_public_ip.value,
         };
-      case GameDeploymentAction.STOP:
+      case GameDeploymentStatus.STOPPING:
         await this.destroy(config.id, tfVars);
         return null;
       default:
-        throw new Error(`Invalid deployment action: ${config.action}`);
+        throw new Error(`Invalid deployment action: ${config.status}`);
     }
   }
 
@@ -84,16 +84,7 @@ export class TerraformService {
     return JSON.parse(res.stdout);
   }
 
-  private async writeShellLog(gameDeployId: number, shellRes: ShellResult): Promise<void> {
-    const promises = [];
-    if (shellRes.stdout !== '') {
-      this.logger.info(shellRes.stdout);
-      promises.push(this.gameDeployLogRepo.info(gameDeployId, shellRes.stdout));
-    }
-    if (shellRes.stderr !== '') {
-      this.logger.warn(shellRes.stderr);
-      promises.push(this.gameDeployLogRepo.info(gameDeployId, shellRes.stderr));
-    }
-    await Promise.all(promises);
+  private async writeShellLog(_gameDeployId: number, _shellRes: ShellResult): Promise<void> {
+    // todo: do nothing?
   }
 }

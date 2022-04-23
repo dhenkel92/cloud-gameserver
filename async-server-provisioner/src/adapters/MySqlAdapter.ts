@@ -38,4 +38,16 @@ export default class MySqlAdapter {
       });
     });
   }
+
+  public async rollback(): Promise<void> {
+    await new Promise((resolve, reject) => {
+      this.connection.rollback((err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(null);
+      });
+    });
+  }
 }

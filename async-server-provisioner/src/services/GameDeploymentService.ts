@@ -1,12 +1,8 @@
 import { Logger } from 'pino';
 import GameDeploymentRepository from '../repositories/GameDeploymentRepository';
 import { TerraformService } from './TerraformService';
-import { GameDeploymentLogRepository } from '../repositories/GameDeploymentLogRepository';
 import { HetznerCloudRepository } from '../repositories/HetznerCloudRepository';
-import { GameDeploymentAction } from '../entities/GameDeployment';
-import { GameConfigRepository } from '../repositories/GameConfigRepository';
-import { GameConfigStatus } from '../entities/GameConfig';
-import { GameServerRepository } from '../repositories/GameServerRepository';
+import { GameDeploymentStatus } from '../entities/GameDeployment';
 
 export interface GameDeploymentServiceConfig {
   timeoutMillis?: number;
@@ -21,10 +17,7 @@ export class GameDeploymentService {
   constructor(
     private terraformService: TerraformService,
     private gameDeployRepo: GameDeploymentRepository,
-    private gameConfigRepo: GameConfigRepository,
-    private gameDeployLogRepo: GameDeploymentLogRepository,
     private hcloudRepo: HetznerCloudRepository,
-    private gameServerRepo: GameServerRepository,
     private logger: Logger
   ) {}
 
@@ -67,7 +60,7 @@ export class GameDeploymentService {
 
     this.logger.info('received new message %s', JSON.stringify(res));
     try {
-      if (res.action === GameDeploymentAction.STOP) {
+      if (res.status === GameDeploymentStatus.STOPPING) {
         await this.shutdownHetznerServer(res.workspaceName);
       }
 
@@ -76,22 +69,19 @@ export class GameDeploymentService {
       this.logger.info('finished terraform execution');
       await this.gameDeployRepo.finishDeployment();
 
-      if (res.action === GameDeploymentAction.START) {
-        this.logger.info('Create game server entry');
-        await this.gameServerRepo.createGameServer(res.gameConfig.id, tfOutput);
-        this.logger.info('Update game config status to running');
-        await this.gameConfigRepo.updateGCStatus(res.gameConfig.id, GameConfigStatus.RUNNING);
+      this.logger.info('Update game deployment status');
+      if (res.status === GameDeploymentStatus.STARTING) {
+        await this.gameDeployRepo.runningDeployment(res.id, res.cloudInstance.costPerHour, tfOutput);
       } else {
-        this.logger.info('Delete game server entries');
-        await this.gameServerRepo.deleteGameServerForConfig(res.gameConfig.id);
-        this.logger.info('Update game config status to stopped');
-        await this.gameConfigRepo.updateGCStatus(res.gameConfig.id, GameConfigStatus.STOPPED);
+        await this.gameDeployRepo.stoppedDeployment(res.id);
       }
+
+      await this.gameDeployRepo.finishDeployment();
     } catch (e) {
       this.logger.error('failed to execute message');
       this.logger.error(e);
-      await Promise.all([this.gameDeployLogRepo.danger(res.id, e), this.gameDeployRepo.finishDeployment()]);
-      await this.gameConfigRepo.updateGCStatus(res.gameConfig.id, GameConfigStatus.FAILED);
+      await this.gameDeployRepo.updateStatus(res.id, 'FAILED');
+      await this.gameDeployRepo.failedDeployment();
     }
   }
 }
