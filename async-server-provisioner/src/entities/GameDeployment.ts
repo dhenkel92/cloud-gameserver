@@ -1,17 +1,18 @@
-import { GameConfig, gameConfigFactory } from './GameConfig';
+import { CloudInstance, cloudInstanceFactory } from './CloudInstance';
+import { GameInstance, gameInstanceFactory } from './GameInstance';
 
-export enum GameDeploymentAction {
-  START = 'START',
-  STOP = 'STOP',
+export enum GameDeploymentStatus {
+  STARTING = 'STARTING',
+  STOPPING = 'STOPPING',
 }
 
 export interface GameDeployment {
   id: number;
-  uuid: string;
-  action: GameDeploymentAction;
   workspaceName: string;
-  gameConfig: GameConfig;
-  s3Path: string;
+  consumerUUID: string;
+  status: GameDeploymentStatus;
+  cloudInstance: CloudInstance;
+  gameInstance: GameInstance;
 }
 
 function generateTFWorkspaceName(row: any): string {
@@ -20,14 +21,13 @@ function generateTFWorkspaceName(row: any): string {
 }
 
 export function gameDeploymentFactory(row: any): GameDeployment {
-  const gameConfig = gameConfigFactory(row);
   const workspaceName = generateTFWorkspaceName(row);
   return {
-    gameConfig,
     workspaceName,
     id: row.gd_id,
-    uuid: row.gd_uuid,
-    action: (GameDeploymentAction as any)[row.gd_action],
-    s3Path: `${gameConfig.s3BasePath}/${workspaceName}`,
+    consumerUUID: row.gd_consumer_uuid,
+    status: (GameDeploymentStatus as any)[row.gd_status],
+    cloudInstance: cloudInstanceFactory(row),
+    gameInstance: gameInstanceFactory(row),
   };
 }
