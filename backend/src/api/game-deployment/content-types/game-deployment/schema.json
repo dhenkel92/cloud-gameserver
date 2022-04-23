@@ -53,7 +53,7 @@
       "type": "string"
     },
     "cost_per_hour": {
-      "type": "decimal",
+      "type": "float",
       "required": false
     },
     "consumer_uuid": {

@@ -30,7 +30,7 @@
       "required": true
     },
     "cost_per_hour": {
-      "type": "decimal",
+      "type": "float",
       "required": true,
       "min": 0
     },
