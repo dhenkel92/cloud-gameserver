@@ -13,8 +13,6 @@ jobs:
   build-image:
     name: Build Hetzner Image
     runs-on: ubuntu-latest
-    needs:
-      - build-executable
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
