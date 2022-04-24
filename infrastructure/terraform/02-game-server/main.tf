@@ -32,7 +32,7 @@ module "firewall" {
     },
     {
       proto      = "tcp"
-      port       = "25655"
+      port       = "25565"
       source_ips = ["0.0.0.0/0"]
     },
     {
