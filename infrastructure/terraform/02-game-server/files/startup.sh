@@ -1,15 +1,22 @@
 #! /bin/bash
 
 cat <<EOF > /root/ansible/vars/game-server.yaml
-bucket_name: cloud-game
-base_path: ${s3_base_path}
+# base-server variables
 aws:
-  aws_access_key_id: ${AWS_ACCESS_KEY_ID}
-  aws_secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+  aws_access_key_id: ${aws_access_key_id}
+  aws_secret_access_key: ${aws_secret_access_key}
   aws_default_region: eu-central-1
-configuration: '${game_config}'
+
+# game server start varibales
 server:
-  port: ${server_port}
+  docker_image: ${game_server_image}
+datadog:
+  enabled: ${datadog_enabled}
+  api_key: ${datadog_api_key}
+  agent_image: gcr.io/datadoghq/agent:7
+watcher:
+  docker_image: cloudgame/game-server-watcher:latest
+  port: 8080
 EOF
 
-ansible-playbook /root/ansible/minecraft.yml --extra-vars "@/root/ansible/vars/game-server.yaml"
+ansible-playbook /root/ansible/game-server-start.yml --extra-vars "@/root/ansible/vars/game-server.yaml"

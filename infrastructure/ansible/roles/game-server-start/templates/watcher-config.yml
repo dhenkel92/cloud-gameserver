@@ -1,0 +1,8 @@
+---
+watchers:
+  - name: game-server
+    ports:
+      - port: 25565
+        host: 127.0.0.1
+    logFiles:
+      - path: ./Cargo.toml

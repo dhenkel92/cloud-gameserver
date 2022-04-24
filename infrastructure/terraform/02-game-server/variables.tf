@@ -1,24 +1,23 @@
-variable "name" {
-  type = string
-}
-
-variable "location" {
-  type = string
+variable "metadata" {
+  type = object({
+    name     = string
+    location = string
+  })
 }
 
 variable "server" {
   type = object({
-    image = string
-    type  = string
+    image        = string
+    type         = string
+    docker_image = string
   })
 }
 
-variable "s3_base_path" {
-  type = string
-}
-
-variable "game_config" {
-  type = any
+variable "datadog" {
+  type = object({
+    enabled = bool
+    api_key = string
+  })
 }
 
 variable "tags" {

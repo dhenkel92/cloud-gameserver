@@ -2,31 +2,39 @@ import * as config from 'config';
 import { GameDeployment } from './GameDeployment';
 
 export interface MinecraftTFConfig {
-  name: string;
-  location: string;
-  dockerImage: string;
+  metadata: {
+    name: string;
+    location: string;
+  };
   server: {
     type: string;
     image: string;
+    docker_image: string;
   };
-  configuration: string;
+  datadog: {
+    enabled: boolean;
+    api_key: string;
+  };
 }
 
 export function mcTFConfToTFArgs(mfConfig: MinecraftTFConfig): string {
-  return `-var='name=${mfConfig.name}' -var='location=${mfConfig.location}' -var='s3_base_path=${
-    mfConfig.dockerImage
-  }' -var='server=${JSON.stringify(mfConfig.server)}' -var='game_config=${mfConfig.configuration}'`;
+  return `-var='metadata=${JSON.stringify(mfConfig.metadata)}' -var='server=${mfConfig.server}' -var='datadog=${mfConfig.datadog}'`;
 }
 
 export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment): MinecraftTFConfig {
   return {
-    name: mfConfig.workspaceName,
-    dockerImage: mfConfig.gameInstance.dockerImage,
-    location: mfConfig.cloudInstance.region,
+    metadata: {
+      name: mfConfig.workspaceName,
+      location: mfConfig.cloudInstance.region,
+    },
     server: {
       type: mfConfig.cloudInstance.apiName,
       image: config.get('hcloudServer.image'),
+      docker_image: 'cloudgame/minecraft:vanilla-1.18.2',
     },
-    configuration: '{"server":{"port":1234}}',
+    datadog: {
+      enabled: config.get('datadog.enabled'),
+      api_key: config.get('datadog.api_key'),
+    },
   };
 }

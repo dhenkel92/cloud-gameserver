@@ -1,52 +1,15 @@
 on:
   push:
-    # branches:
-      # - main
+    branches:
+      - main
     paths:
       - '.github/workflows/base-image.yml'
-      - 'game-server-watcher/**/*'
       - 'infrastructure/packer/**/*'
       - 'infrastructure/ansible/**/*'
 
 name: Base Image
 
 jobs:
-  build-executable:
-    name: Build Game Server Watcher
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: Fix Cargo Registry Cache Permissions
-        run: sudo chown -R $(whoami):$(id -ng) ~/.cargo/
-      - name: Cache cargo registry
-        uses: actions/cache@v1
-        with:
-          path: ~/.cargo/registry
-          key: ${{ runner.os }}-cargo-registry-style-${{ hashFiles('**/Cargo.lock') }}
-      - name: Cache cargo index
-        uses: actions/cache@v1
-        with:
-          path: ~/.cargo/git
-          key: ${{ runner.os }}-cargo-index-style-${{ hashFiles('**/Cargo.lock') }}
-      - name: Cache cargo build
-        uses: actions/cache@v1
-        with:
-          path: game-server-watcher/target
-          key: ${{ runner.os }}-cargo-build-target-style-${{ hashFiles('**/Cargo.lock') }}
-      - uses: raftario/setup-rust-action@v1
-        with:
-          rust-channel: stable
-          rust-host: x86_64-unknown-linux-gnu
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-      - name: Build executable
-        working-directory: game-server-watcher
-        run: cargo build --release --features "strict"
-      - uses: actions/upload-artifact@master
-        with:
-          name: game-server-watcher
-          path: game-server-watcher/target/release/game-server-watcher
-
   build-image:
     name: Build Hetzner Image
     runs-on: ubuntu-latest
@@ -55,10 +18,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      - uses: actions/download-artifact@master
-        with:
-          name: game-server-watcher
-          path: infrastructure/packer/tmp
       # fix backwards incompatibilities in template
       - name: Fix Template
         uses: hashicorp/packer-github-actions@master

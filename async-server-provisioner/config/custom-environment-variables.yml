@@ -9,3 +9,7 @@ mysql:
 hetzner:
   token: HCLOUD_TOKEN
   image: HCLOUD_IMAGE
+
+datadog:
+  enabled: DD_ENABLED
+  api_key: DD_API_KEY

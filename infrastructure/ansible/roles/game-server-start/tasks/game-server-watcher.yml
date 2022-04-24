@@ -1,0 +1,19 @@
+---
+- name: Create watcher configuration
+  template:
+    src: watcher-config.yml
+    dest: /opt/watcher-config.yml
+    owner: root
+    group: root
+
+- name: Create game-server-watcher systemd service
+  template:
+    src: game-server-watcher.service
+    dest: /etc/systemd/system/game-server-watcher.service
+    owner: root
+    group: root
+  notify: Start Game Server Watcher
+
+- name: Reload Systmed
+  systemd:
+    daemon_reload: yes

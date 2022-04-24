@@ -1,0 +1,20 @@
+[Unit]
+Description=Datadog Agent
+After=network-online.target
+Requires=docker.service network-online.target
+
+[Service]
+User=root
+RemainAfterExit=true
+ExecStartPre=-/usr/bin/docker rm -f dd-agent
+ExecStart=/usr/bin/docker run -i --name dd-agent \
+         -v /var/run/docker.sock:/var/run/docker.sock:ro \
+         -v /proc/:/host/proc/:ro \
+         -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro \
+         -e DD_API_KEY={{ datadog.api_key }} \
+         -e DD_SITE="datadoghq.com" \
+        {{ datadog.agent_image }}
+TimeoutStopSec=300
+
+[Install]
+WantedBy=multi-user.target

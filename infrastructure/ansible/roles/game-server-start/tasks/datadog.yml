@@ -1,0 +1,12 @@
+---
+- name: Create datadog systemd service
+  template:
+    src: datadog.service
+    dest: /etc/systemd/system/datadog.service
+    owner: root
+    group: root
+  notify: Start Datadog
+
+- name: Reload Systmed
+  systemd:
+    daemon_reload: yes

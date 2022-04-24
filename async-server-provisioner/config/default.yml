@@ -13,3 +13,7 @@ hcloudServer:
   type: cx31
   image: '67590527'
   location: nbg1
+
+datadog:
+  enabled: false
+  api_key: placeholder

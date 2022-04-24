@@ -15,11 +15,6 @@
     "provisioners": [
         {
             "type": "file",
-            "source": "./tmp/game-server-watcher",
-            "destination": "/tmp/game-server-watcher"
-        },
-        {
-            "type": "file",
             "source": "../ansible",
             "destination": "/tmp/ansible"
         },
