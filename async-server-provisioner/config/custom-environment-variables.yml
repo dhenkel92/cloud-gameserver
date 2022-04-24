@@ -6,8 +6,7 @@ mysql:
   user: MYSQL_USER
   pw: MYSQL_PW
 
-hetzner:
-  token: HCLOUD_TOKEN
+hcloudServer:
   image: HCLOUD_IMAGE
 
 datadog:
