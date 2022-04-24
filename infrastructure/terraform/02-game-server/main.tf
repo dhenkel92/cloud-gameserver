@@ -23,7 +23,7 @@ data "terraform_remote_state" "game_cloud" {
 module "firewall" {
   source = "../modules/firewall"
 
-  name = var.name
+  name = var.metadata.name
   rules = [
     {
       proto      = "tcp"
@@ -32,7 +32,7 @@ module "firewall" {
     },
     {
       proto      = "tcp"
-      port       = var.game_config.server.port
+      port       = "25655"
       source_ips = ["0.0.0.0/0"]
     },
     {
@@ -46,8 +46,8 @@ module "firewall" {
 module "game_server" {
   source = "../modules/server"
 
-  name     = var.name
-  location = var.location
+  name     = var.metadata.name
+  location = var.metadata.location
 
   server_type  = var.server.type
   image        = var.server.image
@@ -64,11 +64,11 @@ module "game_server" {
   user_data = {
     path = "${path.module}/files/startup.sh"
     vars = {
-      s3_base_path          = var.s3_base_path
-      AWS_ACCESS_KEY_ID     = data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].access_key_id
-      AWS_SECRET_ACCESS_KEY = data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].secret_access_key
-      game_config           = jsonencode(var.game_config)
-      server_port           = var.game_config.server.port
+      game_server_image     = var.server.docker_image
+      datadog_enabled       = var.datadog.enabled
+      datadog_api_key       = var.datadog.api_key
+      aws_access_key_id     = data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].access_key_id
+      aws_secret_access_key = data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].secret_access_key
     }
   }
 }

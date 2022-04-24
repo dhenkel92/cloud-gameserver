@@ -1,11 +1,17 @@
-name     = "minecraft-test"
-location = "nbg1"
-
-s3_base_path = "games/minecraft/1-the-pack"
-
-server = {
-  type  = "cx31"
-  image = "27030193"
+metadata = {
+  name     = "minecraft-test"
+  location = "nbg1"
 }
 
-game_config = {}
+server = {
+  type         = "cx31"
+  image        = "68074861"
+  docker_image = "cloudgame/minecraft:vanilla-1.18.2"
+}
+
+datadog = {
+  enabled = false
+  api_key = "placeholder"
+}
+
+tags = {}
