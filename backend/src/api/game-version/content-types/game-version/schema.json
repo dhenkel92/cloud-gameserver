@@ -42,19 +42,19 @@
       "type": "component",
       "repeatable": true,
       "component": "server-config.port",
-      "required": true
+      "required": false
     },
     "backup_paths": {
       "type": "component",
       "repeatable": true,
       "component": "server-config.backup-path",
-      "required": true
+      "required": false
     },
     "log_files": {
       "type": "component",
       "repeatable": true,
       "component": "server-config.log-file",
-      "required": true
+      "required": false
     }
   }
 }
