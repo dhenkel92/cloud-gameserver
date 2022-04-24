@@ -18,7 +18,9 @@ export interface MinecraftTFConfig {
 }
 
 export function mcTFConfToTFArgs(mfConfig: MinecraftTFConfig): string {
-  return `-var='metadata=${JSON.stringify(mfConfig.metadata)}' -var='server=${mfConfig.server}' -var='datadog=${mfConfig.datadog}'`;
+  return `-var='metadata=${JSON.stringify(mfConfig.metadata)}' -var='server=${JSON.stringify(
+    mfConfig.server
+  )}' -var='datadog=${JSON.stringify(mfConfig.datadog)}'`;
 }
 
 export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment): MinecraftTFConfig {
