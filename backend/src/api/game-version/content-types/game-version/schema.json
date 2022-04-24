@@ -37,6 +37,24 @@
       "relation": "manyToOne",
       "target": "api::game.game",
       "inversedBy": "game_versions"
+    },
+    "ports": {
+      "type": "component",
+      "repeatable": true,
+      "component": "server-config.port",
+      "required": true
+    },
+    "backup_paths": {
+      "type": "component",
+      "repeatable": true,
+      "component": "server-config.backup-path",
+      "required": true
+    },
+    "log_files": {
+      "type": "component",
+      "repeatable": true,
+      "component": "server-config.log-file",
+      "required": true
     }
   }
 }

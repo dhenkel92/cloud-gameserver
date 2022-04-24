@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_server_config_backup_paths",
+  "info": {
+    "displayName": "BackupPath",
+    "icon": "ambulance"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "path": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

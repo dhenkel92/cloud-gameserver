@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_server_config_ports",
+  "info": {
+    "displayName": "Port",
+    "icon": "address-book",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "port": {
+      "type": "integer",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "TCP",
+        "UDP"
+      ],
+      "required": true
+    }
+  }
+}

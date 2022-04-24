@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_server_config_log_files",
+  "info": {
+    "displayName": "LogFile",
+    "icon": "air-freshener"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "path": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
