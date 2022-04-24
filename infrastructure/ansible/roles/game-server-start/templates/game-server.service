@@ -1,0 +1,16 @@
+[Unit]
+Description=Game Server
+After=network-online.target
+Requires=docker.service network-online.target
+
+[Service]
+User=root
+RemainAfterExit=true
+ExecStartPre=-/usr/bin/docker rm -f game-server
+ExecStart=/usr/bin/docker run -i --name game-server \
+          --net host \
+         {{ server.docker_image }}
+TimeoutStopSec=300
+
+[Install]
+WantedBy=multi-user.target

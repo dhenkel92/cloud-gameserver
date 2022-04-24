@@ -1,0 +1,10 @@
+---
+server:
+  docker_image: placeholder
+datadog:
+  enabled: true
+  api_key: placeholder
+  agent_image: gcr.io/datadoghq/agent:7
+watcher:
+  docker_image: cloudgame/game-server-watcher:latest
+  port: 8080

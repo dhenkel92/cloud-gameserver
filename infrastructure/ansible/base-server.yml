@@ -3,4 +3,3 @@
   connection: local
   roles:
   - base-server
-  - game-server

@@ -1,0 +1,13 @@
+---
+- name: Start Game Server
+  service:
+    name: game-server
+    state: started
+- name: Start Datadog
+  service:
+    name: datadog
+    state: started
+- name: Start Game Server Watcher
+  service:
+    name: game-server-watcher
+    state: started

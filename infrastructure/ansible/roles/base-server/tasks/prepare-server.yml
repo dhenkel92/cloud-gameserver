@@ -5,6 +5,7 @@
     - telnet
     - vim
     - tcpdump
+    - gnupg2
     state: present
     update_cache: true
 
