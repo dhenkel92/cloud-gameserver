@@ -11,6 +11,10 @@ export interface MinecraftTFConfig {
     image: string;
     docker_image: string;
   };
+  backups: {
+    name: string;
+    path: string;
+  }[];
   datadog: {
     enabled: boolean;
     api_key: string;
@@ -34,6 +38,13 @@ export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment):
       image: config.get('hcloudServer.image'),
       docker_image: 'cloudgame/minecraft:vanilla-1.18.2',
     },
+    // todo: get from database
+    backups: [
+      {
+        name: 'savegame',
+        path: '/opt/world',
+      },
+    ],
     datadog: {
       enabled: config.get('datadog.enabled'),
       api_key: config.get('datadog.api_key'),

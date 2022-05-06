@@ -3,6 +3,21 @@
   when: datadog.enabled
 - include_tasks: game-server-watcher.yml
 
+- name: Set defualt variables
+  set_fact:
+    backup_path: /opt/backup
+
+- name: Create folders
+  file:
+    path: "{{ backup_path }}{{ item.path }}"
+    state: directory
+    recurse: true
+  with_items: "{{ server.backups }}"
+
+- name: Create docker volumes
+  shell: docker volume create --opt type=none --opt device={{ backup_path }}{{ item.path }} --opt o=bind --name {{ item.name }}
+  with_items: "{{ server.backups }}"
+
 - name: Create game-server systemd service
   template:
     src: game-server.service

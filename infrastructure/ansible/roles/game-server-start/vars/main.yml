@@ -1,8 +1,14 @@
 ---
 server:
   docker_image: placeholder
+  backups:
+  # The name is used for docker volumes
+  - name: savegame
+    # The paths are inside the container.
+    # On the host it will be mapped to /opt/backups/<path>.
+    path: /opt/placeholder
 datadog:
-  enabled: true
+  enabled: false
   api_key: placeholder
   agent_image: gcr.io/datadoghq/agent:7
 watcher:

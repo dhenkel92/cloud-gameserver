@@ -13,6 +13,13 @@ variable "server" {
   })
 }
 
+variable "backups" {
+  type = list(object({
+    name = string
+    path = string
+  }))
+}
+
 variable "datadog" {
   type = object({
     enabled = bool

@@ -13,6 +13,13 @@ variable "server" {
   })
 }
 
+variable "backups" {
+  type = list(object({
+    name = string
+    path = string
+  }))
+}
+
 variable "s3_base_path" {
   type = string
 }

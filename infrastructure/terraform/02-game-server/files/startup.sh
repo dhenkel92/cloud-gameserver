@@ -10,6 +10,11 @@ aws:
 # game server start varibales
 server:
   docker_image: ${game_server_image}
+  backups:
+  %{ for backup in backups ~}
+  - name: ${backup.name}
+    path: ${backup.path}
+  %{ endfor ~}
 datadog:
   enabled: ${datadog_enabled}
   api_key: ${datadog_api_key}
