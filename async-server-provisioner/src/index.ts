@@ -1,4 +1,4 @@
-import tracer from "dd-trace";
+import tracer from 'dd-trace';
 import ServiceLocator from './ServiceLocator';
 
 tracer.init();
