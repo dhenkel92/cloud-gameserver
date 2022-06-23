@@ -1,5 +1,6 @@
 'use strict';
 
+require('dd-trace').init();
 const middlewares = require('./graphql/middlewares');
 
 module.exports = {
