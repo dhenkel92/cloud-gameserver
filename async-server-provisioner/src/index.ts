@@ -1,7 +1,7 @@
 import tracer from 'dd-trace';
 import ServiceLocator from './ServiceLocator';
 
-tracer.init();
+tracer.init({ logInjection: true });
 
 const serviceLocator = ServiceLocator.getInstance();
 
