@@ -14,7 +14,7 @@
     "@strapi/plugin-graphql": "4.2.0",
     "@strapi/plugin-i18n": "4.2.0",
     "@strapi/plugin-users-permissions": "4.2.0",
-    "@strapi/strapi": "4.2.0",
+    "@strapi/strapi": "4.5.5",
     "dd-trace": "^2.9.1",
     "mysql": "2.18.1",
     "strapi-plugin-entity-relationship-chart": "4.1.0"
