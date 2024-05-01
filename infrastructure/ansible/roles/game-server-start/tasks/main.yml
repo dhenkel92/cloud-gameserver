@@ -3,6 +3,8 @@
   when: datadog.enabled
 - include_tasks: game-server-watcher.yml
 
+- name: Fetch docker image
+  shell: /usr/bin/docker pull {{ server.docker_image }}
 - name: Create game-server systemd service
   template:
     src: game-server.service
