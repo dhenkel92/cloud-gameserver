@@ -1,6 +1,6 @@
 import * as config from 'config';
-import * as mysql from 'mysql';
-import * as pino from 'pino';
+import * as mysql from 'mysql2/promise';
+import pino from 'pino';
 import MySqlAdapter from './adapters/MySqlAdapter';
 import GameDeploymentRepository from './repositories/GameDeploymentRepository';
 import { GameDeploymentService } from './services/GameDeploymentService';
@@ -52,34 +52,19 @@ export default class ServiceLocator {
   }
 
   private async getMysqlConnection(isReadUncommitted = false): Promise<mysql.Connection> {
-    return await new Promise<mysql.Connection>((resolve, reject) => {
-      const conn = mysql.createConnection({
-        database: config.get('mysql.database'),
-        host: config.get('mysql.host'),
-        port: config.get('mysql.port'),
-        user: config.get('mysql.user'),
-        password: config.get('mysql.pw'),
-      });
-      conn.connect((err) => {
-        if (err) {
-          reject(err);
-          return;
-        }
-
-        if (!isReadUncommitted) {
-          resolve(conn);
-          return;
-        }
-
-        conn.query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED', (mysqlErr) => {
-          if (mysqlErr) {
-            reject(mysqlErr);
-            return;
-          }
-          resolve(conn);
-        });
-      });
+    const conn = await mysql.createConnection({
+      database: config.get<string>('mysql.database'),
+      host: config.get<string>('mysql.host'),
+      port: config.get<number>('mysql.port'),
+      user: config.get<string>('mysql.user'),
+      password: config.get<string>('mysql.pw'),
     });
+
+    if (isReadUncommitted) {
+      await conn.query('SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED');
+    }
+
+    return conn;
   }
 
   /***********************************************************

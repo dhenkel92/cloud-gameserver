@@ -6,7 +6,7 @@ export interface ShellResult {
 }
 
 export class ShellAdapter {
-  public async exec(command: string) {
+  public async exec(command: string): Promise<ShellResult> {
     return new Promise<ShellResult>((resolve, reject) => {
       exec(command, (err, stdout, stderr) => {
         if (err) {
