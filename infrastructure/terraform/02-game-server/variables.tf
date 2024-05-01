@@ -11,7 +11,11 @@ variable "server" {
     type         = string
     docker_image = string
 
-    # ports = list(number)
+    ports = list(object({
+      proto       = string
+      port        = string
+      description = string
+    }))
   })
 }
 

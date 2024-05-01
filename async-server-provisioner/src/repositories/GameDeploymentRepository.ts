@@ -79,7 +79,10 @@ export default class GameDeploymentRepository {
     }
 
     const data = await gqlQuery(query, { id: rows[0].gd_id });
-    return gameDeploymentFactory(uuid, data);
+    const gameDeployment = gameDeploymentFactory(uuid, data);
+    // eslint-disable-next-line no-console
+    console.log(JSON.stringify(gameDeployment, null, 2));
+    return gameDeployment;
   }
 
   public async failedDeployment(): Promise<void> {

@@ -10,6 +10,11 @@ export interface MinecraftTFConfig {
     type: string;
     image: string;
     docker_image: string;
+    ports: {
+      proto: string;
+      port: string;
+      description: string;
+    }[];
   };
   datadog: {
     enabled: boolean;
@@ -33,6 +38,11 @@ export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment):
       type: mfConfig.cloudInstance.apiName,
       image: config.get('hcloudServer.image'),
       docker_image: mfConfig.gameInstance.dockerImage,
+      ports: mfConfig.gameInstance.ports.map((port) => ({
+        proto: port.type.toLowerCase(),
+        port: `${port.port}`,
+        description: port.name,
+      })),
     },
     datadog: {
       enabled: config.get('datadog.enabled'),

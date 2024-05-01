@@ -4,8 +4,9 @@ variable "name" {
 
 variable "rules" {
   type = list(object({
-    proto      = string
-    port       = string
-    source_ips = list(string)
+    proto       = string
+    port        = string
+    source_ips  = list(string)
+    description = string
   }))
 }
