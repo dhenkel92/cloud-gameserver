@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-require('dd-trace').init();
-const middlewares = require('./graphql/middlewares');
+require("dd-trace").init();
+// const middlewares = require('./graphql/middlewares');
 
 module.exports = {
   /**
@@ -11,19 +11,17 @@ module.exports = {
    * This gives you an opportunity to extend code.
    */
   register(/*{ strapi }*/) {
-    const extensionService = strapi.plugin('graphql').service('extension');
-
-    extensionService.use({
-      resolversConfig: {
-        'Query.gameInstances': {
-          middlewares: [
-            middlewares.filterUsers,
-          ],
-        },
-      },
-    })
+    // const extensionService = strapi.plugin('graphql').service('extension');
+    // extensionService.use({
+    // resolversConfig: {
+    // 'Query.gameInstances': {
+    // middlewares: [
+    // middlewares.filterUsers,
+    // ],
+    // },
+    // },
+    // })
   },
-
 
   /**
    * An asynchronous bootstrap function that runs before
