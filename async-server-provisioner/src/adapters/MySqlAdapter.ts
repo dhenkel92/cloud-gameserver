@@ -4,7 +4,8 @@ export default class MySqlAdapter {
   constructor(private connection: mysql.Connection) {}
 
   public async query(query: string, args: any[] = []): Promise<any> {
-    return this.connection.query(query, args);
+    const [results] = await this.connection.query(query, args);
+    return results;
   }
 
   public async beginTransaction(): Promise<void> {
