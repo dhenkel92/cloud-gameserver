@@ -32,7 +32,7 @@ export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment):
     server: {
       type: mfConfig.cloudInstance.apiName,
       image: config.get('hcloudServer.image'),
-      docker_image: 'cloudgame/minecraft:vanilla-1.18.2',
+      docker_image: mfConfig.dockerImage,
     },
     datadog: {
       enabled: config.get('datadog.enabled'),

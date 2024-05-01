@@ -9,6 +9,7 @@ export enum GameDeploymentStatus {
 export interface GameDeployment {
   id: number;
   workspaceName: string;
+  dockerImage: string;
   consumerUUID: string;
   status: GameDeploymentStatus;
   cloudInstance: CloudInstance;
@@ -26,6 +27,7 @@ export function gameDeploymentFactory(row: any): GameDeployment {
     workspaceName,
     id: row.gd_id,
     consumerUUID: row.gd_consumer_uuid,
+    dockerImage: row.gv_docker_image,
     status: (GameDeploymentStatus as any)[row.gd_status],
     cloudInstance: cloudInstanceFactory(row),
     gameInstance: gameInstanceFactory(row),
