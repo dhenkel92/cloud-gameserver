@@ -1,5 +1,5 @@
 import * as config from 'config';
-import { GameDeployment } from './GameDeployment';
+import { GameDeployment, generateTFWorkspaceName } from './GameDeployment';
 
 export interface MinecraftTFConfig {
   metadata: {
@@ -26,13 +26,13 @@ export function mcTFConfToTFArgs(mfConfig: MinecraftTFConfig): string {
 export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment): MinecraftTFConfig {
   return {
     metadata: {
-      name: mfConfig.workspaceName,
+      name: generateTFWorkspaceName(mfConfig),
       location: mfConfig.cloudInstance.region,
     },
     server: {
       type: mfConfig.cloudInstance.apiName,
       image: config.get('hcloudServer.image'),
-      docker_image: mfConfig.dockerImage,
+      docker_image: mfConfig.gameInstance.dockerImage,
     },
     datadog: {
       enabled: config.get('datadog.enabled'),

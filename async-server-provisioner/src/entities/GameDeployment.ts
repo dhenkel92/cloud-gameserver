@@ -8,28 +8,26 @@ export enum GameDeploymentStatus {
 
 export interface GameDeployment {
   id: number;
-  workspaceName: string;
-  dockerImage: string;
   consumerUUID: string;
   status: GameDeploymentStatus;
   cloudInstance: CloudInstance;
   gameInstance: GameInstance;
 }
 
-function generateTFWorkspaceName(row: any): string {
-  const rawString = `${row.gi_id}-${row.gi_name}`;
+export function generateTFWorkspaceName(deploy: GameDeployment): string {
+  const rawString = `${deploy.id}-${deploy.gameInstance.name}`;
   return rawString.replace(/([\s-_])/g, '-').toLowerCase();
 }
 
-export function gameDeploymentFactory(row: any): GameDeployment {
-  const workspaceName = generateTFWorkspaceName(row);
+export function gameDeploymentFactory(consumerUid: string, row: any): GameDeployment {
+  const gameDeployment = row.data.gameDeployment;
+  const cloudInstance = gameDeployment.data.attributes.cloud_instance;
+  const gameInstance = gameDeployment.data.attributes.game_instance;
   return {
-    workspaceName,
-    id: row.gd_id,
-    consumerUUID: row.gd_consumer_uuid,
-    dockerImage: row.gv_docker_image,
-    status: (GameDeploymentStatus as any)[row.gd_status],
-    cloudInstance: cloudInstanceFactory(row),
-    gameInstance: gameInstanceFactory(row),
+    id: gameDeployment.data.id,
+    consumerUUID: consumerUid,
+    status: (GameDeploymentStatus as any)[gameDeployment.data.attributes.status],
+    cloudInstance: cloudInstanceFactory(cloudInstance),
+    gameInstance: gameInstanceFactory(gameInstance),
   };
 }

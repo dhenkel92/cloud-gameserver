@@ -4,8 +4,9 @@ export interface GameInstance {
 }
 
 export function gameInstanceFactory(row: any): GameInstance {
+  const gameVersion = row.data.attributes.game_version;
   return {
-    name: row.gi_name,
-    dockerImage: row.gv_docker_image,
+    name: row.data.attributes.name,
+    dockerImage: gameVersion.data.attributes.docker_image,
   };
 }

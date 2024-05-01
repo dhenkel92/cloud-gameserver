@@ -10,6 +10,8 @@ variable "server" {
     image        = string
     type         = string
     docker_image = string
+
+    # ports = list(number)
   })
 }
 

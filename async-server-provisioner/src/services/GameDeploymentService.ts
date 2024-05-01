@@ -2,7 +2,7 @@ import { Logger } from 'pino';
 import GameDeploymentRepository from '../repositories/GameDeploymentRepository';
 import { TerraformService } from './TerraformService';
 import { HetznerCloudRepository } from '../repositories/HetznerCloudRepository';
-import { GameDeploymentStatus } from '../entities/GameDeployment';
+import { GameDeploymentStatus, generateTFWorkspaceName } from '../entities/GameDeployment';
 
 export interface GameDeploymentServiceConfig {
   timeoutMillis?: number;
@@ -61,7 +61,7 @@ export class GameDeploymentService {
     this.logger.info('received new message %s', JSON.stringify(res));
     try {
       if (res.status === GameDeploymentStatus.STOPPING) {
-        await this.shutdownHetznerServer(res.workspaceName);
+        await this.shutdownHetznerServer(generateTFWorkspaceName(res));
       }
 
       this.logger.info('start terraform execution');

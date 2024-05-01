@@ -17,3 +17,7 @@ hcloudServer:
 datadog:
   enabled: false
   api_key: placeholder
+
+cloudGame:
+  apiUrl: http://host.docker.internal:1337
+  apiToken: placeholder
