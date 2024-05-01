@@ -11,7 +11,7 @@ hetzner:
 
 hcloudServer:
   type: cx31
-  image: '162583525'
+  image: '162606073'
   location: nbg1
 
 datadog:

@@ -69,6 +69,7 @@ module "game_server" {
       datadog_api_key       = var.datadog.api_key
       aws_access_key_id     = data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].access_key_id
       aws_secret_access_key = data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].secret_access_key
+      ansible_branch        = var.ansible_branch
     }
   }
 }

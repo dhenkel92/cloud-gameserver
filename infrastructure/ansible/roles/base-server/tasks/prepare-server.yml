@@ -2,10 +2,11 @@
 - name: Install common packages
   apt:
     pkg:
-    - telnet
-    - vim
-    - tcpdump
-    - gnupg2
+      - telnet
+      - vim
+      - tcpdump
+      - gnupg2
+      - git
     state: present
     update_cache: true
 

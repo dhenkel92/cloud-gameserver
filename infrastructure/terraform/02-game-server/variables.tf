@@ -24,3 +24,8 @@ variable "tags" {
   type    = map(string)
   default = {}
 }
+
+variable "ansible_branch" {
+  type    = string
+  default = "main"
+}
