@@ -4,7 +4,10 @@ import { v4 } from 'uuid';
 import { TerraformGSOutput } from '../services/TerraformService';
 
 export default class GameDeploymentRepository {
-  constructor(private mysqlAdapter: MySqlAdapter, private dirtyMysqlAdapter: MySqlAdapter) {}
+  constructor(
+    private mysqlAdapter: MySqlAdapter,
+    private dirtyMysqlAdapter: MySqlAdapter
+  ) {}
 
   public async getDeployment(): Promise<GameDeployment | null> {
     const uuid = v4();
@@ -62,7 +65,7 @@ export default class GameDeploymentRepository {
     );
   }
 
-  public async stoppedDeployment(gameDeployId: number) {
+  public async stoppedDeployment(gameDeployId: number): Promise<void> {
     await this.mysqlAdapter.query(
       `
       UPDATE game_deployments

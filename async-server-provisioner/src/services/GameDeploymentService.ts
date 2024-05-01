@@ -21,11 +21,11 @@ export class GameDeploymentService {
     private logger: Logger
   ) {}
 
-  public stop() {
+  public stop(): void {
     this.isRunning = false;
   }
 
-  public async start(config?: GameDeploymentServiceConfig) {
+  public async start(config?: GameDeploymentServiceConfig): Promise<void> {
     this.isRunning = true;
 
     while (this.isRunning) {
