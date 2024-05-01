@@ -15,3 +15,7 @@ hcloudServer:
 datadog:
   enabled: DD_ENABLED
   api_key: DD_API_KEY
+
+cloudGame:
+  apiUrl: CLOUD_GAME_API_URL
+  apiToken: CLOUD_GAME_API_TOKEN

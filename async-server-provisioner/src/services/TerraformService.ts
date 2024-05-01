@@ -1,6 +1,6 @@
 import { Logger } from 'pino';
 import { ShellAdapter, ShellResult } from '../adapters/ShellAdapter';
-import { GameDeployment, GameDeploymentStatus } from '../entities/GameDeployment';
+import { GameDeployment, GameDeploymentStatus, generateTFWorkspaceName } from '../entities/GameDeployment';
 import { GameDeploymentLogRepository } from '../repositories/GameDeploymentLogRepository';
 import { createMinecraftTFConfigFromGameConfig, mcTFConfToTFArgs, MinecraftTFConfig } from '../entities/MinecraftTFConfig';
 
@@ -21,7 +21,7 @@ export class TerraformService {
   public async execute(config: GameDeployment): Promise<TerraformGSOutput | null> {
     const tfVars = createMinecraftTFConfigFromGameConfig(config);
     await this.init(config.id);
-    await this.changeWorkspace(config.id, config.workspaceName);
+    await this.changeWorkspace(config.id, generateTFWorkspaceName(config));
 
     switch (config.status) {
       case GameDeploymentStatus.STARTING:

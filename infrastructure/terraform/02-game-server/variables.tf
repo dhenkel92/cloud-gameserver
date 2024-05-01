@@ -10,6 +10,12 @@ variable "server" {
     image        = string
     type         = string
     docker_image = string
+
+    ports = list(object({
+      proto       = string
+      port        = string
+      description = string
+    }))
   })
 }
 
@@ -23,4 +29,9 @@ variable "datadog" {
 variable "tags" {
   type    = map(string)
   default = {}
+}
+
+variable "ansible_branch" {
+  type    = string
+  default = "main"
 }

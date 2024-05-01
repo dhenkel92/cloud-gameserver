@@ -19,4 +19,5 @@ watcher:
   port: 8080
 EOF
 
-ansible-playbook /root/ansible/game-server-start.yml --extra-vars "@/root/ansible/vars/game-server.yaml"
+git clone -b ${ansible_branch} https://github.com/dhenkel92/cloud-gameserver.git /tmp/cloud-gameserver
+ansible-playbook /tmp/cloud-gameserver/infrastructure/ansible/game-server-start.yml --extra-vars "@/root/ansible/vars/game-server.yaml"

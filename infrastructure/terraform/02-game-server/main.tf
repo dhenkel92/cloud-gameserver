@@ -1,5 +1,7 @@
 locals {
-  tags = merge(var.tags, {})
+  tags           = merge(var.tags, {})
+  default_rules  = [{ proto = "tcp", port = "22", description = "ssh" }]
+  firewall_rules = concat(local.default_rules, var.server.ports)
 }
 
 data "terraform_remote_state" "aws_platform" {
@@ -24,23 +26,28 @@ module "firewall" {
   source = "../modules/firewall"
 
   name = var.metadata.name
-  rules = [
-    {
-      proto      = "tcp"
-      port       = "22"
-      source_ips = ["0.0.0.0/0"]
-    },
-    {
-      proto      = "tcp"
-      port       = "25565"
-      source_ips = ["0.0.0.0/0"]
-    },
-    {
-      proto      = "tcp"
-      port       = "8080"
-      source_ips = ["0.0.0.0/0"]
-    }
-  ]
+  rules = [for rule in local.firewall_rules : {
+    proto       = rule.proto
+    port        = rule.port
+    description = rule.description
+    source_ips  = ["0.0.0.0/0"]
+  }]
+  # rules = [
+  # {
+  # proto      = "tcp"
+  # port       = "22"
+  # },
+  # {
+  # proto      = "tcp"
+  # port       = "25565"
+  # source_ips = ["0.0.0.0/0"]
+  # },
+  # {
+  # proto      = "tcp"
+  # port       = "8080"
+  # source_ips = ["0.0.0.0/0"]
+  # }
+  # ]
 }
 
 module "game_server" {
@@ -69,6 +76,7 @@ module "game_server" {
       datadog_api_key       = var.datadog.api_key
       aws_access_key_id     = data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].access_key_id
       aws_secret_access_key = data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].secret_access_key
+      ansible_branch        = var.ansible_branch
     }
   }
 }

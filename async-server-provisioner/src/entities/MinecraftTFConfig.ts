@@ -1,5 +1,5 @@
 import * as config from 'config';
-import { GameDeployment } from './GameDeployment';
+import { GameDeployment, generateTFWorkspaceName } from './GameDeployment';
 
 export interface MinecraftTFConfig {
   metadata: {
@@ -10,6 +10,11 @@ export interface MinecraftTFConfig {
     type: string;
     image: string;
     docker_image: string;
+    ports: {
+      proto: string;
+      port: string;
+      description: string;
+    }[];
   };
   datadog: {
     enabled: boolean;
@@ -26,13 +31,18 @@ export function mcTFConfToTFArgs(mfConfig: MinecraftTFConfig): string {
 export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment): MinecraftTFConfig {
   return {
     metadata: {
-      name: mfConfig.workspaceName,
+      name: generateTFWorkspaceName(mfConfig),
       location: mfConfig.cloudInstance.region,
     },
     server: {
       type: mfConfig.cloudInstance.apiName,
       image: config.get('hcloudServer.image'),
-      docker_image: 'cloudgame/minecraft:vanilla-1.18.2',
+      docker_image: mfConfig.gameInstance.dockerImage,
+      ports: mfConfig.gameInstance.ports.map((port) => ({
+        proto: port.type.toLowerCase(),
+        port: `${port.port}`,
+        description: port.name,
+      })),
     },
     datadog: {
       enabled: config.get('datadog.enabled'),

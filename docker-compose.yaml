@@ -44,6 +44,7 @@ services:
       - MYSQL_HOST=db
       - TERRAFORM_PATH=/opt/terraform/02-game-server
       - HCLOUD_TOKEN=${HCLOUD_TOKEN}
+      - CLOUD_GAME_API_TOKEN=${CLOUD_GAME_API_TOKEN}
     volumes:
       - ~/.aws:/root/.aws
       - ./async-server-provisioner:/usr/src/app

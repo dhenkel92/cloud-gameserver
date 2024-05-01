@@ -7,9 +7,9 @@ export interface CloudInstance {
 
 export function cloudInstanceFactory(row: any): CloudInstance {
   return {
-    provider: row.ci_provider,
-    apiName: row.ci_api_name,
-    costPerHour: row.ci_cost_per_hour,
-    region: row.ci_region,
+    provider: row.data.attributes.provider,
+    apiName: row.data.attributes.api_name,
+    costPerHour: row.data.attributes.cost_per_hour,
+    region: row.data.attributes.region,
   };
 }

@@ -2,6 +2,49 @@ import MySqlAdapter from '../adapters/MySqlAdapter';
 import { GameDeployment, gameDeploymentFactory } from '../entities/GameDeployment';
 import { v4 } from 'uuid';
 import { TerraformGSOutput } from '../services/TerraformService';
+import { gqlQuery } from '../adapters/GraphQlAdapter';
+
+const query = `
+query($id: ID) {
+  gameDeployment(id: $id) {
+    data {
+      id
+      attributes {
+        status
+        cloud_instance {
+          data {
+            attributes {
+              api_name
+              provider
+              region
+              cost_per_hour
+            }
+          }
+        }
+        game_instance {
+          data {
+            attributes {
+              name
+              game_version {
+                data {
+                  attributes {
+                    docker_image
+                    ports {
+                      name
+                      port
+                      type
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`;
 
 export default class GameDeploymentRepository {
   constructor(
@@ -24,14 +67,8 @@ export default class GameDeploymentRepository {
 
     const rows = await this.dirtyMysqlAdapter.query(
       `
-      SELECT gd.id as gd_id, gd.status as gd_status, gd.consumer_uuid as gd_consumer_uuid, ci.provider as ci_provider, ci.api_name as ci_api_name, ci.cost_per_hour as ci_cost_per_hour, ci.region as ci_region, gi.id as gi_id, gi.name as gi_name, gv.docker_image as gv_docker_image
+      SELECT gd.id as gd_id
       FROM game_deployments gd
-        INNER JOIN game_deployments_game_instance_links gil ON gil.game_deployment_id = gd.id
-        INNER JOIN game_instances gi ON gil.game_instance_id = gi.id
-        INNER JOIN game_instances_game_version_links gvl ON gvl.game_instance_id = gi.id
-        INNER JOIN game_versions gv ON gv.id = gvl.game_version_id
-        INNER JOIN game_deployments_cloud_instance_links cil ON cil.game_deployment_id = gd.id
-        INNER JOIN cloud_instances ci ON ci.id = cil.cloud_instance_id
       WHERE consumer_uuid = ?;
     `,
       [uuid]
@@ -41,7 +78,11 @@ export default class GameDeploymentRepository {
       return null;
     }
 
-    return gameDeploymentFactory(rows[0]);
+    const data = await gqlQuery(query, { id: rows[0].gd_id });
+    const gameDeployment = gameDeploymentFactory(uuid, data);
+    // eslint-disable-next-line no-console
+    console.log(JSON.stringify(gameDeployment, null, 2));
+    return gameDeployment;
   }
 
   public async failedDeployment(): Promise<void> {
