@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css';
 import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
@@ -26,13 +26,13 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
 });
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('root')!);
+root.render(
   <ApolloProvider client={client}>
     <React.StrictMode>
       <App />
     </React.StrictMode>
-  </ApolloProvider>,
-  document.getElementById('root')
+  </ApolloProvider>
 );
 
 // If you want your app to work offline and load faster, you can change
