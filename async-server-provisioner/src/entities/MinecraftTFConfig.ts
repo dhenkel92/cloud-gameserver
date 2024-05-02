@@ -28,7 +28,7 @@ export interface MinecraftTFConfig {
 export function mcTFConfToTFArgs(mfConfig: MinecraftTFConfig): string {
   return `-var='metadata=${JSON.stringify(mfConfig.metadata)}' -var='server=${JSON.stringify(
     mfConfig.server
-  )}' -var='datadog=${JSON.stringify(mfConfig.datadog)}'`;
+  )}' -var='datadog=${JSON.stringify(mfConfig.datadog)}' -var='ansible_branch=${config.get('cloudGame.ansibleBranch')}'`;
 }
 
 export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment): MinecraftTFConfig {

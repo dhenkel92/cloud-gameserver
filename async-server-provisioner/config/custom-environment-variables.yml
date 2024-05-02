@@ -17,5 +17,6 @@ datadog:
   api_key: DD_API_KEY
 
 cloudGame:
+  ansibleBranch: CLOUD_GAME_ANSIBLE_BRANCH
   apiUrl: CLOUD_GAME_API_URL
   apiToken: CLOUD_GAME_API_TOKEN
