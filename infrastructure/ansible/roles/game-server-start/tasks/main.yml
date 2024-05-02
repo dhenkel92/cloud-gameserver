@@ -5,6 +5,12 @@
 
 - name: Fetch docker image
   shell: /usr/bin/docker pull {{ server.docker_image }}
+- name: Create mount paths
+  file:
+    path: "/mnt/bakup/{{ item.path }}"
+    state: directory
+    mode: "0777"
+  loop: "{{ server.backup_paths }}"
 - name: Create game-server systemd service
   template:
     src: game-server.service

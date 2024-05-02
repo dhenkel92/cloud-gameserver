@@ -1,6 +1,8 @@
 ---
 server:
   docker_image: placeholder
+  backup_paths:
+    - path: placeholder
 datadog:
   enabled: true
   api_key: placeholder
