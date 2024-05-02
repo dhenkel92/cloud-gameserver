@@ -47,7 +47,7 @@ variable "network" {
 variable "user_data" {
   type = object({
     path = string
-    vars = map(string)
+    vars = any
   })
   default = {
     path = ""

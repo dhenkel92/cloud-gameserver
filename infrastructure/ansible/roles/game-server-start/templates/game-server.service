@@ -9,6 +9,9 @@ RemainAfterExit=true
 ExecStartPre=-/usr/bin/docker rm -f game-server
 ExecStart=/usr/bin/docker run -i --name game-server \
           --net host \
+          {% for p in server.backup_paths %}
+          -v /mnt/bakup/{{ p.path }}:{{p.path}} \
+          {% endfor %}
          {{ server.docker_image }}
 TimeoutStopSec=300
 

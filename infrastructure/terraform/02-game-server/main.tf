@@ -77,6 +77,8 @@ module "game_server" {
       aws_access_key_id     = data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].access_key_id
       aws_secret_access_key = data.terraform_remote_state.aws_platform.outputs.access_keys["game_user.cloud-game"].secret_access_key
       ansible_branch        = var.ansible_branch
+
+      backup_paths = [for path in var.server.backup_paths : { path = path.path }]
     }
   }
 }

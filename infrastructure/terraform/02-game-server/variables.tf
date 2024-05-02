@@ -16,6 +16,10 @@ variable "server" {
       port        = string
       description = string
     }))
+
+    backup_paths = list(object({
+      path = string
+    }))
   })
 }
 

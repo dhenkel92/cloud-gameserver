@@ -1,6 +1,7 @@
 FROM steamcmd/steamcmd:latest
 
-RUN useradd steamuser -d /home/steamuser
+RUN addgroup steamuser \
+    && useradd --create-home --shell /bin/bash -g steamuser steamuser
 
 WORKDIR /home/steamuser
 
@@ -8,6 +9,8 @@ RUN steamcmd +force_install_dir /home/steamuser/SatisfactoryDedicatedServer +log
     && chown -R steamuser /home/steamuser/SatisfactoryDedicatedServer
 
 USER steamuser
+ENV HOME=/home/steamuser
+ENV USER=steamuser
 
 ENTRYPOINT ["/bin/bash"]
-CMD ["./SatisfactoryDedicatedServer/FactoryServer.sh"]
+CMD ["/home/steamuser/SatisfactoryDedicatedServer/FactoryServer.sh", "-Port=7777", "-BeaconPort=15000", "-ServerQueryPort=15777", "-multihome=\"0.0.0.0\""]

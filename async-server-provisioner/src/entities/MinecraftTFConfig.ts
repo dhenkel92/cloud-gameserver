@@ -15,6 +15,9 @@ export interface MinecraftTFConfig {
       port: string;
       description: string;
     }[];
+    backup_paths: {
+      path: string;
+    }[];
   };
   datadog: {
     enabled: boolean;
@@ -25,7 +28,7 @@ export interface MinecraftTFConfig {
 export function mcTFConfToTFArgs(mfConfig: MinecraftTFConfig): string {
   return `-var='metadata=${JSON.stringify(mfConfig.metadata)}' -var='server=${JSON.stringify(
     mfConfig.server
-  )}' -var='datadog=${JSON.stringify(mfConfig.datadog)}'`;
+  )}' -var='datadog=${JSON.stringify(mfConfig.datadog)}' -var='ansible_branch=${config.get('cloudGame.ansibleBranch')}'`;
 }
 
 export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment): MinecraftTFConfig {
@@ -42,6 +45,9 @@ export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment):
         proto: port.type.toLowerCase(),
         port: `${port.port}`,
         description: port.name,
+      })),
+      backup_paths: mfConfig.gameInstance.backupPaths.map((p) => ({
+        path: p.path,
       })),
     },
     datadog: {
