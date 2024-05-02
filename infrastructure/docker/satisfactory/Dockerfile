@@ -10,4 +10,4 @@ RUN steamcmd +force_install_dir /home/steamuser/SatisfactoryDedicatedServer +log
 USER steamuser
 
 ENTRYPOINT ["/bin/bash"]
-CMD ["./SatisfactoryDedicatedServer/FactoryServer.sh"]
+CMD ["/home/steamuser/SatisfactoryDedicatedServer/FactoryServer.sh", "-Port=7777", "-BeaconPort=15000", "-ServerQueryPort=15777", "-multihome=\"0.0.0.0\""]
