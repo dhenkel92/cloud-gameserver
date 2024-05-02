@@ -34,6 +34,10 @@ query($id: ID) {
                       port
                       type
                     }
+                    backup_paths {
+                      name
+                      path
+                    }
                   }
                 }
               }

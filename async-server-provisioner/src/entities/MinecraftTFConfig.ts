@@ -15,6 +15,9 @@ export interface MinecraftTFConfig {
       port: string;
       description: string;
     }[];
+    backup_paths: {
+      path: string;
+    }[];
   };
   datadog: {
     enabled: boolean;
@@ -42,6 +45,9 @@ export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment):
         proto: port.type.toLowerCase(),
         port: `${port.port}`,
         description: port.name,
+      })),
+      backup_paths: mfConfig.gameInstance.backupPaths.map((p) => ({
+        path: p.path,
       })),
     },
     datadog: {
