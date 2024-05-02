@@ -5,7 +5,10 @@ set -ex
 # Install ansible
 apt-get update
 apt-get install -y python3 python3-pip
-pip3 install -I ansible==5.6.0
+pip3 install -I ansible==8.7.0 boto3
+
+# Install ansible dependencies
+ansible-galaxy collection install amazon.aws
 
 # Move ansible files from temp to proper folder
 mv /tmp/ansible /root

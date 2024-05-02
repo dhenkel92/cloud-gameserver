@@ -1,4 +1,5 @@
 export interface GameInstance {
+  id: number;
   name: string;
   dockerImage: string;
   ports: GameInstancePort[];
@@ -24,6 +25,7 @@ export interface GameInstanceBackupPath {
 export function gameInstanceFactory(row: any): GameInstance {
   const gameVersion = row.data.attributes.game_version;
   return {
+    id: row.data.id,
     name: row.data.attributes.name,
     dockerImage: gameVersion.data.attributes.docker_image,
     ports: gameVersion.data.attributes.ports.map(parseGameInstancePort),

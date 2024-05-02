@@ -2,6 +2,9 @@ variable "metadata" {
   type = object({
     name     = string
     location = string
+    game_instance = object({
+      id = number
+    })
   })
 }
 

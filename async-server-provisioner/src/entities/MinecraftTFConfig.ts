@@ -5,6 +5,9 @@ export interface MinecraftTFConfig {
   metadata: {
     name: string;
     location: string;
+    game_instance: {
+      id: number;
+    };
   };
   server: {
     type: string;
@@ -36,6 +39,9 @@ export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment):
     metadata: {
       name: generateTFWorkspaceName(mfConfig),
       location: mfConfig.cloudInstance.region,
+      game_instance: {
+        id: mfConfig.gameInstance.id,
+      },
     },
     server: {
       type: mfConfig.cloudInstance.apiName,

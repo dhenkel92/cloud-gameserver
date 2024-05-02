@@ -11,7 +11,7 @@ hetzner:
 
 hcloudServer:
   type: cx31
-  image: '162606073'
+  image: '162785630'
   location: nbg1
 
 datadog:
@@ -19,6 +19,6 @@ datadog:
   api_key: placeholder
 
 cloudGame:
-  ansibleBranch: main
+  ansibleBranch: create-restore-backups
   apiUrl: http://host.docker.internal:1337
   apiToken: placeholder

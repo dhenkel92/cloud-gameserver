@@ -1,4 +1,6 @@
 ---
+game_instance:
+  id: placeholder
 server:
   docker_image: placeholder
   backup_paths:

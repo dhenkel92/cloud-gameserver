@@ -3,11 +3,18 @@
   when: datadog.enabled
 - include_tasks: game-server-watcher.yml
 
+- name: Create mount path
+  file:
+    path: "/mnt/backup/"
+    state: directory
+    mode: "0777"
+- include_tasks: fetch-backup.yml
+
 - name: Fetch docker image
   shell: /usr/bin/docker pull {{ server.docker_image }}
 - name: Create mount paths
   file:
-    path: "/mnt/bakup/{{ item.path }}"
+    path: "/mnt/backup/{{ item.path }}"
     state: directory
     mode: "0777"
   loop: "{{ server.backup_paths }}"
@@ -18,6 +25,9 @@
     owner: root
     group: root
   notify: Start Game Server
+
+# TODO: create archive
+# tar -czf backup.tar.gz -C /mnt/backup .
 
 - name: Reload Systmed
   systemd:

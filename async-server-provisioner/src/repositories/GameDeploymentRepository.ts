@@ -23,6 +23,7 @@ query($id: ID) {
         }
         game_instance {
           data {
+            id
             attributes {
               name
               game_version {
