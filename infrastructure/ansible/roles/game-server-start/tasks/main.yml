@@ -28,6 +28,7 @@
 
 # TODO: create archive
 # tar -czf backup.tar.gz -C /mnt/backup .
+- include_tasks: create-server-shutdown-service.yaml
 
 - name: Reload Systmed
   systemd:

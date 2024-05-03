@@ -1,0 +1,12 @@
+---
+- name: Create server shutdown systemd service
+  template:
+    src: game-shutdown.service
+    dest: /etc/systemd/system/game-shutdown.service
+    owner: root
+    group: root
+  notify: Start Game Shutdown Service
+
+- name: Reload Systmed
+  systemd:
+    daemon_reload: yes
