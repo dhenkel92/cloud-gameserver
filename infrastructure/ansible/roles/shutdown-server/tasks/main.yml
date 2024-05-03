@@ -1,43 +1,10 @@
 ---
-- name: Generate bucket path
-  shell: echo "game_instances/{{ game_instance.id }}/backups/"
-  register: backup_folder_path
-- name: Generate Backup name
-  shell: echo "backup-$(date +"%Y-%m-%d_%H_%M_%S").tar.gz"
-  register: backup_name
-
-- name: List all backups
-  amazon.aws.aws_s3:
-    bucket: cloud-game
-    mode: list
-    prefix: "{{ backup_folder_path.stdout }}"
-  register: all_backups
-- set_fact:
-    backup_path: "{{ all_backups.s3_keys[0] if all_backups.s3_keys | length > 0 else '' }}"
-- name: "Debug print backup path"
-  debug:
-    msg: "{{ backup_path }}"
-- name: Download backup
+- include_tasks: ../../../generic/bucket.yaml
+- name: Create a tar.gz archive of a single file.
+  shell: tar -czf /root/backup.tar.gz -C /mnt/backup .
+- name: Upload Backup File to S3
   amazon.aws.s3_object:
     bucket: cloud-game
-    object: "{{ backup_path }}"
-    dest: /root/backup.tar.gz
-    mode: get
-  when: backup_path != ""
-- name: Unzip archive
-  unarchive:
+    object: "{{ backup_folder_path.stdout }}{{ backup_name.stdout }}"
     src: /root/backup.tar.gz
-    dest: /mnt/backup/
-  when: backup_path != ""
-# - name: Archive Game Files
-# archive:
-# format: gz
-# path: /root/game-server/
-# dest: /tmp/{{ backup_name.stdout }}
-
-# - name: Upload Backup File to S3
-# amazon.aws.aws_s3:
-# bucket: "{{ bucket_name }}"
-# object: /{{base_path}}/{{ backup_name.stdout }}
-# src: /tmp/{{ backup_name.stdout }}
-# mode: put
+    mode: put

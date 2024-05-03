@@ -14,3 +14,4 @@
 - name: Start Game Shutdown Service
   service:
     name: game-shutdown
+    state: started

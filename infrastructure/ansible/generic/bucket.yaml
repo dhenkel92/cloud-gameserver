@@ -1,0 +1,7 @@
+---
+- name: Generate bucket path
+  shell: echo "game_instances/{{ game_instance.id }}/backups/"
+  register: backup_folder_path
+- name: Generate Backup name
+  shell: echo "backup-$(date +"%Y-%m-%d_%H_%M_%S").tar.gz"
+  register: backup_name
