@@ -11,3 +11,7 @@
   service:
     name: game-server-watcher
     state: started
+- name: Start Game Shutdown Service
+  service:
+    name: game-shutdown
+    state: started

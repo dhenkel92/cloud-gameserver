@@ -1,0 +1,14 @@
+[Unit]
+Description=Game Shutdown
+After=network-online.target
+Before=game-server.service
+Requires=docker.service network-online.target game-server.service
+
+[Service]
+User=root
+RemainAfterExit=true
+ExecStop=/usr/local/bin/ansible-playbook /tmp/cloud-gameserver/infrastructure/ansible/shutdown-server.yml --extra-vars "@/root/ansible/vars/game-server.yaml"
+TimeoutStopSec=600
+
+[Install]
+WantedBy=multi-user.target

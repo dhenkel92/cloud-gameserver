@@ -1,0 +1,25 @@
+---
+- include_tasks: ../../../generic/bucket.yaml
+- name: List all backups
+  amazon.aws.aws_s3:
+    bucket: cloud-game
+    mode: list
+    prefix: "{{ backup_folder_path.stdout }}"
+  register: all_backups
+- set_fact:
+    backup_path: "{{ all_backups.s3_keys[0] if all_backups.s3_keys | length > 0 else '' }}"
+- name: "Debug print backup path"
+  debug:
+    msg: "{{ backup_path }}"
+- name: Download backup
+  amazon.aws.s3_object:
+    bucket: cloud-game
+    object: "{{ backup_path }}"
+    dest: /root/backup.tar.gz
+    mode: get
+  when: backup_path != ""
+- name: Unzip archive
+  unarchive:
+    src: /root/backup.tar.gz
+    dest: /mnt/backup/
+  when: backup_path != ""

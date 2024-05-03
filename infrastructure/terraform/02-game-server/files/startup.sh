@@ -7,6 +7,8 @@ aws:
   aws_secret_access_key: ${aws_secret_access_key}
   aws_default_region: eu-central-1
 
+game_instance:
+  id: ${game_instance_id}
 # game server start varibales
 server:
   docker_image: ${game_server_image}

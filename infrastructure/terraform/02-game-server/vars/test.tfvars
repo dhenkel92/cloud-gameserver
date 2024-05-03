@@ -1,6 +1,9 @@
 metadata = {
   name     = "minecraft-test"
   location = "nbg1"
+  game_instance = {
+    id = 2
+  }
 }
 
 server = {

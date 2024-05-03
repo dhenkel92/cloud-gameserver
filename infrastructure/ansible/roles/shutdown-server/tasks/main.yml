@@ -1,17 +1,10 @@
 ---
-- name: Generate Backup name
-  shell: echo "backup-$(date +"%Y-%m-%d_%H_%M_%S").tar.gz"
-  register: backup_name
-
-- name: Archive Game Files
-  archive:
-    format: gz
-    path: /root/game-server/
-    dest: /tmp/{{ backup_name.stdout }}
-
+- include_tasks: ../../../generic/bucket.yaml
+- name: Create a tar.gz archive of a single file.
+  shell: tar -czf /root/backup.tar.gz -C /mnt/backup .
 - name: Upload Backup File to S3
-  amazon.aws.aws_s3:
-    bucket: "{{ bucket_name }}"
-    object: /{{base_path}}/{{ backup_name.stdout }}
-    src: /tmp/{{ backup_name.stdout }}
+  amazon.aws.s3_object:
+    bucket: cloud-game
+    object: "{{ backup_folder_path.stdout }}{{ backup_name.stdout }}"
+    src: /root/backup.tar.gz
     mode: put
