@@ -3,9 +3,9 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/base-image.yml'
-      - 'infrastructure/packer/**/*'
-      - 'infrastructure/ansible/**/*'
+      - ".github/workflows/base-image.yml"
+      - "infrastructure/packer/**/*"
+      - "infrastructure/ansible/**/*"
 
 name: Base Image
 
@@ -16,23 +16,25 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      # fix backwards incompatibilities in template
-      - name: Fix Template
-        uses: hashicorp/packer-github-actions@master
+      - name: Setup `packer`
+        uses: hashicorp/setup-packer@main
+        id: setup
         with:
-          command: fix
-          target: infrastructure/packer/manifests/basic_gameserver.json
-      # validate templates
-      - name: Validate Template
-        uses: hashicorp/packer-github-actions@master
-        with:
-          command: validate
-          arguments: -syntax-only
-          target: infrastructure/packer/manifests/basic_gameserver.json
+          version: v1.10.3
+      - name: Run `packer init`
+        id: init
+        working-directory: infrastructure/packer/
+        run: "packer init ./manifests/basic_gameserver.pkr.hcl"
+      - name: Run `packer validate`
+        id: validate
+        working-directory: infrastructure/packer/
+        run: "packer validate ./manifests/basic_gameserver.pkr.hcl"
+        env:
+          HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
       # build artifact
       - name: Build Packer image
         working-directory: infrastructure/packer/
-        run: packer build -color=false -on-error=abort -var-file ./vars/production.json ./manifests/basic_gameserver.json
+        run: packer build -color=false -on-error=abort -var-file ./vars/production.hcl ./manifests/basic_gameserver.pkr.hcl
         env:
           PACKER_LOG: 1h
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}

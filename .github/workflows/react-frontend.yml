@@ -3,14 +3,14 @@ on:
     branches:
       - main
     paths:
-      - '.github/workflows/react-frontend.yml'
-      - '.github/scripts/auth.sh'
-      - '.github/scripts/deploy.sh'
-      - 'react-frontend/*'
-      - 'react-frontend/*/*'
-      - 'react-frontend/*/*/*'
-      - 'react-frontend/*/*/*/*'
-      - 'react-frontend/*/*/*/*/*'
+      - ".github/workflows/react-frontend.yml"
+      - ".github/scripts/auth.sh"
+      - ".github/scripts/deploy.sh"
+      - "react-frontend/*"
+      - "react-frontend/*/*"
+      - "react-frontend/*/*/*"
+      - "react-frontend/*/*/*/*"
+      - "react-frontend/*/*/*/*/*"
 
 name: Cloud Game React Frontend
 
@@ -19,16 +19,14 @@ jobs:
     name: Build React Frontend
     runs-on: ubuntu-latest
     env:
-      IMAGE: 220002198733.dkr.ecr.eu-central-1.amazonaws.com/cloud-game/react/frontend
+      IMAGE: cloudgame/frontend
     steps:
       - uses: actions/checkout@master
-      - name: Authenticate
-        run: ./.github/scripts/auth.sh
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: eu-central-1
-          ECR_ACCOUNT: 220002198733.dkr.ecr.eu-central-1.amazonaws.com
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build Docker Container
         run: |
           cd react-frontend

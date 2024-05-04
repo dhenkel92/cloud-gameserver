@@ -8,27 +8,30 @@ packer {
 }
 
 variable "base_image" {
-  type = string
+  type    = string
+  default = "debian-11"
 }
 
 variable "server_type" {
-  type = string
+  type    = string
+  default = "cx11"
 }
 
 variable "location" {
-  type = string
+  type    = string
+  default = "nbg1"
 }
 
 source "hcloud" "basic_gameserver" {
   communicator = "ssh"
 
-  image = var.base_image
-  location = var.location
-  server_type = var.server_type
-  ssh_username = "root"
+  image         = var.base_image
+  location      = var.location
+  server_type   = var.server_type
+  ssh_username  = "root"
   snapshot_name = "basic-gameserver-{{timestamp}}"
   snapshot_labels = {
-    "application": "basic-gameserver"
+    "application" : "basic-gameserver"
   }
 }
 
@@ -36,7 +39,7 @@ build {
   sources = ["hcloud.basic_gameserver"]
 
   provisioner "file" {
-    source = "../ansible"
+    source      = "../ansible"
     destination = "/tmp/ansible"
   }
 
