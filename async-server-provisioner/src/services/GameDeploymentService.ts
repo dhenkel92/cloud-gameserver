@@ -3,6 +3,7 @@ import GameDeploymentRepository from '../repositories/GameDeploymentRepository';
 import { TerraformService } from './TerraformService';
 import { HetznerCloudRepository } from '../repositories/HetznerCloudRepository';
 import { GameDeploymentStatus, generateTFWorkspaceName } from '../entities/GameDeployment';
+import tracer = require('dd-trace');
 
 export interface GameDeploymentServiceConfig {
   timeoutMillis?: number;
@@ -30,7 +31,9 @@ export class GameDeploymentService {
 
     while (this.isRunning) {
       try {
-        await this.execute();
+        await tracer.trace('execute', { resource: 'execute' }, async () => {
+          await this.execute();
+        });
       } catch (e) {
         this.logger.error('Error while processing message %s', e);
       }
