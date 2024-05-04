@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build Docker Container
         run: |
-          docker build -t $IMAGE:$GITHUB_RUN_ID -f async-server-provisioner/Dockerfile --build-arg DD_GIT_REPOSITORY_URL=$(git config --get remote.origin.url) --build-arg DD_GIT_COMMIT_SHADD_GIT_COMMIT_SHA=${{ github.sha }} .
+          docker build -t $IMAGE:$GITHUB_RUN_ID -f async-server-provisioner/Dockerfile --build-arg DD_GIT_REPOSITORY_URL=$(git config --get remote.origin.url) --build-arg DD_GIT_COMMIT_SHA=${{ github.sha }} .
       - name: Push Container
         run: |
           docker tag $IMAGE:$GITHUB_RUN_ID $IMAGE:latest
