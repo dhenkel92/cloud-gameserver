@@ -12,6 +12,11 @@ COPY backend .
 
 FROM node:21.7-bullseye-slim
 
+ARG DD_GIT_REPOSITORY_URL
+ARG DD_GIT_COMMIT_SHA
+ENV DD_GIT_REPOSITORY_URL=${DD_GIT_REPOSITORY_URL}
+ENV DD_GIT_COMMIT_SHA=${DD_GIT_COMMIT_SHA}
+
 WORKDIR /usr/src/app
 
 COPY --from=build /usr/src/app .
