@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - main
-      - fix-ci
     paths:
       - ".github/workflows/react-frontend.yml"
       - ".github/scripts/auth.sh"
