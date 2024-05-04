@@ -126,7 +126,7 @@ export default class ServiceLocator {
     }
     const adapter = await this.getMySqlAdapter();
     const dirtyAdapter = await this.getDirtyMySqlAdapter();
-    const repo = new GameDeploymentRepository(adapter, dirtyAdapter);
+    const repo = new GameDeploymentRepository(adapter, dirtyAdapter, this.getLogger());
 
     this.setCache('GameDeploymentRepository', repo);
     return repo;

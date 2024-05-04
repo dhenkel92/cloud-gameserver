@@ -1,4 +1,4 @@
-FROM node:14.17.0-stretch as build
+FROM node:21.7-bullseye-slim as build
 
 ARG API_URL=http://localhost:1337
 ENV REACT_APP_API_URL=$API_URL

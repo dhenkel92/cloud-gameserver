@@ -40,4 +40,4 @@ chown -R 999:999 /var/lib/mysql
 
 rm -Rf /var/lib/mysql/lost+found
 
-# ansible-playbook /root/ansible/game-server.yml --extra-vars "@/root/ansible/vars/game-server.yaml"
+# ansible-playbook /root/ansible/admin-server.yml --extra-vars "@/root/ansible/vars/game-server.yaml"

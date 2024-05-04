@@ -8,7 +8,7 @@
     mode: 775
 
 - name: Create Certs for Domains
-  shell: /usr/bin/certbot certonly --dns-route53 --dns-route53-propagation-seconds 30 -d {{ item }}
+  shell: /usr/bin/certbot certonly --register-unsafely-without-email --dns-route53 -d {{ item }}
   args:
     creates: /etc/letsencrypt/live/{{ item }}/fullchain.pem
   loop: "{{ domains }}"

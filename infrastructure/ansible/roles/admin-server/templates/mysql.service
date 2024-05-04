@@ -15,7 +15,7 @@ ExecStart=docker run -i \
     -e "MYSQL_USER=strapi" \
     -e "MYSQL_PASSWORD={{ mysql.strapi_pw }}" \
     -v /var/lib/mysql:/var/lib/mysql \
-    percona:5.7.31
+    percona:8.0-centos
 ExecStop=docker stop mysql
 
 Restart=always
