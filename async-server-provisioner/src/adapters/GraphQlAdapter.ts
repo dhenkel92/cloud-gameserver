@@ -1,9 +1,11 @@
 import * as config from 'config';
+import pino from 'pino';
 
 const apiUrl = config.get<string>('cloudGame.apiUrl');
 
-export async function gqlQuery(query: string, data: any): Promise<any> {
-  const res = await fetch(`${apiUrl}/graphql`, {
+export async function gqlQuery(logger: pino.Logger, query: string, data: any): Promise<Response> {
+  logger.child({ url: `${apiUrl}/graphql`, query, data }).info('Fetch API data');
+  return fetch(`${apiUrl}/graphql`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -15,5 +17,4 @@ export async function gqlQuery(query: string, data: any): Promise<any> {
       variables: data,
     }),
   });
-  return res.json();
 }

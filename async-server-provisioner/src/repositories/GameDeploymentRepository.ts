@@ -3,6 +3,7 @@ import { GameDeployment, gameDeploymentFactory } from '../entities/GameDeploymen
 import { v4 } from 'uuid';
 import { TerraformGSOutput } from '../services/TerraformService';
 import { gqlQuery } from '../adapters/GraphQlAdapter';
+import pino from 'pino';
 
 const query = `
 query($id: ID) {
@@ -54,7 +55,8 @@ query($id: ID) {
 export default class GameDeploymentRepository {
   constructor(
     private mysqlAdapter: MySqlAdapter,
-    private dirtyMysqlAdapter: MySqlAdapter
+    private dirtyMysqlAdapter: MySqlAdapter,
+    private logger: pino.Logger
   ) {}
 
   public async getDeployment(): Promise<GameDeployment | null> {
@@ -83,7 +85,12 @@ export default class GameDeploymentRepository {
       return null;
     }
 
-    const data = await gqlQuery(query, { id: rows[0].gd_id });
+    const res = await gqlQuery(this.logger, query, { id: rows[0].gd_id });
+    const data = await res.json();
+    if (data.errors && data.errors.length != 0) {
+      this.logger.child({ errors: data.errors }).error('Failed to fetch game deployment data');
+      return null;
+    }
     const gameDeployment = gameDeploymentFactory(uuid, data);
     // eslint-disable-next-line no-console
     console.log(JSON.stringify(gameDeployment, null, 2));

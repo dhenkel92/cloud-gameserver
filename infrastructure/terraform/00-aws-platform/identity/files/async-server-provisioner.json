@@ -25,10 +25,7 @@
     {
       "Sid": "AllowGetAndPutS3ActionsOnSpecifiedTerragruntBucketPath",
       "Effect": "Allow",
-      "Action": [
-        "s3:PutObject",
-        "s3:GetObject"
-      ],
+      "Action": ["s3:PutObject", "s3:GetObject"],
       "Resource": "arn:aws:s3:::cloud-game-tf-states/*"
     },
     {
@@ -41,6 +38,12 @@
         "dynamodb:DeleteItem"
       ],
       "Resource": "arn:aws:dynamodb:eu-central-1:220002198733:table/terraform-locks"
+    },
+    {
+      "Sid": "AllowS3DefaultKMSKey",
+      "Resource": ["*"],
+      "Effect": "Allow",
+      "NotAction": ["kms:GenerateDataKey"]
     }
   ]
 }

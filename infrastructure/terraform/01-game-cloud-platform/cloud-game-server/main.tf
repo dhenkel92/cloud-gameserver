@@ -16,14 +16,16 @@ module "firewall" {
   name = var.name
   rules = [
     {
-      proto      = "tcp"
-      port       = "443"
-      source_ips = ["0.0.0.0/0"]
+      proto       = "tcp"
+      port        = "443"
+      source_ips  = ["0.0.0.0/0"]
+      description = "https"
     },
     {
-      proto      = "tcp"
-      port       = "22"
-      source_ips = ["0.0.0.0/0"]
+      proto       = "tcp"
+      port        = "22"
+      source_ips  = ["0.0.0.0/0"]
+      description = "ssh"
     }
   ]
 }

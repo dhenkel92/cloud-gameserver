@@ -1,4 +1,4 @@
-FROM node:14.17.0-stretch as build
+FROM node:21.7-bullseye-slim as build
 
 ENV NODE_ENV=development
 WORKDIR /usr/src/app
@@ -11,17 +11,17 @@ RUN npm ci
 COPY async-server-provisioner/ .
 RUN npm run build
 
-FROM node:14.17.0-stretch
+FROM node:21.7-bullseye-slim
 
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
 
 RUN apt-get update \
-    && apt-get install -y wget unzip \
-    && wget https://releases.hashicorp.com/terraform/1.1.9/terraform_1.1.9_linux_amd64.zip -O /root/terraform.zip \
-    && unzip -d /root/ /root/terraform.zip \
-    && mv /root/terraform /usr/bin/terraform \
-    && wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.36.7/terragrunt_linux_amd64 -O /usr/bin/terragrunt \
+    && apt-get install -y wget curl unzip \
+    && curl --proto '=https' --tlsv1.2 -fsSL https://get.opentofu.org/install-opentofu.sh -o install-opentofu.sh \
+    && chmod +x install-opentofu.sh \
+    && ./install-opentofu.sh --install-method deb \
+    && wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.58.0/terragrunt_linux_amd64 -O /usr/bin/terragrunt \
     && chmod +x /usr/bin/terragrunt
 
 COPY --from=build /usr/src/app/package.json .

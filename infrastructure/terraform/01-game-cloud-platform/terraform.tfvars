@@ -7,8 +7,8 @@ ssh_keys = {
 }
 
 cloud_game_server = {
-  image       = "26563390"
-  server_type = "cx11"
+  image       = "162785630"
+  server_type = "cx21"
   volume = {
     create = true
     size   = 10

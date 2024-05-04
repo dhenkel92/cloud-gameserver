@@ -35,7 +35,7 @@ module "identity" {
   tags = var.tags
 }
 
-module "ecr" {
-  source = "./container-registry"
-  tags   = local.tags
-}
+# module "ecr" {
+# source = "./container-registry"
+# tags   = local.tags
+# }

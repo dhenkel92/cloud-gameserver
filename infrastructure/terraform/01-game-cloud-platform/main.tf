@@ -40,12 +40,18 @@ module "network" {
 module "cloud_game_server" {
   source = "./cloud-game-server"
 
-  name               = var.name
-  subnet_id          = module.network.subnet_ids[0]
-  location           = var.location
-  ssh_keys           = module.ssh_keys.ids
-  cloud_game_server  = var.cloud_game_server
-  container_images   = data.terraform_remote_state.aws_platform.outputs.images
+  name              = var.name
+  subnet_id         = module.network.subnet_ids[0]
+  location          = var.location
+  ssh_keys          = module.ssh_keys.ids
+  cloud_game_server = var.cloud_game_server
+  container_images = {
+    proxy     = "cloudgame/proxy"
+    consumer  = "cloudgame/async-server-provisioner"
+    strapi_fe = "cloudgame/backend-admin"
+    strapi_be = "cloudgame/backend-api"
+    react_fe  = "cloudgame/frontend"
+  }
   ecr_readonly_creds = data.terraform_remote_state.aws_platform.outputs.access_keys["ecr_readonly.cloud-game"]
   certbot_creds      = data.terraform_remote_state.aws_platform.outputs.access_keys["certbot.cloud-game"]
   consumer_creds     = data.terraform_remote_state.aws_platform.outputs.access_keys["async-server-provisioner.cloud-game"]
