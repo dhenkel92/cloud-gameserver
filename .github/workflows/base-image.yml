@@ -2,10 +2,11 @@ on:
   push:
     branches:
       - main
+      - fix-ci
     paths:
-      - '.github/workflows/base-image.yml'
-      - 'infrastructure/packer/**/*'
-      - 'infrastructure/ansible/**/*'
+      - ".github/workflows/base-image.yml"
+      - "infrastructure/packer/**/*"
+      - "infrastructure/ansible/**/*"
 
 name: Base Image
 
@@ -28,11 +29,11 @@ jobs:
         with:
           command: validate
           arguments: -syntax-only
-          target: infrastructure/packer/manifests/basic_gameserver.json
+          target: infrastructure/packer/manifests/basic_gameserver.pkr.hcl
       # build artifact
       - name: Build Packer image
         working-directory: infrastructure/packer/
-        run: packer build -color=false -on-error=abort -var-file ./vars/production.json ./manifests/basic_gameserver.json
+        run: packer build -color=false -on-error=abort -var-file ./vars/production.hcl ./manifests/basic_gameserver.pkr.hcl
         env:
           PACKER_LOG: 1h
           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}

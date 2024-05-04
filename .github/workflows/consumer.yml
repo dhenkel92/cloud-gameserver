@@ -2,16 +2,17 @@ on:
   push:
     branches:
       - main
+      - fix-ci
     paths:
-      - '.github/workflows/consumer.yml'
-      - '.github/scripts/auth.sh'
-      - '.github/scripts/deploy.sh'
-      - 'async-server-provisioner/*'
-      - 'async-server-provisioner/*/*'
-      - 'async-server-provisioner/*/*/*'
-      - 'async-server-provisioner/*/*/*/*'
-      - 'async-server-provisioner/*/*/*/*/*'
-      - 'infrastructure/terraform/02-game-server/**/*'
+      - ".github/workflows/consumer.yml"
+      - ".github/scripts/auth.sh"
+      - ".github/scripts/deploy.sh"
+      - "async-server-provisioner/*"
+      - "async-server-provisioner/*/*"
+      - "async-server-provisioner/*/*/*"
+      - "async-server-provisioner/*/*/*/*"
+      - "async-server-provisioner/*/*/*/*/*"
+      - "infrastructure/terraform/02-game-server/**/*"
 
 name: Cloud Game Consumer
 
@@ -20,17 +21,14 @@ jobs:
     name: Build Consumer
     runs-on: ubuntu-latest
     env:
-      IMAGE: 220002198733.dkr.ecr.eu-central-1.amazonaws.com/cloud-game/consumer
+      IMAGE: cloudgame/async-server-provisioner
     steps:
       - uses: actions/checkout@master
-      - name: Authenticate
-        # if: github.ref == 'refs/heads/main'
-        run: ./.github/scripts/auth.sh
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: eu-central-1
-          ECR_ACCOUNT: 220002198733.dkr.ecr.eu-central-1.amazonaws.com
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build Docker Container
         run: |
           docker build -t $IMAGE:$GITHUB_RUN_ID -f async-server-provisioner/Dockerfile .

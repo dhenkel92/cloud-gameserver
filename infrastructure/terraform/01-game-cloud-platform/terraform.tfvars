@@ -20,6 +20,7 @@ dns = {
     "cloud-game.app",
     "api.cloud-game.app",
     "admin.cloud-game.app",
+    "ext.cloud-game.app",
   ]
 }
 

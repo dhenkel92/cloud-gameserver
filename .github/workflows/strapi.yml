@@ -2,11 +2,12 @@ on:
   push:
     branches:
       - main
+      - fix-ci
     paths:
-      - '.github/workflows/strapi.yml'
-      - '.github/scripts/auth.sh'
-      - '.github/scripts/deploy.sh'
-      - 'backend/**/*'
+      - ".github/workflows/strapi.yml"
+      - ".github/scripts/auth.sh"
+      - ".github/scripts/deploy.sh"
+      - "backend/**/*"
 
 name: Cloud Game Backend Strapi
 
@@ -15,17 +16,14 @@ jobs:
     name: Build Strapi API
     runs-on: ubuntu-latest
     env:
-      IMAGE: 220002198733.dkr.ecr.eu-central-1.amazonaws.com/cloud-game/strapi/backend
+      IMAGE: cloudgame/backend-api
     steps:
       - uses: actions/checkout@master
-      - name: Authenticate
-        # if: github.ref == 'refs/heads/main'
-        run: ./.github/scripts/auth.sh
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: eu-central-1
-          ECR_ACCOUNT: 220002198733.dkr.ecr.eu-central-1.amazonaws.com
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build Docker Container
         run: |
           docker build -t $IMAGE:$GITHUB_RUN_ID -f backend/Dockerfile-prod-be .
@@ -39,23 +37,20 @@ jobs:
     name: Build Strapi Frontend
     runs-on: ubuntu-latest
     env:
-      IMAGE: 220002198733.dkr.ecr.eu-central-1.amazonaws.com/cloud-game/strapi/frontend
+      IMAGE: cloudgame/backend-admin
     steps:
       - uses: actions/checkout@master
-      - name: Authenticate
-        # if: github.ref == 'refs/heads/main'
-        run: ./.github/scripts/auth.sh
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: eu-central-1
-          ECR_ACCOUNT: 220002198733.dkr.ecr.eu-central-1.amazonaws.com
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build Docker Container
         run: |
           cd backend
           docker build -t $IMAGE:$GITHUB_RUN_ID -f Dockerfile-prod-fe --build-arg ADMIN_URL=${ADMIN_URL} --build-arg SERVER_URL=${SERVER_URL} .
         env:
-          ADMIN_URL: https://admin.cloud-game.app/
+          ADMIN_URL: /
           SERVER_URL: https://api.cloud-game.app/
       - name: Push Container
         run: |
