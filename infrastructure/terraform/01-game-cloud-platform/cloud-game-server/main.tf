@@ -66,7 +66,7 @@ module "cloud_game_server" {
   firewall_ids = [module.firewall.id]
   volume       = var.cloud_game_server.volume
   network = {
-    attach    = true
-    subnet_id = var.subnet_id
+    attach     = true
+    network_id = var.network_id
   }
 }

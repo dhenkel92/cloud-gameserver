@@ -1,3 +1,4 @@
+env: NODE_ENV
 terraform_path: TERRAFORM_PATH
 mysql:
   database: MYSQL_DATABASE
@@ -20,3 +21,4 @@ cloudGame:
   ansibleBranch: CLOUD_GAME_ANSIBLE_BRANCH
   apiUrl: CLOUD_GAME_API_URL
   apiToken: CLOUD_GAME_API_TOKEN
+  backupS3Bucket: CLOUD_GAME_BACKUP_S3_BUCKET

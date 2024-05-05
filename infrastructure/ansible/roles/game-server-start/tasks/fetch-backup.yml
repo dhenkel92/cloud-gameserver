@@ -2,7 +2,7 @@
 - include_tasks: ../../../generic/bucket.yaml
 - name: List all backups
   amazon.aws.aws_s3:
-    bucket: cloud-game
+    bucket: "{{ server.backup_s3_bucket }}"
     mode: list
     prefix: "{{ backup_folder_path.stdout }}"
   register: all_backups
@@ -13,7 +13,7 @@
     msg: "{{ backup_path }}"
 - name: Download backup
   amazon.aws.s3_object:
-    bucket: cloud-game
+    bucket: "{{ server.backup_s3_bucket }}"
     object: "{{ backup_path }}"
     dest: /root/backup.tar.gz
     mode: get

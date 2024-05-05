@@ -18,6 +18,7 @@ export interface MinecraftTFConfig {
       port: string;
       description: string;
     }[];
+    backup_s3_bucket: string;
     backup_paths: {
       path: string;
     }[];
@@ -52,6 +53,7 @@ export function createMinecraftTFConfigFromGameConfig(mfConfig: GameDeployment):
         port: `${port.port}`,
         description: port.name,
       })),
+      backup_s3_bucket: config.get('cloudGame.backupS3Bucket'),
       backup_paths: mfConfig.gameInstance.backupPaths.map((p) => ({
         path: p.path,
       })),

@@ -2,7 +2,7 @@ variable "name" {
   type = string
 }
 
-variable "subnet_id" {
+variable "network_id" {
   type = string
 }
 

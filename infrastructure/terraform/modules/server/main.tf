@@ -41,6 +41,6 @@ resource "hcloud_volume_attachment" "attach" {
 resource "hcloud_server_network" "network_attach" {
   count = var.network.attach ? 1 : 0
 
-  server_id = hcloud_server.node.id
-  subnet_id = var.network.subnet_id
+  server_id  = hcloud_server.node.id
+  network_id = var.network.network_id
 }

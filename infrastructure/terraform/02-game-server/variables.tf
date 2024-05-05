@@ -20,6 +20,7 @@ variable "server" {
       description = string
     }))
 
+    backup_s3_bucket = string
     backup_paths = list(object({
       path = string
     }))
