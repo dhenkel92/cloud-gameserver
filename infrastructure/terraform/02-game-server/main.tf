@@ -13,13 +13,16 @@ data "terraform_remote_state" "aws_platform" {
   }
 }
 
-data "terraform_remote_state" "game_cloud" {
-  backend = "s3"
-  config = {
-    bucket = "cloud-game-tf-states"
-    key    = "terraform/01-game-cloud-platform"
-    region = "eu-central-1"
-  }
+data "hcloud_ssh_keys" "all_keys" {
+}
+
+data "hcloud_network" "cloud_game" {
+  name = "cloud-game"
+}
+
+data "hcloud_image" "latest_game_server_image" {
+  with_selector = "application=basic-gameserver"
+  most_recent   = true
 }
 
 module "firewall" {
@@ -32,22 +35,6 @@ module "firewall" {
     description = rule.description
     source_ips  = ["0.0.0.0/0"]
   }]
-  # rules = [
-  # {
-  # proto      = "tcp"
-  # port       = "22"
-  # },
-  # {
-  # proto      = "tcp"
-  # port       = "25565"
-  # source_ips = ["0.0.0.0/0"]
-  # },
-  # {
-  # proto      = "tcp"
-  # port       = "8080"
-  # source_ips = ["0.0.0.0/0"]
-  # }
-  # ]
 }
 
 module "game_server" {
@@ -57,15 +44,15 @@ module "game_server" {
   location = var.metadata.location
 
   server_type  = var.server.type
-  image        = var.server.image
+  image        = data.hcloud_image.latest_game_server_image.id
   firewall_ids = [module.firewall.id]
 
-  ssh_keys = data.terraform_remote_state.game_cloud.outputs.ssh_key_ids
+  ssh_keys = data.hcloud_ssh_keys.all_keys.*.id
   tags     = local.tags
 
   network = {
-    attach    = true
-    subnet_id = data.terraform_remote_state.game_cloud.outputs.network.subnet_ids.game_server
+    attach     = true
+    network_id = data.hcloud_network.cloud_game.id
   }
 
   user_data = {
@@ -79,7 +66,8 @@ module "game_server" {
       ansible_branch        = var.ansible_branch
       game_instance_id      = var.metadata.game_instance.id
 
-      backup_paths = [for path in var.server.backup_paths : { path = path.path }]
+      backup_s3_bucket = var.server.backup_s3_bucket
+      backup_paths     = [for path in var.server.backup_paths : { path = path.path }]
     }
   }
 }

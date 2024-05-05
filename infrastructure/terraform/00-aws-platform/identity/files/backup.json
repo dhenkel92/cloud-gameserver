@@ -11,7 +11,12 @@
         "s3:ListBucket",
         "s3:GetObjectTagging"
       ],
-      "Resource": ["arn:aws:s3:::cloud-game/*", "arn:aws:s3:::cloud-game"]
+      "Resource": [
+        "arn:aws:s3:::cloud-game/*",
+        "arn:aws:s3:::cloud-game",
+        "arn:aws:s3:::cloud-game-dev",
+        "arn:aws:s3:::cloud-game-dev/*"
+      ]
     }
   ]
 }

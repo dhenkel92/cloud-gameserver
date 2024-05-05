@@ -7,11 +7,12 @@ metadata = {
 }
 
 server = {
-  type         = "cx31"
-  image        = "68074861"
-  docker_image = "cloudgame/minecraft:vanilla-1.18.2"
-  ports        = []
-  backup_paths = [{ path = "isso" }]
+  type             = "cx31"
+  image            = "placeholder"
+  docker_image     = "cloudgame/minecraft:vanilla-1.18.2"
+  ports            = []
+  backup_s3_bucket = "cloud-game-dev"
+  backup_paths     = [{ path = "isso" }]
 }
 
 datadog = {

@@ -3,6 +3,7 @@ game_instance:
   id: placeholder
 server:
   docker_image: placeholder
+  backup_s3_bucket: placeholder
   backup_paths:
     - path: placeholder
 datadog:

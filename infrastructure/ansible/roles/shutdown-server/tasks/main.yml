@@ -4,7 +4,7 @@
   shell: tar -czf /root/backup.tar.gz -C /mnt/backup .
 - name: Upload Backup File to S3
   amazon.aws.s3_object:
-    bucket: cloud-game
+    bucket: "{{ server.backup_s3_bucket }}"
     object: "{{ backup_folder_path.stdout }}{{ backup_name.stdout }}"
     src: /root/backup.tar.gz
     mode: put

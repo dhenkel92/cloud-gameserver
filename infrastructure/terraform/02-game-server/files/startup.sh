@@ -12,6 +12,7 @@ game_instance:
 # game server start varibales
 server:
   docker_image: ${game_server_image}
+  backup_s3_bucket: ${backup_s3_bucket}
   backup_paths:
   %{ for p in backup_paths }
   - path: ${p.path}

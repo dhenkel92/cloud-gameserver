@@ -1,5 +1,8 @@
 import { CloudInstance, cloudInstanceFactory } from './CloudInstance';
 import { GameInstance, gameInstanceFactory } from './GameInstance';
+import * as config from 'config';
+
+const env = config.get<string>('env');
 
 export enum GameDeploymentStatus {
   STARTING = 'STARTING',
@@ -15,8 +18,11 @@ export interface GameDeployment {
 }
 
 export function generateTFWorkspaceName(deploy: GameDeployment): string {
-  const rawString = `${deploy.id}-${deploy.gameInstance.name}`;
-  return rawString.replace(/([\s-_])/g, '-').toLowerCase();
+  const rawString = `${env}-${deploy.gameInstance.id}-${deploy.gameInstance.name}`;
+  return rawString
+    .replace(/[^a-zA-Z0-9-]/g, '')
+    .toLowerCase()
+    .slice(0, 50);
 }
 
 export function gameDeploymentFactory(consumerUid: string, row: any): GameDeployment {

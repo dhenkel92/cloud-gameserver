@@ -1,3 +1,5 @@
 ---
+server:
+  backup_s3_bucket: placeholder
 game_instance:
   id: placeholder
