@@ -1,13 +1,10 @@
 ---
 - include_tasks: ../../../generic/bucket.yaml
-- name: List all backups
-  amazon.aws.aws_s3:
-    bucket: "{{ server.backup_s3_bucket }}"
-    mode: list
-    prefix: "{{ backup_folder_path.stdout }}"
-  register: all_backups
+- name: Find latest backup
+  shell: aws s3 ls s3://{{ server.backup_s3_bucket }}/{{ backup_folder_path.stdout }} --page-size 1000 | awk '{print $4}' | sort | tail -n 1
+  register: backup_key
 - set_fact:
-    backup_path: "{{ all_backups.s3_keys[0] if all_backups.s3_keys | length > 0 else '' }}"
+    backup_path: "{{ backup_folder_path.stdout }}{{ backup_key.stdout }}"
 - name: "Debug print backup path"
   debug:
     msg: "{{ backup_path }}"
@@ -17,9 +14,9 @@
     object: "{{ backup_path }}"
     dest: /root/backup.tar.gz
     mode: get
-  when: backup_path != ""
+  when: backup_key.stdout != ""
 - name: Unzip archive
   unarchive:
     src: /root/backup.tar.gz
     dest: /mnt/backup/
-  when: backup_path != ""
+  when: backup_key.stdout != ""
