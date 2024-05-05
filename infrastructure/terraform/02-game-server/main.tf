@@ -47,7 +47,7 @@ module "game_server" {
   image        = data.hcloud_image.latest_game_server_image.id
   firewall_ids = [module.firewall.id]
 
-  ssh_keys = data.hcloud_ssh_keys.all_keys.*.id
+  ssh_keys = [for key in data.hcloud_ssh_keys.all_keys.ssh_keys : key.id]
   tags     = local.tags
 
   network = {
