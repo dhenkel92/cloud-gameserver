@@ -23,6 +23,7 @@ data "hcloud_network" "cloud_game" {
 data "hcloud_image" "latest_game_server_image" {
   with_selector = "application=basic-gameserver"
   most_recent   = true
+  with_status   = ["available"]
 }
 
 module "firewall" {
