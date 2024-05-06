@@ -1,0 +1,40 @@
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/game-server-watcher.yml"
+      - "game-server-watcher/**/*"
+
+name: Cloud Game Server Watcher
+
+jobs:
+  build:
+    name: Build Game Server Watcher
+    runs-on: ubuntu-latest
+    env:
+      IMAGE: cloudgame/game-server-watcher
+    steps:
+      - uses: actions/checkout@master
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+      - name: Go vet
+        run: |
+          cd game-server-watcher
+          go vet ./...
+      - name: Build Docker Container
+        run: |
+          cd game-server-watcher
+          docker build -t $IMAGE:$GITHUB_RUN_ID -f Dockerfile --build-arg DD_GIT_REPOSITORY_URL=$(git config --get remote.origin.url) --build-arg DD_GIT_COMMIT_SHA=${{ github.sha }} .
+      - name: Push Container
+        run: |
+          docker tag $IMAGE:$GITHUB_RUN_ID $IMAGE:latest
+          docker push $IMAGE:$GITHUB_RUN_ID
+          docker push $IMAGE:latest

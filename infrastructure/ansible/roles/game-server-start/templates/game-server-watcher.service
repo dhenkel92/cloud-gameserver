@@ -11,9 +11,8 @@ ExecStart=/usr/bin/docker run -i --name gs-watcher \
          --net host \
          -v /opt:/opt:ro \
         {{ watcher.docker_image }} \
-        --address 0.0.0.0 \
-        --port {{ watcher.port }} \
-        --config-path /opt/watcher-config.yml
+        server \
+        --port {{ watcher.port }}
 TimeoutStopSec=300
 
 [Install]
