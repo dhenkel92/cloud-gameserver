@@ -1,19 +1,14 @@
-ARG BUILD_BASE=1.56.1-alpine3.14
-ARG BASE=3.14
+FROM golang:1.22-alpine3.19 as build
 
-FROM rust:${BUILD_BASE} as build
-
-WORKDIR /root
-
-RUN apk add --no-cache musl-dev
+ENV workdir=/usr/app
+WORKDIR /usr/app
 
 COPY . .
 
-ENV CARGO_HTTP_MULTIPLEXING=false
-RUN cargo build --release --features "strict"
+RUN CGO_ENABLED=0 go build -o ./game-server-watcher ./cmd/game-server-watcher/*
 
-FROM alpine:${BASE}
+FROM alpine:3.19
 
-COPY --from=build /root/target/release/game-server-watcher /usr/bin/game-server-watcher
+COPY --from=build /usr/app/game-server-watcher /usr/bin/game-server-watcher
 
-ENTRYPOINT ["/usr/bin/game-server-watcher"]
+ENTRYPOINT ["game-server-watcher"]
