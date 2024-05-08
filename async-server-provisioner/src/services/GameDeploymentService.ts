@@ -58,6 +58,7 @@ export class GameDeploymentService {
     const res = await this.gameDeployRepo.getDeployment();
 
     if (res === null) {
+      await this.gameDeployRepo.finishDeployment();
       return;
     }
 
