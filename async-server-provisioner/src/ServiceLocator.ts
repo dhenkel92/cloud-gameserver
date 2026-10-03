@@ -1,4 +1,4 @@
-import * as config from 'config';
+import config from 'config';
 import * as mysql from 'mysql2/promise';
 import pino from 'pino';
 import MySqlAdapter from './adapters/MySqlAdapter';
@@ -14,7 +14,6 @@ export default class ServiceLocator {
   private static instance: ServiceLocator | null;
   private cache: Map<string, any> = new Map();
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   public static getInstance(): ServiceLocator {

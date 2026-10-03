@@ -11,7 +11,6 @@ export class StorageAdapter {
     return this.instance;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   public setItem(key: string, value: string): void {
@@ -31,7 +30,13 @@ export class StorageAdapter {
   }
 
   public getAuthToken(): string | null {
-    return this.getItem(AUTH_TOKEN_NAME);
+    const token = this.getItem(AUTH_TOKEN_NAME);
+    // Discard values serialized by the old unchecked authentication callback.
+    if (token === 'undefined' || token === 'null' || token?.trim() === '') {
+      this.clearAuthToken();
+      return null;
+    }
+    return token;
   }
 
   public clearAuthToken(): void {

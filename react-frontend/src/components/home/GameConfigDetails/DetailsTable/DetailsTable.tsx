@@ -7,14 +7,15 @@ import { gameConfigStatusToColor } from '../../../../helpers/gameConfigStatusToC
 
 interface DetailsTableProps {
   gameName: string;
-  gameConfigId: number;
+  gameConfigId: string;
+  cloudInstanceId?: string;
   gameConfigName: string;
   gameConfigStatus: string;
-  gameDeploymentId: string;
+  gameDeploymentId?: string;
 }
 
 export class DetailsTable extends React.Component<DetailsTableProps> {
-  render(): JSX.Element {
+  render(): React.JSX.Element {
     return (
       <div className="detailsTable">
         <div className="detailsTableRow">
@@ -36,7 +37,7 @@ export class DetailsTable extends React.Component<DetailsTableProps> {
         <hr />
         <div className="detailsTableRow">
           <GameConfigButtons
-            cloudInstanceId={1}
+            cloudInstanceId={this.props.cloudInstanceId}
             gameConfigId={this.props.gameConfigId}
             gameConfigStatus={this.props.gameConfigStatus}
             gameDeploymentId={this.props.gameDeploymentId}

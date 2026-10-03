@@ -5,7 +5,7 @@ import inputStyle from './Input.module.css';
 type InputProps = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
 
 export class Input extends React.Component<InputProps> {
-  render(): JSX.Element {
+  render(): React.JSX.Element {
     return (
       <input {...this.props} className={`${inputStyle.myInput} ${colors.background} ${colors.primaryFocus} ${this.props.className}`} />
     );

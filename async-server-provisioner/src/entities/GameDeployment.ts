@@ -1,6 +1,6 @@
-import { CloudInstance, cloudInstanceFactory } from './CloudInstance';
-import { GameInstance, gameInstanceFactory } from './GameInstance';
-import * as config from 'config';
+import { CloudInstance, CloudInstanceDocument, cloudInstanceFactory } from './CloudInstance';
+import { GameInstance, GameInstanceDocument, gameInstanceFactory } from './GameInstance';
+import config from 'config';
 
 const env = config.get<string>('env');
 
@@ -17,6 +17,13 @@ export interface GameDeployment {
   gameInstance: GameInstance;
 }
 
+export interface GameDeploymentDocument {
+  documentId: string;
+  status: GameDeploymentStatus;
+  cloud_instance: CloudInstanceDocument;
+  game_instance: GameInstanceDocument;
+}
+
 export function generateTFWorkspaceName(deploy: GameDeployment): string {
   const rawString = `${env}-${deploy.gameInstance.id}-${deploy.gameInstance.name}`;
   return rawString
@@ -25,15 +32,17 @@ export function generateTFWorkspaceName(deploy: GameDeployment): string {
     .slice(0, 50);
 }
 
-export function gameDeploymentFactory(consumerUid: string, row: any): GameDeployment {
-  const gameDeployment = row.data.gameDeployment;
-  const cloudInstance = gameDeployment.data.attributes.cloud_instance;
-  const gameInstance = gameDeployment.data.attributes.game_instance;
+export function gameDeploymentFactory(
+  consumerUid: string,
+  deploymentId: number,
+  gameInstanceId: number,
+  row: GameDeploymentDocument
+): GameDeployment {
   return {
-    id: gameDeployment.data.id,
+    id: deploymentId,
     consumerUUID: consumerUid,
-    status: (GameDeploymentStatus as any)[gameDeployment.data.attributes.status],
-    cloudInstance: cloudInstanceFactory(cloudInstance),
-    gameInstance: gameInstanceFactory(gameInstance),
+    status: row.status,
+    cloudInstance: cloudInstanceFactory(row.cloud_instance),
+    gameInstance: gameInstanceFactory(gameInstanceId, row.game_instance),
   };
 }

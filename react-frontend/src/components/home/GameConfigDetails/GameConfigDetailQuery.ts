@@ -1,113 +1,81 @@
 import { gql } from '@apollo/client';
 
 export const GAME_CONFIG_DETAILS = gql`
-  query gameInstance($id: ID!) {
-    gameInstances(filters: { id: { eq: $id } }) {
-      data {
-        id
-        attributes {
+  query GameConfigDetails($documentId: ID!) {
+    gameInstance(documentId: $documentId) {
+      documentId
+      name
+      game_deployments(sort: ["start_time:desc"]) {
+        documentId
+        status
+        public_ip
+        private_ip
+        start_time
+        stop_time
+        domain
+        cost_per_hour
+        game_server_ports {
+          port
+          protocol
+          is_open
+        }
+        cloud_instance {
+          documentId
           name
-          game_deployments(sort: ["start_time:desc"]) {
-            data {
-              id
-              attributes {
-                status
-                public_ip
-                private_ip
-                start_time
-                stop_time
-                domain
-                cost_per_hour
-                cloud_instance {
-                  data {
-                    attributes {
-                      name
-                      cpu
-                      memory
-                    }
-                  }
-                }
-              }
-            }
-          }
-          game_version {
-            data {
-              attributes {
-                version
-                game_flavour {
-                  data {
-                    attributes {
-                      name
-                    }
-                  }
-                }
-                game {
-                  data {
-                    attributes {
-                      name
-                    }
-                  }
-                }
-              }
-            }
-          }
+          cpu
+          memory
         }
       }
+      game_version {
+        version
+        game_flavour {
+          name
+        }
+        game {
+          name
+        }
+      }
+    }
+    cloudInstances(sort: ["createdAt:asc"], pagination: { limit: 1 }) {
+      documentId
     }
   }
 `;
 
+export type GameServerPort = {
+  port: number;
+  protocol: string;
+  is_open: boolean;
+};
+
+export type GameDeployment = {
+  documentId: string;
+  status: string;
+  public_ip: string | null;
+  private_ip: string | null;
+  start_time: string;
+  stop_time: string | null;
+  domain: string | null;
+  cost_per_hour: number | null;
+  game_server_ports: GameServerPort[] | null;
+  cloud_instance: {
+    documentId: string;
+    name: string;
+    cpu: string;
+    memory: string;
+  } | null;
+};
+
 export type GameConfigDetailsResponse = {
-  gameInstances: {
-    data: {
-      id: number;
-      attributes: {
-        name: string;
-        game_deployments: {
-          data: {
-            id: string;
-            attributes: {
-              status: string;
-              public_ip: string;
-              private_ip: string;
-              start_time: string;
-              stop_time: string;
-              domain: string;
-              cost_per_hour: number;
-              cloud_instance: {
-                data: {
-                  attributes: {
-                    name: string;
-                    cpu: string;
-                    memory: string;
-                  };
-                };
-              };
-            };
-          }[];
-        };
-        game_version: {
-          data: {
-            attributes: {
-              version: string;
-              game_flavour: {
-                data: {
-                  attributes: {
-                    name: string;
-                  };
-                };
-              };
-              game: {
-                data: {
-                  attributes: {
-                    name: string;
-                  };
-                };
-              };
-            };
-          };
-        };
-      };
-    }[];
-  };
+  gameInstance: {
+    documentId: string;
+    name: string;
+    game_deployments: GameDeployment[];
+    game_version: {
+      version: string;
+      game_flavour: { name: string } | null;
+      game: { name: string } | null;
+    } | null;
+  } | null;
+  cloudInstances: { documentId: string }[];
 };

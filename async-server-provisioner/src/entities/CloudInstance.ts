@@ -5,11 +5,18 @@ export interface CloudInstance {
   region: string;
 }
 
-export function cloudInstanceFactory(row: any): CloudInstance {
+export interface CloudInstanceDocument {
+  provider: string;
+  api_name: string;
+  cost_per_hour: number;
+  region: string;
+}
+
+export function cloudInstanceFactory(row: CloudInstanceDocument): CloudInstance {
   return {
-    provider: row.data.attributes.provider,
-    apiName: row.data.attributes.api_name,
-    costPerHour: row.data.attributes.cost_per_hour,
-    region: row.data.attributes.region,
+    provider: row.provider,
+    apiName: row.api_name,
+    costPerHour: row.cost_per_hour,
+    region: row.region,
   };
 }

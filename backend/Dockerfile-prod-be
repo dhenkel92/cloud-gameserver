@@ -1,4 +1,4 @@
-FROM node:21.7-bullseye-slim as build
+FROM node:24.21.0-bookworm-slim AS build
 
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
@@ -10,7 +10,10 @@ RUN npm ci
 
 COPY backend .
 
-FROM node:21.7-bullseye-slim
+FROM node:24.21.0-bookworm-slim
+
+ENV NODE_ENV=production
+ENV SERVE_ADMIN_PANEL=false
 
 ARG DD_GIT_REPOSITORY_URL
 ARG DD_GIT_COMMIT_SHA

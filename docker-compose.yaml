@@ -18,8 +18,15 @@ services:
       - db:db
     volumes:
       - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
     depends_on:
       - db
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:1337/_health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      start_period: 60s
+      retries: 6
 
   db:
     container_name: mysql
@@ -40,6 +47,9 @@ services:
     command: ["npm", "run", "watch"]
     links:
       - db:db
+    depends_on:
+      strapi:
+        condition: service_healthy
     environment:
       - MYSQL_HOST=db
       - TERRAFORM_PATH=/opt/terraform/02-game-server
@@ -48,4 +58,5 @@ services:
     volumes:
       - ~/.aws:/root/.aws
       - ./async-server-provisioner:/usr/src/app
+      - /usr/src/app/node_modules
       - ./infrastructure/terraform:/opt/terraform

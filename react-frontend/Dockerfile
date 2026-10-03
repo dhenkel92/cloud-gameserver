@@ -1,15 +1,17 @@
-FROM node:21.7-bullseye-slim as build
+FROM node:24.21.0-bookworm-slim AS build
 
 ARG API_URL=http://localhost:1337
 ENV REACT_APP_API_URL=$API_URL
 
 WORKDIR /usr/src/app
 
+COPY package.json package-lock.json ./
+RUN npm ci
+
 COPY . .
+RUN npm run build
 
-RUN npm install && npm run build
-
-FROM nginx:1.17.9-alpine
+FROM nginx:stable-alpine
 
 ARG DD_GIT_REPOSITORY_URL
 ARG DD_GIT_COMMIT_SHA

@@ -12,7 +12,7 @@ type SpecializedButton = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export class Button extends React.Component<ButtonProps> {
-  render(): JSX.Element {
+  render(): React.JSX.Element {
     return (
       <button {...this.props} className={`${styles.btn} ${this.props.className}`}>
         {this.props.name}
@@ -22,25 +22,25 @@ export class Button extends React.Component<ButtonProps> {
 }
 
 export class SuccessButton extends React.Component<SpecializedButton> {
-  render(): JSX.Element {
+  render(): React.JSX.Element {
     return <Button {...this.props} className={`${styles.success} ${this.props.className}`} />;
   }
 }
 
 export class ErrorButton extends React.Component<SpecializedButton> {
-  render(): JSX.Element {
+  render(): React.JSX.Element {
     return <Button {...this.props} className={`${styles.danger} ${this.props.className}`} />;
   }
 }
 
 export class PrimaryButton extends React.Component<SpecializedButton> {
-  render(): JSX.Element {
+  render(): React.JSX.Element {
     return <Button {...this.props} className={`${colors.primaryBtn} ${this.props.className}`} />;
   }
 }
 
 export class ProcessingButton extends React.Component<SpecializedButton> {
-  render(): JSX.Element {
+  render(): React.JSX.Element {
     return <Button {...this.props} className={`${styles.processing} ${this.props.className}`} />;
   }
 }

@@ -1,13 +1,13 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { ApolloClient, InMemoryCache, createHttpLink, ApolloProvider } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client/react';
+import { SetContextLink } from '@apollo/client/link/context';
 import { App } from './components/app/App';
-import * as serviceWorker from './serviceWorker';
 import { StorageAdapter } from './StorageAdapter';
 
-const authLink = setContext((_, { headers }) => {
+const authLink = new SetContextLink(({ headers }) => {
   const token = StorageAdapter.getInstance().getAuthToken();
   return {
     headers: {
@@ -17,8 +17,8 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-const httpLink = createHttpLink({
-  uri: process.env.REACT_APP_API_URL ? `${process.env.REACT_APP_API_URL}/graphql` : 'http://localhost:1337/graphql',
+const httpLink = new HttpLink({
+  uri: `${import.meta.env.REACT_APP_API_URL ?? 'http://localhost:1337'}/graphql`,
 });
 
 const client = new ApolloClient({
@@ -34,8 +34,3 @@ root.render(
     </React.StrictMode>
   </ApolloProvider>
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

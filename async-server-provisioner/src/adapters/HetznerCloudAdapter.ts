@@ -1,4 +1,3 @@
-import nodeFetch from 'node-fetch';
 import { createHetznerServer, HetznerServer } from '../entities/HetznerServer';
 
 export class HetznerCloudAdapter {
@@ -13,7 +12,7 @@ export class HetznerCloudAdapter {
   }
 
   public async listServer(): Promise<HetznerServer[]> {
-    const result = await nodeFetch(`${HetznerCloudAdapter.API_BASE_PATH}/servers`, {
+    const result = await fetch(`${HetznerCloudAdapter.API_BASE_PATH}/servers`, {
       headers: this.defaultHeader(),
     });
     const json = (await result.json()) as any;
@@ -21,7 +20,7 @@ export class HetznerCloudAdapter {
   }
 
   public async getServerById(id: number): Promise<HetznerServer> {
-    const result = await nodeFetch(`${HetznerCloudAdapter.API_BASE_PATH}/servers/${id}`, {
+    const result = await fetch(`${HetznerCloudAdapter.API_BASE_PATH}/servers/${id}`, {
       headers: this.defaultHeader(),
     });
     const json = (await result.json()) as any;
@@ -29,7 +28,7 @@ export class HetznerCloudAdapter {
   }
 
   public async shutdownServer(serverId: number): Promise<any> {
-    await nodeFetch(`${HetznerCloudAdapter.API_BASE_PATH}/servers/${serverId}/actions/shutdown`, {
+    await fetch(`${HetznerCloudAdapter.API_BASE_PATH}/servers/${serverId}/actions/shutdown`, {
       method: 'POST',
       headers: this.defaultHeader(),
     });

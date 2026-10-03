@@ -1,50 +1,34 @@
 import MySqlAdapter from '../adapters/MySqlAdapter';
 import { GameDeployment, gameDeploymentFactory } from '../entities/GameDeployment';
-import { v4 } from 'uuid';
+import { randomUUID } from 'node:crypto';
 import { TerraformGSOutput } from '../services/TerraformService';
 import { gqlQuery } from '../adapters/GraphQlAdapter';
 import pino from 'pino';
 
 const query = `
-query($id: ID) {
-  gameDeployment(id: $id) {
-    data {
-      id
-      attributes {
-        status
-        cloud_instance {
-          data {
-            attributes {
-              api_name
-              provider
-              region
-              cost_per_hour
-            }
-          }
+query($documentId: ID!) {
+  gameDeployment(documentId: $documentId) {
+    documentId
+    status
+    cloud_instance {
+      api_name
+      provider
+      region
+      cost_per_hour
+    }
+    game_instance {
+      documentId
+      name
+      game_version {
+        docker_image
+        ports {
+          name
+          port
+          type
         }
-        game_instance {
-          data {
-            id
-            attributes {
-              name
-              game_version {
-                data {
-                  attributes {
-                    docker_image
-                    ports {
-                      name
-                      port
-                      type
-                    }
-                    backup_paths {
-                      name
-                      path
-                    }
-                  }
-                }
-              }
-            }
-          }
+        backup_paths {
+          name
+          path
         }
       }
     }
@@ -60,7 +44,7 @@ export default class GameDeploymentRepository {
   ) {}
 
   public async getDeployment(): Promise<GameDeployment | null> {
-    const uuid = v4();
+    const uuid = randomUUID();
 
     await this.dirtyMysqlAdapter.beginTransaction();
     await this.dirtyMysqlAdapter.query(
@@ -74,7 +58,7 @@ export default class GameDeploymentRepository {
 
     const rows = await this.dirtyMysqlAdapter.query(
       `
-      SELECT gd.id as gd_id
+      SELECT gd.id as gd_id, gd.document_id as gd_document_id
       FROM game_deployments gd
       WHERE consumer_uuid = ?;
     `,
@@ -85,13 +69,21 @@ export default class GameDeploymentRepository {
       return null;
     }
 
-    const res = await gqlQuery(this.logger, query, { id: rows[0].gd_id });
+    const res = await gqlQuery(this.logger, query, { documentId: rows[0].gd_document_id });
     const data = await res.json();
     if (data.errors && data.errors.length != 0) {
       this.logger.child({ errors: data.errors }).error('Failed to fetch game deployment data');
       return null;
     }
-    const gameDeployment = gameDeploymentFactory(uuid, data);
+    const deployment = data.data.gameDeployment;
+    // GraphQL exposes documentIds; Terraform must retain the existing numeric SQL instance identity.
+    const gameInstances = await this.mysqlAdapter.query('SELECT id FROM game_instances WHERE document_id = ?', [
+      deployment.game_instance.documentId,
+    ]);
+    if (gameInstances.length !== 1) {
+      throw new Error(`Expected one game instance row for document ${deployment.game_instance.documentId}`);
+    }
+    const gameDeployment = gameDeploymentFactory(uuid, rows[0].gd_id, gameInstances[0].id, deployment);
     // eslint-disable-next-line no-console
     console.log(JSON.stringify(gameDeployment, null, 2));
     return gameDeployment;
