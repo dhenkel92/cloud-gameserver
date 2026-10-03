@@ -22,7 +22,11 @@ Open [http://localhost:3000](http://localhost:3000). The port is fixed so Auth0 
 
 `REACT_APP_API_URL` remains the backend origin, defaults to `http://localhost:1337`, and must not end in a slash. It is a **build-time public setting**, not a secret. Vite reads it from the shell or `.env`/`.env.local` files. The frontend calls `<origin>/graphql`, links to `<origin>/api/connect/auth0`, and handles the authentication response at `/connect/auth0` by calling `<origin>/api/auth/auth0/callback` with the returned query parameters. Configure the backend/Auth0 provider to redirect to `http://localhost:3000/connect/auth0` locally, or the deployed frontend origin in production, and allow that frontend origin in backend CORS settings.
 
+Strapi 5 requires the completed OAuth provider session when issuing the application JWT. The callback fetch uses `credentials: 'include'` so the backend receives its session cookie even when the frontend and backend use different ports/origins. Backend CORS must allow the frontend origin with credentials, and cookie domain/SameSite/Secure settings must permit the deployment. Use the same hostname consistently during local login; `localhost` and `127.0.0.1` do not share cookies. An Auth0 access token in the callback query does not replace the Strapi session cookie.
+
 The `/` dashboard and `/config/:id` details view require the `auth-token` localStorage entry. The `:id` route value is the game instance's string `documentId`, not a numeric database ID. Unauthenticated visits redirect to `/login`; logout clears the token and returns to login. A running backend with valid Auth0 configuration is required for real login and game-server operations.
+
+The callback performs one exchange per callback query, including under React Strict Mode. It stores the Strapi `jwt` only after a successful HTTP response containing a nonempty token, then replaces the callback history entry with the dashboard. HTTP/network/JSON failures or missing tokens show an error and a **Sign in again** link without authenticating. Previously stored `"undefined"`, `"null"` and empty token values are discarded automatically; after updating, reload `/login` and complete a fresh Auth0 sign-in.
 
 ## Scripts and verification
 
@@ -47,7 +51,7 @@ For a local smoke check, seed a game, flavour/version, related game instance, cl
 
 Log in, open `/`, confirm the instance name/game/latest status and follow Configure to `/config/<instanceDocumentId>`. With a stopped deployment, click Start and check that the mutation's two relation IDs are strings and the UI shows STARTING. Let the local provisioner transition the record to RUNNING (or update the disposable fixture directly); polling should reveal Stop, the server addresses and `25565/TCP` with a green indicator. Click Stop, confirm the update targets the deployment's `documentId` and the UI shows STOPPING, then confirm a STOPPED transition restores Start. Keep production infrastructure out of fixture checks. Finally verify logout, a protected-route redirect and the Auth0 callback using the existing URLs.
 
-Eight behavioral tests cover flat fixture rendering, document-ID navigation and start/stop mutations, custom ports, polling, unauthenticated redirects, and logout removing credentials and leaving the protected dashboard. They do not require a live backend.
+Twelve behavioral tests cover flat fixture rendering, document-ID navigation and start/stop mutations, custom ports, polling, unauthenticated redirects, logout, Strict Mode callback exchange, rejected/missing-token callback responses, and recovery from previously corrupted stored credentials. They do not require a live backend.
 
 ## Deployment
 
