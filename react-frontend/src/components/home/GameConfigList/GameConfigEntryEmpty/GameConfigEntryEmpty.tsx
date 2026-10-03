@@ -6,7 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import colors from '../../../general/colors/Colors.module.css';
 
 export class GameConfigEntryEmpty extends React.Component {
-  render(): JSX.Element {
+  render(): React.JSX.Element {
     return (
       <div className={`configEntryWrapper ${colors.surface02} ${colors.primaryHover}`}>
         <Link to="/">

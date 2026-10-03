@@ -15,10 +15,10 @@ export class Navigation extends React.Component<NavigationProps> {
 
   private logout(): void {
     this.storageAdapter.clearAuthToken();
-    this.props.redirectCallback('/');
+    this.props.redirectCallback('/login');
   }
 
-  render(): JSX.Element {
+  render(): React.JSX.Element {
     return (
       <div className={`navigationBar ${styles.surface}`}>
         <div className="navigationBarTop">

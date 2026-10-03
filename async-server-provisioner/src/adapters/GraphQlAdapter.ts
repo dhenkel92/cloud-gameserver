@@ -1,4 +1,4 @@
-import * as config from 'config';
+import config from 'config';
 import pino from 'pino';
 
 const apiUrl = config.get<string>('cloudGame.apiUrl');

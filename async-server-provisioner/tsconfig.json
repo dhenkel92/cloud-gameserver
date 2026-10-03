@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2020",
+    "module": "NodeNext",
+    "target": "es2023",
     "noImplicitAny": true,
-    "moduleResolution": "node",
+    "strict": false,
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
     "sourceMap": true,
     "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    },
-    "lib": ["es2020", "DOM"]
+    "rootDir": "src",
+    "lib": ["es2023", "DOM"],
+    "types": ["node"]
   },
   "include": ["src/**/*"]
 }

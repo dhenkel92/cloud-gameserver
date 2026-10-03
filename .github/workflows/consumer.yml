@@ -12,6 +12,7 @@ on:
       - "async-server-provisioner/*/*/*/*"
       - "async-server-provisioner/*/*/*/*/*"
       - "infrastructure/terraform/02-game-server/**/*"
+      - "infrastructure/terraform/root.hcl"
 
 name: Cloud Game Consumer
 

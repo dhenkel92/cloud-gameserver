@@ -22,26 +22,36 @@ export interface GameInstanceBackupPath {
   path: string;
 }
 
-export function gameInstanceFactory(row: any): GameInstance {
-  const gameVersion = row.data.attributes.game_version;
-  return {
-    id: row.data.id,
-    name: row.data.attributes.name,
-    dockerImage: gameVersion.data.attributes.docker_image,
-    ports: gameVersion.data.attributes.ports.map(parseGameInstancePort),
-    backupPaths: gameVersion.data.attributes.backup_paths.map(parseGameInstanceBackupPaths),
+export interface GameInstanceDocument {
+  documentId: string;
+  name: string;
+  game_version: {
+    docker_image: string;
+    ports: GameInstancePort[];
+    backup_paths: GameInstanceBackupPath[];
   };
 }
 
-function parseGameInstancePort(raw: any): GameInstancePort {
+export function gameInstanceFactory(id: number, row: GameInstanceDocument): GameInstance {
+  const gameVersion = row.game_version;
+  return {
+    id,
+    name: row.name,
+    dockerImage: gameVersion.docker_image,
+    ports: gameVersion.ports.map(parseGameInstancePort),
+    backupPaths: gameVersion.backup_paths.map(parseGameInstanceBackupPaths),
+  };
+}
+
+function parseGameInstancePort(raw: GameInstancePort): GameInstancePort {
   return {
     name: raw.name,
     port: raw.port,
-    type: (GameInstancePortType as any)[raw.type],
+    type: raw.type,
   };
 }
 
-function parseGameInstanceBackupPaths(raw: any): GameInstanceBackupPath {
+function parseGameInstanceBackupPaths(raw: GameInstanceBackupPath): GameInstanceBackupPath {
   return {
     name: raw.name,
     path: raw.path,

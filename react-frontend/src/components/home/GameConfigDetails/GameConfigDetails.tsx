@@ -2,50 +2,44 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import './GameConfigDetails.css';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+import { Link, useParams } from 'react-router-dom';
+import { useQuery } from '@apollo/client/react';
 import colors from '../../general/colors/Colors.module.css';
 import { DetailsTable } from './DetailsTable/DetailsTable';
 import { DetailsConsole } from './DetailsConsole/DetailsConsole';
 import { GAME_CONFIG_DETAILS, GameConfigDetailsResponse } from './GameConfigDetailQuery';
 import { GameServerDetails } from './GameServerDetails/GameServerDetails';
 
-type GameConfigDetailsProps = {
-  name: string;
-} & RouteComponentProps<{ id?: string | undefined }>;
-
-export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element => {
-  const gameConfigId = props.match.params.id;
+export const GameConfigDetails = (): React.JSX.Element => {
+  const { id: gameConfigId } = useParams<{ id: string }>();
   const { loading, error, data } = useQuery<GameConfigDetailsResponse>(GAME_CONFIG_DETAILS, {
-    variables: { id: gameConfigId },
+    variables: { documentId: gameConfigId },
     pollInterval: 1000,
+    notifyOnNetworkStatusChange: false,
   });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-  if (!data || data.gameInstances.data.length == 0) return <p>Error :(</p>;
-  const gameInstance = data.gameInstances.data[0];
-  // eslint-disable-next-line no-console
-  console.log(gameInstance);
+  if (!data?.gameInstance) return <p>Error :(</p>;
+  const gameInstance = data.gameInstance;
 
   let deploymentStatus = 'STOPPED';
-  let gameDeploymentId = '-1';
+  let gameDeploymentId: string | undefined;
   let gameServerDetails = <p></p>;
-  if (gameInstance.attributes.game_deployments.data.length > 0) {
-    // always take the first entry as it's in a decending order
-    const gameServer = gameInstance.attributes.game_deployments.data[0];
-    deploymentStatus = gameServer.attributes.status;
-    gameDeploymentId = gameServer.id;
+  if (gameInstance.game_deployments.length > 0) {
+    // Deployments are sorted newest first.
+    const gameServer = gameInstance.game_deployments[0];
+    deploymentStatus = gameServer.status;
+    gameDeploymentId = gameServer.documentId;
 
-    if (gameServer.attributes.status == 'RUNNING') {
+    if (gameServer.status == 'RUNNING') {
       gameServerDetails = (
         <div className={`gameServerDetails ${colors.surface01}`}>
           <GameServerDetails
-            dns={gameServer.attributes.domain}
-            publicIp={gameServer.attributes.public_ip}
-            privateIp={gameServer.attributes.private_ip}
-            // todo: fix
-            ports={[]}
+            dns={gameServer.domain}
+            publicIp={gameServer.public_ip}
+            privateIp={gameServer.private_ip}
+            ports={gameServer.game_server_ports ?? []}
           />
         </div>
       );
@@ -62,14 +56,12 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
       <div className="configDetailsContentWrapper">
         <div className={`configDetails`}>
           <div className={`test1 ${colors.surface01}`}>
-            <img
-              alt={gameInstance.attributes.name}
-              src={'https://i.computer-bild.de/imgs/1/1/5/2/9/5/0/5/Minecraft-1024x576-8b2043ae37807fa0.jpg'}
-            />
+            <img alt={gameInstance.name} src={'https://i.computer-bild.de/imgs/1/1/5/2/9/5/0/5/Minecraft-1024x576-8b2043ae37807fa0.jpg'} />
             <DetailsTable
-              gameName={gameInstance.attributes.game_version.data.attributes.game.data.attributes.name}
-              gameConfigName={gameInstance.attributes.name}
-              gameConfigId={gameInstance.id}
+              gameName={gameInstance.game_version?.game?.name ?? '-'}
+              gameConfigName={gameInstance.name}
+              gameConfigId={gameInstance.documentId}
+              cloudInstanceId={data.cloudInstances[0]?.documentId}
               gameConfigStatus={deploymentStatus}
               gameDeploymentId={gameDeploymentId}
             />
@@ -78,7 +70,7 @@ export const GameConfigDetails = (props: GameConfigDetailsProps): JSX.Element =>
         </div>
         <div className={`configDetailsLog`}>
           <div className={`test2 ${colors.surface01}`}>
-            <DetailsConsole deployments={gameInstance.attributes.game_deployments.data} />
+            <DetailsConsole deployments={gameInstance.game_deployments} />
           </div>
         </div>
       </div>

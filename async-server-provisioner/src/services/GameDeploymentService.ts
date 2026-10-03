@@ -3,7 +3,7 @@ import GameDeploymentRepository from '../repositories/GameDeploymentRepository';
 import { TerraformService } from './TerraformService';
 import { HetznerCloudRepository } from '../repositories/HetznerCloudRepository';
 import { GameDeploymentStatus, generateTFWorkspaceName } from '../entities/GameDeployment';
-import tracer = require('dd-trace');
+import tracer from 'dd-trace';
 
 export interface GameDeploymentServiceConfig {
   timeoutMillis?: number;

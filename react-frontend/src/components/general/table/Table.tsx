@@ -6,7 +6,7 @@ interface TableProps {
   data: string[][];
 }
 
-export const Table = (props: TableProps): JSX.Element => {
+export const Table = (props: TableProps): React.JSX.Element => {
   // eslint-disable-next-line no-console
   console.log('table', props);
   const rows = [];

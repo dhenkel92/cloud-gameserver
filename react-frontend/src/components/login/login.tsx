@@ -1,17 +1,16 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 import './login.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUnlockAlt } from '@fortawesome/free-solid-svg-icons';
-import { Redirect } from 'react-router-dom';
 import colors from '../general/colors/Colors.module.css';
 import { StorageAdapter } from '../../StorageAdapter';
 
-const API_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:1337';
+const API_URL = import.meta.env.REACT_APP_API_URL ?? 'http://localhost:1337';
 
-export const Login = (): JSX.Element => {
+export const Login = (): React.JSX.Element => {
   if (StorageAdapter.getInstance().getAuthToken() !== null) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" replace />;
   }
 
   return (
@@ -23,13 +22,13 @@ export const Login = (): JSX.Element => {
   );
 };
 
-export const Callback = (): JSX.Element => {
-  const history = useHistory();
+export const Callback = (): React.JSX.Element => {
+  const navigate = useNavigate();
   fetch(`${API_URL}/api/auth/auth0/callback${location.search}`)
     .then((res) => res.json())
     .then((res) => {
       StorageAdapter.getInstance().setAuthToken(res.jwt);
-      history.push('/');
+      navigate('/');
     });
   return <div className={`login ${colors.surface}`}>waiting...</div>;
 };

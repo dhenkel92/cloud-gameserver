@@ -11,7 +11,6 @@ export class StorageAdapter {
     return this.instance;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   private constructor() {}
 
   public setItem(key: string, value: string): void {

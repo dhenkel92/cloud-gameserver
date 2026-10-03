@@ -15,7 +15,7 @@ type GameConfigEntryProps = {
 };
 
 export class GameConfigEntry extends React.Component<GameConfigEntryProps> {
-  render(): JSX.Element {
+  render(): React.JSX.Element {
     return (
       <div className={`configEntryWrapper ${colors.surface02} ${colors.primaryHover}`}>
         <div className="configEntryHeader">{this.props.gameName}</div>
